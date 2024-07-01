@@ -1,0 +1,98 @@
+body {
+    background-color: #f2f2f2;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Work Sans';
+}
+.container-deco {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+.container {
+    border-radius: 8px;
+    overflow: hidden;
+}
+.left {
+    background-color: #f2f2f2;
+}
+.left img {
+    max-width: 100%;
+}
+.left p {
+    font-size: 18px;
+    color: #666;
+    margin-top: 20px;
+}
+.right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+}
+.right h2 {
+    margin-bottom: 20px;
+}
+.right form {
+    display: flex;
+    flex-direction: column;
+}
+.right input[type="text"], .right input[type="password"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.right button {
+    padding: 10px;
+    background-color: #265828;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.right button:hover {
+    background-color: #45a049;
+}
+.right .forgot-password {
+    text-align: right;
+    margin-top: -15px;
+    margin-bottom: 20px;
+}
+.right .remember-me {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.right .remember-me input {
+    margin-right: 10px;
+}
+
+.centered-fieldset {
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 50%;
+    margin: auto;
+}
+
+.centered-fieldset legend {
+    text-align: center;
+    width: auto;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.centered-fieldset img {
+    display: block;
+    margin: 0 auto;
+}
+
+.centered-fieldset p {
+    text-align: center;
+}
