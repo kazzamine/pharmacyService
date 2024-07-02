@@ -1,0 +1,140 @@
+ <style>
+html, body {
+    margin-bottom: 1rem;
+    text-transform: uppercase !important;
+}
+#qrcode{
+  text-align: center;
+}
+.logo-title{
+  width : 100%;
+  text-align :center;
+}
+#logo{
+  width: 4rem;
+  float: right; 
+ 
+}
+#title{
+  float: right; 
+  width: 55%; 
+  text-align: left; 
+  height:3.0rem; 
+  padding-top: .8rem;
+}
+.text-title{
+  padding : 0;
+  margin: 0;
+}
+#address{
+  width:100%;
+  text-align :center; 
+  font-size: .7rem
+}
+.text-address{
+  padding : 0;
+  margin: 0;
+}
+#footer{
+  width : 100%;
+  text-align :left;
+  margin: 1rem 0;
+  height:4rem; 
+}
+.text-footer{
+  font-size: .6rem;
+  padding : 0;
+  margin: 0;
+}
+table tr td{
+  text-transform: uppercase !important;
+
+}
+{# .dashed {
+  border-top: 1px solid;
+  border-style: dashed;
+  border-color: black;} #}
+</style>
+ {% set total = 0 %} 
+ {% set NBproduit = 0 %} 
+<body>
+  <div align="center" >
+    <div class='logo-title' >
+      <div style=" width: 78%" >
+        <img id="logo" src="/images/PHARMACIELOGO.png" min-width="150px" min-height="10px"  /> 
+      </div>
+    </div>
+    <div id="address">
+      <p class="text-address">AVENUE ALLAL AL FASSI, </p>
+      <p class="text-address">RABAT 10000, MAROC, RABAT 10000</p>  
+    </div>
+
+    <table style="width:100%; margin-top: 1.5rem;">
+      <tr>
+        <td style="width:65%; font-size: .6rem;">{{ DOperationVentes[0].dateVente|date("m/d/Y") }}  {{ DOperationVentes[0].dateVente|date("H:i") }}</td>
+        <td style="width:35%; text-align:left; font-size: .6rem;">N ticket: {{ "%06d"|format(DOperationVentes[0].idOperation) }}</td>
+      </tr>
+      
+    </table>
+    <table style="width:100%; margin-top: 1rem;">
+    {% set categorie = DOperationVentes[0].Categorie  %}
+      <tr>
+        <td style="width:70%; font-size: .6rem; padding:.2rem 0;">{{categorie}}</td> 
+        <td style="width:20%; text-align:left; font-size: .6rem;"></td>
+        <td style="width:10%; text-align:left; font-size: .6rem;"></td>
+      </tr>
+     {% for DOperationVente in DOperationVentes %}
+        {% if DOperationVente.Categorie != categorie %}
+          {% set categorie = DOperationVente.Categorie %}
+          <tr>
+            <td style="width:60%; font-size: .6rem; padding:.2rem 0;">{{categorie}}</td> 
+            <td style="width:25%; text-align:left; font-size: .6rem;"></td>
+            <td style="width:15%; text-align:left; font-size: .6rem;"></td>
+          </tr>
+        {% endif %}
+         {% set Tprix = DOperationVente.Quantite * DOperationVente.Prix  %}
+          <tr>
+            <td style="width:60%; font-size: .57rem; padding:.1rem .5rem;">{{DOperationVente.Produit}} </td>
+            <td style="width:15%; text-align:left; font-size: .57rem; text-align: right; ">{{DOperationVente.Quantite}} x {{DOperationVente.Prix|number_format(2, '.', ',') }}</td>
+            <td style="width:10%; text-align:left; font-size: .57rem; text-align: right; ">{{Tprix |number_format(2, '.', ',')}}</td>
+          </tr>
+          {% set total = total + Tprix %}
+          {% set NBproduit = NBproduit + 1 %}
+          
+      {% endfor %}
+      
+    </table>
+    <table style="width:100%; margin-top: 1rem;">
+      <tr>
+        <td style="width:40%; font-size: .8rem;"><b>TOTAL TTC</b></td>
+        <td style="width:60%; text-align:left; font-size: .8rem; text-align: right;"><b>{{total|number_format(2, '.', ',') }} DH</b></td>
+      </tr> 
+    </table>
+
+    <table style="width:100%; margin-top: .7rem;">
+      <tr>
+        <td style="width:50%; font-size: .6rem;">especes</td> 
+        <td style="width:50%; text-align:right; font-size: .6rem;">{{especes|number_format(2, '.', ',')}}</td>
+      </tr>
+      <tr>
+        <td style="width:50%; font-size: .6rem;">rendu</td> 
+        <td style="width:50%; text-align:right; font-size: .6rem;">{{rendou|number_format(2, '.', ',')}}</td>
+      </tr>
+      <tr>
+        <td style="width:50%; font-size: .6rem;">Client</td> 
+        <td style="width:50%; text-align:right; font-size: .6rem;">{{ DOperationVentes[0].clientNom }}</td>
+      </tr>
+    </table>
+
+     <div id='footer' >
+        <p class='text-footer' >NOMBER ARTICLES &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{NBproduit}} </p>
+        <p class='text-footer' > CAISSIER &nbsp;&nbsp;&nbsp; {{ "%06d"|format(DOperationVentes[0].idUser) }} {{DOperationVentes[0].Cassier|upper }} </p>
+        <p class='text-footer' > MERCI DE VOTRE VISITE ET A BIENTOT... </p>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+          <barcode code='{{DOperationVentes[0].idOperation}}' type='C39' size='1'  height='0.5' />
+        </div>
+    </div>
+
+  </div>
+
+</body>

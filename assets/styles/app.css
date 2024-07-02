@@ -1,0 +1,12 @@
+
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+@import url('https://fonts.googleapis.com/css?family=Work Sans');
+@import "./vente.css";
+@import "./home.css";
+#navbar{
+    background-color: rgb(255, 255, 255) ;
+    border: solid grey .5px;
+}
+body{
+    font-family: 'Work Sans';
+}

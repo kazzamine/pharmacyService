@@ -1,0 +1,169 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vente
+{% endblock %}
+{% block stylesheets%}
+    {{ parent() }}
+  
+    
+
+{% endblock %}
+{% block body %}
+
+    <div class="alert alert-danger alert-dismissible fade show errorMessage" role="alert">
+        <p class='alert-message'></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="alert alert-success alert-dismissible fade show successMessage" role="alert">
+        <p class='alert-message'></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <!-- produit avec le code barre -->
+    <head>
+        <meta charset="UTF-8">
+    </head>
+
+    <div class="container-fluid ">
+            {# list Categorie #}
+            <div class="listCategorie scroll">
+                <h6 class='h6-categorie'> <img src="{{ asset('img/logo.png') }}" width='80px'/>  </h6>
+                <hr class="hr" />
+                <ul class="ul-link">
+               
+                <div class="card sideCat">
+                    <img src="{{ asset('img/vacc.png') }}" class="card-img-cat" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">vaccine</h5>
+                    </div>
+                </div>
+                    {# {% for categorie in categories %}
+                    <li>cat</li>
+                        <li class='box-title' id='{{categorie.id}}' > {{categorie.designation}} </li>
+                    {% endfor %} #}
+                
+                </ul>
+            </div>
+        <div class='contenu_index'>
+            <div class="row align-items-start ">
+                <div class="col-md-7 col-lg-7 col-sm-12">
+                    <div class="card ">
+                        <div class="card-body text-center card-shadow  p-1">
+                        <div class="row align-items-center">
+                            <span class="col-auto">Articles</span>
+                            <input type="text" class="col-4 offset-5 form-control mb-1" id="codebar"  placeholder="Chercher"/>
+                        </div>
+                        
+                            <div class="listProduit scroll">
+                                <div class="row row-produit " >
+                                  {{ include ('vente/produit.html.twig') }}  
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--lise de liste des produits à vendre avec code barre-->
+                <div class="col-md-5 ol-lg-5 col-sm-12 scrolling" id="cart">
+                    <div class="card ">
+                        <div class="card-body text-center card-shadow">
+                            <div class="">
+                                <div class="col d-flex mb-2">
+                                    <button class="btn btn-fcz float-right ms-auto text-white" style="background-color:#265828;">
+                                        Commandes
+                                    </button>
+                                </div>
+                               
+                                 <div class="row text-start">
+                                    <fieldset class='border' id="userCom">
+                                        <span class="fw-bolder" >0021547</span> <br>
+                                        <span class="fw-bolder">C244378889</span> <br>
+                                        <span class="fw-bolder">Sami Yassir</span> <br>
+                                        <span >date d’hospitalisation: 22/06/2024</span> <br>
+                                        <span >Service d’hospitalisation</span>
+                                    </fieldset>
+                                </div>
+                                 <div class="row d-flex flex-row mb-1">
+                                    <fieldset class='border-0 ml-auto'>
+                                      <img src="{{ asset('img/cartimg.png') }}" height="80px" width="100px"/>
+                                    </fieldset>
+                                </div>
+                                 <div class="row d-flex flex-row ">
+                                    <fieldset class='border ml-auto'>
+                                        <div class="card border-0 product-card d-flex flex-row align-items-center p-2">
+                                            <img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Product Image">
+                                            <div class="product-info">
+                                                <h5 class="product-name mb-1">Product Name</h5>
+                                               <p class="product-price mb-1">prix: <span id='prodprice'>99.99</span></p>
+                                            </div>
+                                            <div class="quantity-control">
+                                                <button class="btn btn-sm text-center"><i class="fas fa-minus-circle" style="color:red;"></i></button>
+                                                <input type="number" value="1" class="form-control form-control-sm mx-2" style="width: 50px;">
+                                                <button class="btn btn-sm"><i class="fas fa-plus-circle text-primary"></i></button>
+                                            </div>
+                                            <button class="btn btn-danger remove-icon btn-sm">  <i class="far fa-trash-alt"></i></button>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="row d-flex flex-row ">
+                                    <fieldset class='border ml-auto'>
+                                        <div class="card border-0 product-card d-flex flex-row align-items-center p-2">
+                                            <img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Product Image">
+                                            <div class="product-info">
+                                                <h5 class="product-name mb-1">Product Name</h5>
+                                                <p class="product-price mb-1">prix: <span id='prodprice'>99.99</span></p>
+                                            </div>
+                                            <div class="quantity-control">
+                                                <button class="btn btn-sm text-center"><i class="fas fa-minus-circle" style="color:red;"></i></button>
+                                                <input type="number" value="1" class="form-control form-control-sm mx-2" style="width: 50px;">
+                                                <button class="btn btn-sm"><i class="fas fa-plus-circle text-primary"></i></button>
+                                            </div>
+                                            <button class="btn btn-danger remove-icon btn-sm">  <i class="far fa-trash-alt"></i></button>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card  card-shadow  mt-2 pt-1 pb-1">
+                        <div class="container-fluid">
+                            <div class="row" style="margin-left: -25px;">
+                                <div class="col">
+                                    <h4 class="mt-0 totalDiv btn-total text-dark rounded" style="font-size: 15px!important;font-weight:bold;" id="totalDiv">
+                                        Total:
+                                        <span class='somme_prod' style="color:red;font-weight:bold;">0 dhs</span>
+                                    </h4>
+                                </div>
+                                <div class="col">
+                                    <button type="submit" class=" btn btn-success btn-fcz float-right vendre_vente" style='font-size: 15px;background-color:#265828;'>
+                                      
+                                        Valider
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--fin de total  -->
+
+                    <!--fin de liste des produits à vendre -->
+                </div>
+            </div>
+        </div>
+    </div>
+    {# {{ include ('vente/client.html.twig') }} #}
+{% endblock %}
+{% block javascripts %}
+
+    {{ parent() }}<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script>
+
+    let i=$('.col-md-4')
+    console.log(i)
+    //getAllProduits();
+    </script>
+{% endblock %}
