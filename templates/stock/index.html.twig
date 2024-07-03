@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vente
+{% endblock %}
+{% block stylesheets%}
+    {{ parent() }}
+  
+    
+
+{% endblock %}
+{% block body %}
+
+    <div class="alert alert-danger alert-dismissible fade show errorMessage" role="alert">
+        <p class='alert-message'></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="alert alert-success alert-dismissible fade show successMessage" role="alert">
+        <p class='alert-message'></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <!-- produit avec le code barre -->
+    <head>
+        <meta charset="UTF-8">
+    </head>
+
+    <div class="container-fluid ">
+            {# list Categorie #}
+            <div class="listCategorie scroll">
+                <h6 class='h6-categorie text-center'> <img src="{{ asset('img/logo.png') }}" width='80px' />  </h6>
+                <hr class="hr" />
+                <ul class="ul-link">
+               
+                    <div class="card sideCat">
+                        <img src="{{ asset('img/vacc.png') }}" class="card-img-cat" alt="...">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">vaccine</h5>
+                        </div>
+                    </div>
+                    <div class="card sideCat">
+                        <img src="{{ asset('img/vacc.png') }}" class="card-img-cat" alt="...">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">vaccine</h5>
+                        </div>
+                    </div>
+                    <div class="card sideCat">
+                        <img src="{{ asset('img/vacc.png') }}" class="card-img-cat" alt="...">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">vaccine</h5>
+                        </div>
+                    </div>
+                    {# {% for categorie in categories %}
+                    <li>cat</li>
+                        <li class='box-title' id='{{categorie.id}}' > {{categorie.designation}} </li>
+                    {% endfor %} #}
+                
+                </ul>
+            </div>
+        <div class='contenu_index'>
+            <div class="row align-items-start ">
+                <div class="col-md-12 col-lg-12 col-sm-12">
+                    <div class="card ">
+                        <div class="card-body text-center card-shadow p-1">
+                        <div class="row align-items-center">
+                            <span class="col-auto offset-1 fw-bold">Articles</span>
+                            <input type="text" class="col-2 offset-6 form-control mb-1" id="codebar" style="width:30%" placeholder="Chercher"/>
+                        </div>
+                        
+                            <div class="listProduit scroll">
+                                <div class="row row-produit " >
+                                  {{ include ('stock/produit.html.twig') }}  
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    {# {{ include ('vente/client.html.twig') }} #}
+{% endblock %}
+{% block javascripts %}
+
+    {{ parent() }}<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script>
+
+    let i=$('.col-md-4')
+    console.log(i)
+    //getAllProduits();
+    </script>
+{% endblock %}

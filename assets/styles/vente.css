@@ -1,4 +1,4 @@
-@media only screen and(max-width: 600px) {
+@media only screen and(max-width: 300px) {
 
     body {
        /* background-image: url({{ asset('images/back2.png') }}) !important;
@@ -8,6 +8,7 @@
    background-size: cover; */
        background-color: #fff;
    } 
+
 }
 .login-back-left {
    background: #ffffff00 !important;
@@ -33,7 +34,6 @@
    overflow: auto;
 }
 .HS {
-
    height: 575px;
 
 }
@@ -130,6 +130,7 @@ text-transform: uppercase;
     height: auto;
    
 }
+
 .sideCat{
      transition: filter 0.5s ease;
      height: 100px;
@@ -141,13 +142,12 @@ text-transform: uppercase;
 .card-title {
     font-size: 14px;
 }
+.cat-title{
+    font-size: 13px;
+}
 .h6-categorie{
-    padding: 0.2rem 0.7rem;
+    padding: 0.2rem 0.5rem;
     margin-bottom: 0px;
-    letter-spacing: .3rem;
-    margin-top: .5rem;
-    font-size: 1rem;
-    font-weight: bold;
 }
 .listCategorie li:hover{
 background-color: #5f5f5f;
@@ -164,12 +164,12 @@ height: 36vw;
 }
 #codebar{
     font-size: .7rem;
-
     width: 40%;
     border: 1px solid #98999b;
 }
 .produit{
     cursor: pointer;
+    font-family: 'Work Sans';
 }
 .row-produit{
 margin-left: 0;
@@ -177,30 +177,38 @@ margin-right: 0;
 text-align: center;
 }
 .div-img{
-padding: 0.2rem;
+padding: auto;
+width: auto;
 border: 1px solid;
 border-radius: 0.3rem;
 /* height: 8rem; */
-height: 9.6rem;
+height: 9.8rem;
+width: auto;
 border-color: #cacacb;
 }
 .img-produit{
 position: relative;
-width: 90%;
+width: auto;
 /* height: 6rem; */
 height: 5rem;
 }
 .name-produit{
+    font-weight: 500;
 height: 1rem;
-font-size: 0.7rem;
-padding: 0;
+font-size: 0.9rem;
+padding: auto;
+margin-top: 5px;
 }
 .price-produit{
-padding: 0px;
-background: #81C784;
+font-weight: 600;
+background: white;
 border-radius: 0.25rem;
-font-size: 0.7rem;
+font-size: 0.8rem;
 height: 1rem;
+margin-top: auto;
+}
+.venteIcon{
+    margin-left:1rem ;
 }
 .scroll{
 overflow-y: auto;
@@ -210,11 +218,10 @@ z-index: 1;
 position: fixed;
 width: 100%;
 }
-.Limit_text{
-overflow: hidden;
-white-space: nowrap;
-/* text-overflow: ellipsis; */
-max-width: 100%;
+.Limit_text {
+
+    white-space: normal; 
+    max-width: 100%;
 }
 .qte-produit {
 min-height: 1rem;
@@ -235,7 +242,6 @@ padding: 0 0.4rem;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
 }
 
@@ -340,6 +346,7 @@ element.style {
 }
 .product-name,.product-price{
     font-size: 15px;
+    font-family: 'Work Sans';
 }
 
 .quantity-control {

@@ -31,16 +31,31 @@
     <div class="container-fluid ">
             {# list Categorie #}
             <div class="listCategorie scroll">
-                <h6 class='h6-categorie'> <img src="{{ asset('img/logo.png') }}" width='80px'/>  </h6>
+                <h6 class='h6-categorie text-center'> <img src="{{ asset('img/logo.png') }}" width='80px' />  </h6>
                 <hr class="hr" />
                 <ul class="ul-link">
                
-                <div class="card sideCat">
-                    <img src="{{ asset('img/vacc.png') }}" class="card-img-cat" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">vaccine</h5>
+                    <div class="card sideCat">
+                        <img src="{{ asset('img/vacc.png') }}" class="card-img-cat" alt="...">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title cat-title">vaccine</h5>
+                        </div>
                     </div>
-                </div>
+                    <div class="card sideCat">
+                        <img src="{{ asset('img/vacc.png') }}" class="card-img-cat" alt="...">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title cat-title">vaccine</h5>
+                        </div>
+                    </div>
+                    <div class="card sideCat">
+                        <img src="{{ asset('img/vacc.png') }}" class="card-img-cat" alt="...">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title cat-title">vaccine</h5>
+                        </div>
+                    </div>
                     {# {% for categorie in categories %}
                     <li>cat</li>
                         <li class='box-title' id='{{categorie.id}}' > {{categorie.designation}} </li>
@@ -73,9 +88,10 @@
                         <div class="card-body text-center card-shadow">
                             <div class="">
                                 <div class="col d-flex mb-2">
-                                    <button class="btn btn-fcz float-right ms-auto text-white" style="background-color:#265828;">
+                                    <button data-bs-toggle="modal" data-bs-target="#infoPatient" class="btn btn-fcz float-right ms-auto text-white" style="background-color:#265828;">
                                         Commandes
                                     </button>
+                                    {{ include('vente/infoPatient.html.twig') }}
                                 </div>
                                
                                  <div class="row text-start">
@@ -159,11 +175,6 @@
 {% endblock %}
 {% block javascripts %}
 
-    {{ parent() }}<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    <script>
-
-    let i=$('.col-md-4')
-    console.log(i)
-    //getAllProduits();
-    </script>
+    {{ parent() }}
+     {{ encore_entry_script_tags('vente') }}
 {% endblock %}

@@ -1,35 +1,24 @@
-<div class="modal" id="loadingModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div class="text-center">
-          <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-          <p class="mt-2">chargement des articles...</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+
 {# {% if articles|length > 0 %}
     {% for article in articles %}
         {% if article.pProduits|length > 0 %}
             {% for produit in article.pProduits %} #}
-               <div class=" col-lg-3 col-md-5 p-1 col-sm-5 produit" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#exampleModal"  data-placement="bottom" >
+               <div class="col-lg-2 col-md-2 p-1 col-sm-2 produit" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#exampleModal"  data-placement="bottom" >
                     <div  class="div-img ">  
-                        <span class="qte-produit prod1" name="prod1"> 55 </span>
-                        <img class="img-produit rounded " src="{{ asset('img/dolip.png') }}"  alt="Image de ">
+                        {# <span class="qte-produit prod1" name="prod1"> 55 </span> #}
+                        <img class="img-produit " src="{{ asset('img/dolip.png') }}"  alt="Image de ">
                         <div class=" col-sm-12 name-produit Limit_text">
                             prodd
+                            
                         </div>
-                       <div class="col-sm-12 mt-1 col-md-12 price-produit card-body text-start ">
-                            Disponible : <span>20</span>  <i class="fas fa-plus-circle venteIcon" style="color:#265828 "></i>
+                       
+                        <div class="col-sm-12 mt-1 col-md-12 price-produit card-body text-start ">
+                            Disponible : <span class="col-md-6">20</span>  
                         </div>
                     </div>
-                    </div>
+                </div>
 
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    {# <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                             <div class="modal-header position-relative text-center">
@@ -44,8 +33,24 @@
                             
                             </div>
                         </div>
-                    </div>
+                    </div> #}
 
+
+                
+               <div class="col-lg-2 col-md-2 p-1 col-sm-2 produit" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#exampleModal"  data-placement="bottom" >
+                    <div  class="div-img ">  
+                        {# <span class="qte-produit prod1" name="prod1"> 55 </span> #}
+                        <img class="img-produit " src="{{ asset('img/dolip.png') }}"  alt="Image de ">
+                        <div class=" col-sm-12 name-produit Limit_text">
+                            proddxxxxxxxxxxxxx dddddddddd
+                            
+                        </div>
+                       
+                        <div class="col-sm-12 mt-1 col-md-12 price-produit card-body text-start">
+                            Disponible : <span>20</span>  
+                        </div>
+                    </div>
+                </div>
             {# {% endfor %} 
         {% endif %}
     {% endfor %}
@@ -66,8 +71,8 @@
         </div>
     {% endfor %} 
 {% else %} #}
-    <div class="nonTrouve"> 
+    {# <div class="nonTrouve"> 
         Aucune correspondance exacte trouvée !
-    </div>
+    </div> #}
 {# {% endif %} #}
 

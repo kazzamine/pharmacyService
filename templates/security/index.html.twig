@@ -10,11 +10,11 @@
 </head>
 <body>
     <div class="container d-flex">
-        <fieldset class="left p-4 w-50 rounded centered-fieldset">
+        <fieldset class="left p-4 w-50 rounded text-start centered-fieldset ">
             <legend class="w-auto ">
                 <img src="{{ asset('img/logo.png') }}" width="300px" alt="UPharma">
             </legend>
-                <p>Révolutionne la gestion des services médicaux en optimisant la gestion des produits médicaux.<br>
+                <p >Révolutionne la gestion des services médicaux en optimisant la gestion des produits médicaux.<br>
                 Avec UPharma, les services peuvent commander facilement et rapidement tous les produits médicaux nécessaires, assurant ainsi un approvisionnement efficace et sans tracas.</p>
         </fieldset>
         <div class="right w-50 container-deco">
@@ -22,18 +22,17 @@
             <form method="post">
                 <div class="form-group">
                     <label for="username">Nom d'utilisateur</label>
-                    <input type="text" id="username" name="_username" class="form-control" placeholder="Nom d'utilisateur" required>
+                    <input type="text" class="valid form-control" id="username" name="_username" placeholder="Nom d'utilisateur" required>
                 </div>
+
                 <div class="form-group">
                     <label for="password">Mot de Passe</label>
                     <input type="password" id="password" name="_password" class="form-control" placeholder="Mot de Passe" required>
                 </div>
+
                 <div class="form-check remember-me">
                     <input type="checkbox" class="form-check-input" id="remember_me" name="_remember_me" value="on">
                     <label class="form-check-label" for="remember_me">Se souvenir de moi</label>
-                </div>
-                <div class="forgot-password">
-                    <a href="">Mot de passe oublié?</a>
                 </div>
                 <button type="submit" class="btn btn-success btn-block">Se connecter</button>
             </form>

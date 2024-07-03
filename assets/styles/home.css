@@ -44,6 +44,10 @@
     filter: blur(5px); 
 }
 
+.modal{
+    border-radius: 30px;
+}
+
 .modal-header {
     padding-top: 20px; /* Adjust padding as needed */
 }
@@ -53,10 +57,10 @@
     top: -50%; /* Adjust to move half of the image out of the modal */
     left: 50%;
     transform: translateX(-50%);
-    width: 100px; /* Adjust the width as needed */
+    width: 90px; /* Adjust the width as needed */
     height: auto;
 }
 
 .modal-title {
-    margin-top: 50px; /* Adjust margin to position title below the image */
+    margin-top: 30px; /* Adjust margin to position title below the image */
 }
