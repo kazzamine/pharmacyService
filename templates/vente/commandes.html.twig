@@ -1,0 +1,150 @@
+<div class="modal fade" id="commande-service" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header text-center">
+          <h5 class="modal-title" id="exampleModalLabel">commander service</h5>
+
+        </div>
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row justify-content-center">
+              <!-- Search and Selection Components -->
+              <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-2 border-bottom search-container">
+                <!-- Content for Search Bar -->
+                <div class="input-group search-bar-modal">
+                  <button class="btn btn-success search-icone" style='hei' type="button" id="search-icon">
+                    <i class="fas fa-search"></i>
+                  </button>
+                  <input type="text" class="form-control search-input-modal" placeholder="Recherche..." aria-label="Search" aria-describedby="search-icon">
+                </div>
+
+                <!-- Content for Select Dropdown and Date Input -->
+                <div class="form-group">
+                  <div class="d-flex">
+                    <select class="form-select search-commande-modal" aria-label="Default select example">
+                      <option selected>Service</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                    &nbsp;&nbsp;
+                    <input type="date" class="form-control search-commande-modal">
+                  </div>
+                </div>
+              </div>
+              <!-- End Search and Selection Components -->
+
+              <!-- Custom Card Design -->
+              <a href="#" class="col-md-3 d-block mb-3 consomCard custom-link">
+                <div class="card custom-card-modal">
+                  <img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark-img-modal">
+                  <div class="card-header-content-modal">
+                    <span class="badge custom-badge-tag-modal">Validée</span>
+                    <p class="mb-0 text-center text-center-custom-modal">202325</p>
+                    <p class="mb-0 text-center text-center-custom-modal">C244378889</p>
+                    <p class="mb-0 text-center text-center-custom-modal">Sami Yassir</p>
+                    <p class="mb-0 text-center text-center-custom-modal">20/02/2024</p>
+                    <p class="mb-0 text-center text-center-custom-modal">Service de Soins</p>
+                  </div>
+                  <div class="card-footer card-footer-custom-modal text-center">
+                    <span class="total-label-custom-modal order-number">Total:</span>
+                    <span class="total-amount-custom-modal order-number">3500</span>
+                  </div>
+                </div>
+              </a>
+              <!-- End Custom Card Design -->
+            </div>
+          </div>
+        </div>
+        <!-- Modal Footer -->
+       
+      </div>
+    </div>
+  </div>
+
+ <style>
+    .custom-card-modal {
+      background-color: white;
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      max-width: 230px; /* Adjust the max-width as per your modal dimensions */
+      max-height: 210px; /* Adjust the max-height as per your modal dimensions */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      padding: 7px;
+    }
+
+    .checkmark-img-modal {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 40px;
+    }
+
+    .card-header-content-modal {
+      padding: 10px;
+      border-bottom: none;
+    }
+
+    .custom-badge-tag-modal {
+      display: inline-block;
+      font-size: 10px;
+      padding: 3px 6px;
+      background-color: white;
+      border: 1px solid #dee2e6;
+      border-radius: 5px;
+      position: absolute;
+      font-weight: lighter;
+      top: 10px;
+      right: 7px;
+      color: black;
+    }
+
+    .card-footer-custom-modal {
+      padding: 0px;
+      background: fixed;
+      border-top: 1px solid #dee2e6;
+      box-sizing: border-box;
+    }
+
+    .total-label-custom-modal,
+    .total-amount-custom-modal {
+      font-size: 12px; /* Adjust as needed */
+    }
+
+    .text-center-custom-modal {
+      padding: 2px;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .search-bar-modal {
+      max-width: 250px;
+    }
+
+    .search-input-modal {
+      height: 30px;
+      font-size: 14px;
+    }
+
+    .search-commande-modal {
+      height: auto;
+      width: auto;
+    }
+    .custom-link {
+  color: inherit; /* Use the color of the parent element */
+  text-decoration: none; /* Remove underline */
+}
+
+.custom-link:hover {
+  color: inherit; /* Use the color of the parent element on hover */
+  text-decoration: none; /* Remove underline on hover */
+   filter: blur(.5px);
+}
+.search-icone{
+    height:30px
+}
+  </style>

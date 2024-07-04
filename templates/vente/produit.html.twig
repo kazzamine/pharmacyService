@@ -16,15 +16,15 @@
     {% for article in articles %}
         {% if article.pProduits|length > 0 %}
             {% for produit in article.pProduits %} #}
-               <div class=" col-lg-3 col-md-5 p-1 col-sm-5 produit" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#exampleModal"  data-placement="bottom" >
+               <div class=" col-lg-3 col-md-4 p-1 col-sm-5 produit" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#exampleModal"  data-placement="bottom" >
                     <div  class="div-img ">  
-                        <span class="qte-produit prod1" name="prod1"> 55 </span>
+                        
                         <img class="img-produit rounded " src="{{ asset('img/dolip.png') }}"  alt="Image de ">
                         <div class=" col-sm-12 name-produit Limit_text">
                             prodd
                         </div>
-                       <div class="col-sm-12 mt-1 col-md-12 price-produit card-body text-start ">
-                            Disponible : <span>20</span>  <i class="fas fa-plus-circle venteIcon" style="color:#265828 "></i>
+                       <div class="col-sm-12 col-md-12 price-produit card-body text-start">
+                            Disponible : <span>20</span>  <i class="fas fa-plus-circle" style="color:#265828"></i>
                         </div>
                     </div>
                     </div>
@@ -39,7 +39,7 @@
                             <div class="modal-body">
                                     <input class="form-control" type="number" placeholder="Quantité" />    
                                     <br>
-                                    <button class="btn btn-success offset-4" style="background-color:#265828;">validé </button>                            
+                                    <button class="btn btn-success offset-6" style="background-color:#265828;">validé </button>                            
                             </div>
                             
                             </div>

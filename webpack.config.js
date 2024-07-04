@@ -22,6 +22,8 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('vente','./assets/js/vente.js')
+    .addEntry('suiviCommande','./assets/styles/suiviCommande.css')
+    .addEntry('home','./assets/js/home.js')
     .addEntry('loginStyle','./assets/styles/login.css')
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

@@ -6,11 +6,11 @@
 }
 .homeCard .card .card-body .card-title{
    color: black;
-   font-size: 20px;
+   font-size: 17px;
    font-weight: bolder;
 }
 .card-img-top{
-    height: 150px;
+    height: 130px;
 }
 .homeCard:hover {
     position: relative;
