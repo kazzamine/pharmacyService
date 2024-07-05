@@ -53,10 +53,9 @@
 				</div>
 
 				{# {% for categorie in categories %}
-				                    <li>cat</li>
-				                        <li class='box-title' id='{{categorie.id}}' > {{categorie.designation}} </li>
-				                    {% endfor %} #}
-
+					<li>cat</li>
+						<li class='box-title' id='{{categorie.id}}' > {{categorie.designation}} </li>
+					{% endfor %} #}	
 			</ul>
 		</div>
 		<div class='contenu_index'>
@@ -89,7 +88,6 @@
 									</button>
 									{{ include('vente/commandes.html.twig') }}
 								</div>
-
 								<div class="row text-start">
 									<fieldset class='border' id="userCom" style='font-size:13px;'>
 										<span class="fw-bolder">0021547</span>
@@ -108,7 +106,6 @@
 										<img src="{{ asset('img/cartimg.png') }}" height="80px" width="100px"/>
 									</fieldset>
 								</div>
-
 								<div class="row d-flex flex-row scrollable-cart">
 									<fieldset class='border ml-auto'>
 										<div class="card border-0 product-card d-flex flex-row align-items-center p-2">
@@ -133,7 +130,6 @@
 											</button>
 										</div>
 									</fieldset>
-
 									<fieldset class='border ml-auto'>
 										<div class="card border-0 product-card d-flex flex-row align-items-center p-2">
 											<img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Product Image">
@@ -157,7 +153,6 @@
 											</button>
 										</div>
 									</fieldset>
-
 									<fieldset class='border ml-auto'>
 										<div class="card border-0 product-card d-flex flex-row align-items-center p-2">
 											<img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Product Image">
@@ -181,7 +176,6 @@
 											</button>
 										</div>
 									</fieldset>
-
 									<fieldset class='border ml-auto'>
 										<div class="card border-0 product-card d-flex flex-row align-items-center p-2">
 											<img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Product Image">
@@ -207,22 +201,22 @@
 									</fieldset>
 								</div>
 								{# <div class="row d-flex flex-row ">
-								                                    <fieldset class='border ml-auto'>
-								                                        <div class="card border-0 product-card d-flex flex-row align-items-center p-2">
-								                                            <img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Product Image">
-								                                            <div class="product-info">
-								                                                <h5 class="product-name mb-1">Product Name</h5>
-								                                                <p class="product-price mb-1">prix: <span id='prodprice'>99.99</span></p>
-								                                            </div>
-								                                            <div class="quantity-control">
-								                                                <button class="btn btn-sm text-center"><i class="fas fa-minus-circle" style="color:red;"></i></button>
-								                                                <input type="number" value="1" class="form-control form-control-sm mx-2" style="width: 50px;">
-								                                                <button class="btn btn-sm"><i class="fas fa-plus-circle text-primary"></i></button>
-								                                            </div>
-								                                            <button class="btn btn-danger remove-icon btn-sm">  <i class="far fa-trash-alt"></i></button>
-								                                        </div>
-								                                    </fieldset>
-								                                </div> #}
+									<fieldset class='border ml-auto'>
+										<div class="card border-0 product-card d-flex flex-row align-items-center p-2">
+											<img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Product Image">
+											<div class="product-info">
+												<h5 class="product-name mb-1">Product Name</h5>
+												<p class="product-price mb-1">prix: <span id='prodprice'>99.99</span></p>
+											</div>
+											<div class="quantity-control">
+												<button class="btn btn-sm text-center"><i class="fas fa-minus-circle" style="color:red;"></i></button>
+												<input type="number" value="1" class="form-control form-control-sm mx-2" style="width: 50px;">
+												<button class="btn btn-sm"><i class="fas fa-plus-circle text-primary"></i></button>
+											</div>
+											<button class="btn btn-danger remove-icon btn-sm">  <i class="far fa-trash-alt"></i></button>
+										</div>
+									</fieldset>
+								</div> #}
 							</div>
 						</div>
 					</div>
@@ -240,13 +234,9 @@
 										Valider
 									</button>
 								</div>
-
 							</div>
 						</div>
-					</div>
-					<!--fin de total  -->
-
-					<!--fin de liste des produits à vendre -->
+					</div> 
 				</div>
 			</div>
 		</div>

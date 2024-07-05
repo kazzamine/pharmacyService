@@ -182,6 +182,8 @@ height: 36vw;
     border: 1px solid #98999b;
 }
 .produit{
+    position: relative;
+    overflow: hidden;
     cursor: pointer;
     font-family: 'Work Sans';
     width: 10rem;
@@ -192,6 +194,8 @@ margin-right: 0;
 text-align: center;
 }
 .div-img{
+position: relative;
+z-index: 0;
 padding: auto;
 width: auto;
 border: 1px solid;
@@ -418,3 +422,9 @@ element.style {
     overflow-y: auto; /* Enable vertical scroll */
     padding-right: 15px;
 }
+
+.quantity-badge {
+   font-size: 15px;
+
+}
+

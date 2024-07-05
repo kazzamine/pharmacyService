@@ -37,7 +37,6 @@
 					<li>cat</li>
 					<li class='box-title' id='{{categorie.id}}' > {{categorie.designation}} </li>
 				{% endfor %} #}
-
 			</ul>
 		</div>
 		<div class='contenu_index'>
@@ -84,28 +83,28 @@
 			</div>
 			{{ include('includes/detailCommande.html.twig') }}			
 			{# <div class="col-md-7 col-lg-7 col-sm-12">
-			                    <div class="card ">
-			                        <div class="card-body text-center card-shadow  p-1">
-			                        <div class="row align-items-center">
-			                            <span class="col-auto">Articles</span>
-			                            <input type="text" class="col-4 offset-5 form-control mb-1" id="codebar"  placeholder="Chercher"/>
-			                        </div>
-			                        
-			                            <div class="listProduit scroll">
-			                                <div class="row row-produit " >
-			                                 
-			                                </div>
-			                                
-			                            </div>
-			                        </div>
-			                    </div>
-			                </div> #}
+				<div class="card ">
+					<div class="card-body text-center card-shadow  p-1">
+					<div class="row align-items-center">
+						<span class="col-auto">Articles</span>
+						<input type="text" class="col-4 offset-5 form-control mb-1" id="codebar"  placeholder="Chercher"/>
+					</div>
+					
+						<div class="listProduit scroll">
+							<div class="row row-produit " >
+								
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div> #}
 			<!--lise de liste des produits à vendre avec code barre-->
-
 		</div>
 	</div>
 </div>
-{# {{ include ('vente/client.html.twig') }} #}{% endblock %}
+{# {{ include ('vente/client.html.twig') }} #}
+{% endblock %}
 {% block javascripts %}
 	{{ parent() }}
 	{{ encore_entry_script_tags('vente') }}

@@ -46,93 +46,13 @@
                   </div>
                 </div>
               </a>
-             {{ include('includes/detailCommande.html.twig') }}
-             <a href="#" class="col-md-3 d-block mb-3 consomCard custom-link" data-bs-toggle="modal" data-bs-target="#dtCommande" data-bs-dismiss="modal">
-                <div class="card custom-card-modal">
-                  <img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark-img-modal">
-                  <div class="card-header-content-modal">
-                    <span class="badge custom-badge-tag-modal">Validée</span>
-                    <p class="mb-0 text-center text-center-custom-modal">202325</p>
-                    <p class="mb-0 text-center text-center-custom-modal">C244378889</p>
-                    <p class="mb-0 text-center text-center-custom-modal">Sami Yassir</p>
-                    <p class="mb-0 text-center text-center-custom-modal">20/02/2024</p>
-                    <p class="mb-0 text-center text-center-custom-modal">Service de Soins</p>
-                  </div>
-                  <div class="card-footer card-footer-custom-modal text-center">
-                    <span class="total-label-custom-modal order-number">Total:</span>
-                    <span class="total-amount-custom-modal order-number">3500</span>
-
-                  </div>
-                </div>
-              </a><a href="#" class="col-md-3 d-block mb-3 consomCard custom-link" data-bs-toggle="modal" data-bs-target="#dtCommande" data-bs-dismiss="modal">
-                <div class="card custom-card-modal">
-                  <img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark-img-modal">
-                  <div class="card-header-content-modal">
-                    <span class="badge custom-badge-tag-modal">Validée</span>
-                    <p class="mb-0 text-center text-center-custom-modal">202325</p>
-                    <p class="mb-0 text-center text-center-custom-modal">C244378889</p>
-                    <p class="mb-0 text-center text-center-custom-modal">Sami Yassir</p>
-                    <p class="mb-0 text-center text-center-custom-modal">20/02/2024</p>
-                    <p class="mb-0 text-center text-center-custom-modal">Service de Soins</p>
-                  </div>
-                  <div class="card-footer card-footer-custom-modal text-center">
-                    <span class="total-label-custom-modal order-number">Total:</span>
-                    <span class="total-amount-custom-modal order-number">3500</span>
-
-                  </div>
-                </div>
-              </a><a href="#" class="col-md-3 d-block mb-3 consomCard custom-link" data-bs-toggle="modal" data-bs-target="#dtCommande" data-bs-dismiss="modal">
-                <div class="card custom-card-modal">
-                  <img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark-img-modal">
-                  <div class="card-header-content-modal">
-                    <span class="badge custom-badge-tag-modal">Validée</span>
-                    <p class="mb-0 text-center text-center-custom-modal">202325</p>
-                    <p class="mb-0 text-center text-center-custom-modal">C244378889</p>
-                    <p class="mb-0 text-center text-center-custom-modal">Sami Yassir</p>
-                    <p class="mb-0 text-center text-center-custom-modal">20/02/2024</p>
-                    <p class="mb-0 text-center text-center-custom-modal">Service de Soins</p>
-                  </div>
-                  <div class="card-footer card-footer-custom-modal text-center">
-                    <span class="total-label-custom-modal order-number">Total:</span>
-                    <span class="total-amount-custom-modal order-number">3500</span>
-
-                  </div>
-                </div>
-              </a><a href="#" class="col-md-3 d-block mb-3 consomCard custom-link" data-bs-toggle="modal" data-bs-target="#dtCommande" data-bs-dismiss="modal">
-                <div class="card custom-card-modal">
-                  <img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark-img-modal">
-                  <div class="card-header-content-modal">
-                    <span class="badge custom-badge-tag-modal">Validée</span>
-                    <p class="mb-0 text-center text-center-custom-modal">202325</p>
-                    <p class="mb-0 text-center text-center-custom-modal">C244378889</p>
-                    <p class="mb-0 text-center text-center-custom-modal">Sami Yassir</p>
-                    <p class="mb-0 text-center text-center-custom-modal">20/02/2024</p>
-                    <p class="mb-0 text-center text-center-custom-modal">Service de Soins</p>
-                  </div>
-                  <div class="card-footer card-footer-custom-modal text-center">
-                    <span class="total-label-custom-modal order-number">Total:</span>
-                    <span class="total-amount-custom-modal order-number">3500</span>
-
-                  </div>
-                </div>
-              </a>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
-<script>
-  document.getElementById('dtCommande').addEventListener('click', function () {
-    var modal1 = new bootstrap.Modal(document.getElementById('commande-service'));
-    var modal2 = new bootstrap.Modal(document.getElementById('dtCommande'));
-
-    modal1.hide();
-    modal2.show();
-  });
-</script>
+   {{ include('includes/detailCommande.html.twig') }}
  <style>
     .custom-card-modal {
       background-color: white;
