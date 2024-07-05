@@ -3,8 +3,7 @@
 {% block title %}suivi Commande
 {% endblock %}
 {% block stylesheets%}
-	{{ parent() }}
-
+	{{ parent()}}
 	{{encore_entry_link_tags('suiviCommande')}}
 {% endblock %}
 {% block body %}
@@ -13,8 +12,7 @@
 		<meta charset="UTF-8">
 	</head>
 
-	<div
-		class="container-fluid ">
+	<div class="container-fluid ">
 		{# list Categorie #}
 		<div class="listCategorie scroll">
 			<h6 class='h6-categorie text-center'>
@@ -65,7 +63,7 @@
 					</div>
 				</div>
 				<div class="row col-md-12 col-lg-12 col-sm-12 Poppins text-center">
-					<div class="col-md-3 m-2 consomCard">
+					<div class="col-md-3 m-2 consomCard scrolling" data-bs-toggle="modal" data-bs-target="#dtCommande">
 						<div class="card custom-card sideCat2">
 							<img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark">
 							<div class="card-header2">
@@ -84,6 +82,7 @@
 					</div>
 				</div>
 			</div>
+			{{ include('includes/detailCommande.html.twig') }}			
 			{# <div class="col-md-7 col-lg-7 col-sm-12">
 			                    <div class="card ">
 			                        <div class="card-body text-center card-shadow  p-1">

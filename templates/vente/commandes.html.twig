@@ -2,42 +2,33 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <!-- Modal Header -->
-        <div class="modal-header text-center">
-          <h5 class="modal-title" id="exampleModalLabel">commander service</h5>
-
+        <div class="modal-header text-center d-flex align-items-center justify-content-center">
+          <h5 class="modal-title " id="exampleModalLabel">commandes service</h5>
         </div>
         <!-- Modal Body -->
         <div class="modal-body">
           <div class="container-fluid">
             <div class="row justify-content-center">
               <!-- Search and Selection Components -->
-              <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-2 border-bottom search-container">
+              <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom search-container">
                 <!-- Content for Search Bar -->
                 <div class="input-group search-bar-modal">
-                  <button class="btn btn-success search-icone" style='hei' type="button" id="search-icon">
+                  <button class="btn btn-success search-icone" type="button" id="search-icon">
                     <i class="fas fa-search"></i>
                   </button>
                   <input type="text" class="form-control search-input-modal" placeholder="Recherche..." aria-label="Search" aria-describedby="search-icon">
                 </div>
-
                 <!-- Content for Select Dropdown and Date Input -->
                 <div class="form-group">
                   <div class="d-flex">
-                    <select class="form-select search-commande-modal" aria-label="Default select example">
-                      <option selected>Service</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                    </select>
-                    &nbsp;&nbsp;
+                  
                     <input type="date" class="form-control search-commande-modal">
                   </div>
                 </div>
               </div>
               <!-- End Search and Selection Components -->
-
               <!-- Custom Card Design -->
-              <a href="#" class="col-md-3 d-block mb-3 consomCard custom-link">
+              <a href="#" class="col-md-3 d-block mb-3 consomCard custom-link" data-bs-toggle="modal" data-bs-target="#dtCommande" data-bs-dismiss="modal">
                 <div class="card custom-card-modal">
                   <img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark-img-modal">
                   <div class="card-header-content-modal">
@@ -51,26 +42,104 @@
                   <div class="card-footer card-footer-custom-modal text-center">
                     <span class="total-label-custom-modal order-number">Total:</span>
                     <span class="total-amount-custom-modal order-number">3500</span>
+
                   </div>
                 </div>
               </a>
-              <!-- End Custom Card Design -->
+             {{ include('includes/detailCommande.html.twig') }}
+             <a href="#" class="col-md-3 d-block mb-3 consomCard custom-link" data-bs-toggle="modal" data-bs-target="#dtCommande" data-bs-dismiss="modal">
+                <div class="card custom-card-modal">
+                  <img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark-img-modal">
+                  <div class="card-header-content-modal">
+                    <span class="badge custom-badge-tag-modal">Validée</span>
+                    <p class="mb-0 text-center text-center-custom-modal">202325</p>
+                    <p class="mb-0 text-center text-center-custom-modal">C244378889</p>
+                    <p class="mb-0 text-center text-center-custom-modal">Sami Yassir</p>
+                    <p class="mb-0 text-center text-center-custom-modal">20/02/2024</p>
+                    <p class="mb-0 text-center text-center-custom-modal">Service de Soins</p>
+                  </div>
+                  <div class="card-footer card-footer-custom-modal text-center">
+                    <span class="total-label-custom-modal order-number">Total:</span>
+                    <span class="total-amount-custom-modal order-number">3500</span>
+
+                  </div>
+                </div>
+              </a><a href="#" class="col-md-3 d-block mb-3 consomCard custom-link" data-bs-toggle="modal" data-bs-target="#dtCommande" data-bs-dismiss="modal">
+                <div class="card custom-card-modal">
+                  <img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark-img-modal">
+                  <div class="card-header-content-modal">
+                    <span class="badge custom-badge-tag-modal">Validée</span>
+                    <p class="mb-0 text-center text-center-custom-modal">202325</p>
+                    <p class="mb-0 text-center text-center-custom-modal">C244378889</p>
+                    <p class="mb-0 text-center text-center-custom-modal">Sami Yassir</p>
+                    <p class="mb-0 text-center text-center-custom-modal">20/02/2024</p>
+                    <p class="mb-0 text-center text-center-custom-modal">Service de Soins</p>
+                  </div>
+                  <div class="card-footer card-footer-custom-modal text-center">
+                    <span class="total-label-custom-modal order-number">Total:</span>
+                    <span class="total-amount-custom-modal order-number">3500</span>
+
+                  </div>
+                </div>
+              </a><a href="#" class="col-md-3 d-block mb-3 consomCard custom-link" data-bs-toggle="modal" data-bs-target="#dtCommande" data-bs-dismiss="modal">
+                <div class="card custom-card-modal">
+                  <img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark-img-modal">
+                  <div class="card-header-content-modal">
+                    <span class="badge custom-badge-tag-modal">Validée</span>
+                    <p class="mb-0 text-center text-center-custom-modal">202325</p>
+                    <p class="mb-0 text-center text-center-custom-modal">C244378889</p>
+                    <p class="mb-0 text-center text-center-custom-modal">Sami Yassir</p>
+                    <p class="mb-0 text-center text-center-custom-modal">20/02/2024</p>
+                    <p class="mb-0 text-center text-center-custom-modal">Service de Soins</p>
+                  </div>
+                  <div class="card-footer card-footer-custom-modal text-center">
+                    <span class="total-label-custom-modal order-number">Total:</span>
+                    <span class="total-amount-custom-modal order-number">3500</span>
+
+                  </div>
+                </div>
+              </a><a href="#" class="col-md-3 d-block mb-3 consomCard custom-link" data-bs-toggle="modal" data-bs-target="#dtCommande" data-bs-dismiss="modal">
+                <div class="card custom-card-modal">
+                  <img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark-img-modal">
+                  <div class="card-header-content-modal">
+                    <span class="badge custom-badge-tag-modal">Validée</span>
+                    <p class="mb-0 text-center text-center-custom-modal">202325</p>
+                    <p class="mb-0 text-center text-center-custom-modal">C244378889</p>
+                    <p class="mb-0 text-center text-center-custom-modal">Sami Yassir</p>
+                    <p class="mb-0 text-center text-center-custom-modal">20/02/2024</p>
+                    <p class="mb-0 text-center text-center-custom-modal">Service de Soins</p>
+                  </div>
+                  <div class="card-footer card-footer-custom-modal text-center">
+                    <span class="total-label-custom-modal order-number">Total:</span>
+                    <span class="total-amount-custom-modal order-number">3500</span>
+
+                  </div>
+                </div>
+              </a>
             </div>
           </div>
         </div>
-        <!-- Modal Footer -->
-       
       </div>
     </div>
   </div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('dtCommande').addEventListener('click', function () {
+    var modal1 = new bootstrap.Modal(document.getElementById('commande-service'));
+    var modal2 = new bootstrap.Modal(document.getElementById('dtCommande'));
 
+    modal1.hide();
+    modal2.show();
+  });
+</script>
  <style>
     .custom-card-modal {
       background-color: white;
       border: 1px solid #dee2e6;
       border-radius: 10px;
-      max-width: 230px; /* Adjust the max-width as per your modal dimensions */
-      max-height: 210px; /* Adjust the max-height as per your modal dimensions */
+      max-width: 230px; 
+      max-height: 210px; 
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       position: relative;
       padding: 7px;
@@ -112,7 +181,7 @@
 
     .total-label-custom-modal,
     .total-amount-custom-modal {
-      font-size: 12px; /* Adjust as needed */
+      font-size: 12px;
     }
 
     .text-center-custom-modal {
@@ -133,18 +202,19 @@
     .search-commande-modal {
       height: auto;
       width: auto;
+      font-size: 12px;
     }
     .custom-link {
-  color: inherit; /* Use the color of the parent element */
-  text-decoration: none; /* Remove underline */
-}
+      color: inherit;
+      text-decoration: none;
+    }
 
-.custom-link:hover {
-  color: inherit; /* Use the color of the parent element on hover */
-  text-decoration: none; /* Remove underline on hover */
-   filter: blur(.5px);
-}
-.search-icone{
-    height:30px
-}
+    .custom-link:hover {
+      color: inherit;
+      text-decoration: none;
+      filter: blur(.5px);
+    }
+    .search-icone{
+        height:30px
+    }
   </style>

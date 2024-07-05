@@ -12,7 +12,11 @@
     border: solid grey .5px;
     height: 3.6rem;
     font-size: 10px;
+    padding-right: 1rem;
 }
 body{
     font-family: 'Poppins';
+}
+.btn-success{
+    background-color: #265828;
 }

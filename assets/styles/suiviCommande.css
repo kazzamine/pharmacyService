@@ -120,6 +120,7 @@ header .user-info .user-icon {
 .search-commande{
     height: auto;
     width: auto;
+    font-size: 12px;
 }
 .input-group-text {
     display: flex;

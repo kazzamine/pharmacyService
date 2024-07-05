@@ -1,7 +1,5 @@
 import $ from 'jquery';
-
-$(document).ready(function() {
-    let i = $('.col-md-4');
-    console.log(i);
-    //getAllProduits();
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+$(window).on('load', function() {
+    $('#infoPatient').modal('show');
 });
