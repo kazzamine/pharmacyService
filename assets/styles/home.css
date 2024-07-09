@@ -54,13 +54,17 @@
 
 .modal-img {
     position: absolute;
-    top: -50%; /* Adjust to move half of the image out of the modal */
+    top: -50%; 
     left: 50%;
     transform: translateX(-50%);
-    width: 80px; /* Adjust the width as needed */
+    width: 80px; 
     height: auto;
 }
 
 .modal-title {
-    margin-top: 30px; /* Adjust margin to position title below the image */
+    margin-top: 30px; 
+}
+
+.dropdown-item:hover{
+    background-color: #68a16a80;
 }

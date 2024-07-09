@@ -1,3 +1,5 @@
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
 body {
     background-color: #f2f2f2;
     height: 100vh;
@@ -9,19 +11,16 @@ body {
 .container-deco {
     background-color: #fff;
     border-radius: 20px;
-    
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     margin-left: 2rem;
 }
 .container {
     border-radius: 20px;
-    
     overflow: hidden;
 }
 .left {
     background-color: #f2f2f2;
-    
 }
 .left img {
     max-width: 100%;
@@ -47,7 +46,7 @@ body {
 .right input[type="text"], .right input[type="password"] {
     padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #252525;
     border-radius: 4px;
     font-size: 16px;
 }
@@ -78,7 +77,6 @@ body {
 }
 
 .centered-fieldset {
-
     border: 1px solid #ddd;
     padding: 20px;
     width: 50%;
@@ -99,4 +97,24 @@ body {
 
 .centered-fieldset p {
     text-align: start;
+}
+
+.input-group-text {
+    background-color: #F5F5F5;
+    border: 1px solid #252525;
+    border-right: none;
+    height: 2.37rem;
+    display: flex;
+    align-items: center;
+}
+
+.form-control {
+    background-color: #F5F5F5;
+    border: 1px solid #252525;
+    border-left: none;
+    height: 2.37rem;
+    margin-left: -1px; /* Remove border between input and icon */
+}
+.btn-success {
+    background-color: #265828;
 }

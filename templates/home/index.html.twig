@@ -1,19 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Acceuil
-{% endblock %}
-
+{% block title %}Acceuil{% endblock %}
 {% block body %}
-
 
 	<div id="wrapper">
 		<div class="d-flex flex-column" id="content-wrapper">
-			<div
-				id="content">
+			<div id="content">
 				{# <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-				                Launch demo modal
-				                </button> #}
-
+					Launch demo modal
+				</button> #}
 				{% include 'home/serviceModal.html.twig' %}
 
 				<div class="container-fluid">
@@ -21,7 +16,7 @@
 						<div class="row card-body">
 							<div class="container">
 								<div class="row justify-content-center">
-									<a class="col-md-4 homeCard">
+									<a class="col-md-4 homeCard" href="{{ path('app_vente') }}">
 										<div class="card"><img class="card-img-top" src="{{ asset('img/consomaPatient.png') }}" height="130px" alt="Image 1">
 											<div class="card-body text-center">
 												<h5 class="card-title">Consommation Patient</h5>
@@ -29,17 +24,17 @@
 											<div class="overlay"></div>
 										</div>
 									</a>
-									<a class="col-md-4 homeCard">
+									<a class="col-md-4 homeCard" href="{{ path('app_suivi_commande') }}">
 										<div class="card"><img class="card-img-top" src="{{ asset('img/suiviCommande.png') }}" height="130px" alt="Image 2">
 											<div class="card-body text-center">
-												<h5 class="card-title">Suivi  Commande</h5>
+												<h5 class="card-title">Suivi Commande</h5>
 											</div>
 											<div class="overlay"></div>
 										</div>
 									</a>
 								</div>
 								<div class="row justify-content-center mt-4">
-									<a class="col-md-4 homeCard">
+									<a class="col-md-4 homeCard" href="{{ path('app_stock') }}">
 										<div class="card"><img class="card-img-top" src="{{ asset('img/suiviStock.png') }}" height="130px" alt="Image 3">
 											<div class="card-body text-center">
 												<h5 class="card-title">Suivi de Stock</h5>
@@ -49,9 +44,9 @@
 									</a>
 									<a class="col-md-4 homeCard">
 										<div class="card">
-											<img class="card-img-top" src="{{ asset('img/suiviStock.png') }}" height="130px" alt="Image 4">
+											<img class="card-img-top" src="{{ asset('img/gro.png') }}" height="130px" alt="Image 4">
 											<div class="card-body text-center">
-												<h5 class="card-title">Suivi de Stock</h5>
+												<h5 class="card-title">     </h5>
 											</div>
 											<div class="overlay"></div>
 										</div>
@@ -67,10 +62,5 @@
 {% endblock %}
 {% block javascripts %}
 	{{ parent() }}
-	<script>
-		document.addEventListener("DOMContentLoaded", function () {
-            var myModal = new bootstrap.Modal(document.getElementById('myModal'));
-            myModal.show();
-            });
-	</script>
+	{{encore_entry_script_tags('home')}}
 {% endblock %}

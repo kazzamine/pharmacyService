@@ -9,35 +9,46 @@
     {{encore_entry_link_tags('loginStyle')}}
 </head>
 <body>
-    <div class="container d-flex">
-        <fieldset class="left p-4 w-50 rounded text-start centered-fieldset ">
-            <legend class="w-auto ">
+        <div class="container d-flex">
+        <fieldset class="left p-4 w-50 rounded text-start centered-fieldset">
+            <legend class="w-auto">
                 <img src="{{ asset('img/logo.png') }}" width="300px" alt="UPharma">
             </legend>
-                <p >Révolutionne la gestion des services médicaux en optimisant la gestion des produits médicaux.<br>
-                Avec UPharma, les services peuvent commander facilement et rapidement tous les produits médicaux nécessaires, assurant ainsi un approvisionnement efficace et sans tracas.</p>
+            <p>Révolutionne la gestion des services médicaux en optimisant la gestion des produits médicaux.<br>
+            Avec UPharma, les services peuvent commander facilement et rapidement tous les produits médicaux nécessaires, assurant ainsi un approvisionnement efficace et sans tracas.</p>
         </fieldset>
         <div class="right w-50 container-deco">
             <h2>Se connecter</h2>
             <form method="post">
                 <div class="form-group">
                     <label for="username">Nom d'utilisateur</label>
-                    <input type="text" class="valid form-control" id="username" name="_username" placeholder="Nom d'utilisateur" required>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" class="form-control" id="username" name="_username" placeholder="Nom d'utilisateur" required>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Mot de Passe</label>
-                    <input type="password" id="password" name="_password" class="form-control" placeholder="Mot de Passe" required>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" id="password" name="_password" class="form-control" placeholder="Mot de Passe" required>
+                    </div>
                 </div>
 
                 <div class="form-check remember-me">
                     <input type="checkbox" class="form-check-input" id="remember_me" name="_remember_me" value="on">
                     <label class="form-check-label" for="remember_me">Se souvenir de moi</label>
                 </div>
-                <button type="submit" class="btn btn-success btn-block">Se connecter</button>
+                <a type="button" class="btn btn-success btn-block" href="{{ path('app_home') }}">Se connecter</a>
             </form>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

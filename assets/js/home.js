@@ -1,5 +1,7 @@
-import $ from 'jquery';
+import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
+
 
 $(document).ready(function() {
-    $('#servicesModal').modal('show'); 
+    const modal = new Modal(document.getElementById('servicesModal'));
+    modal.show();
 });

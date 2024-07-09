@@ -1,13 +1,12 @@
 <ul class="navbar-nav flex-nowrap d-flex" id="navbar">
     <li class="nav-item dropdown no-arrow ms-auto">
-    
         <a class="nav-link" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <span class="fs-5 text-dark d-none d-lg-inline me-2 text-dark small">nom service</span>
            <i class="fas fa-user fa-2x" style="color:#265828;" ></i>    
         </a>
         <ul class="dropdown-menu dropdown-menu-end shadow"  aria-labelledby="userDropdown" style="background-color: #265828; color: white;">
             <li>
-                <a class="dropdown-item text-white" href="#">
+                <a class="dropdown-item text-white" href={{ asset('/') }}>
                     <i class="fas fa-sign-out-alt fa-sm fa-fw text-white"></i>&nbsp;Se déconnecter
                 </a>
             </li>

@@ -25,6 +25,7 @@ Encore
     .addEntry('suiviCommande','./assets/styles/suiviCommande.css')
     .addEntry('home','./assets/js/home.js')
     .addEntry('loginStyle','./assets/styles/login.css')
+    .addEntry('detailCommandeStyle','./assets/styles/detailCommande.css')
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 

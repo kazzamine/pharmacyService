@@ -1,8 +1,7 @@
-import $ from 'jquery';
 import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
 
-
 $(document).ready(function() {
+
     let selectedCard;
 
     $('.produit').click(function() {
@@ -15,7 +14,6 @@ $(document).ready(function() {
             const quantityBadge = selectedCard.find('.quantity-badge');
             quantityBadge.text(quantity);
             quantityBadge.removeClass('d-none');
-            
            $('#qteModal').modal('hide')
             // let modal = new Modal($('#qteModal'));
             // console.log(modal)

@@ -1,0 +1,92 @@
+.Poppins{
+    font-family: 'Poppins',sans-serif;
+}
+
+.Inter{
+    font-family: 'Inter',sans-serif;
+}
+
+.order-number2 {
+    font-size: 20px;
+    margin-top: 10px;
+    top:50%;
+    font-weight: bold;
+}
+
+
+.total-amount {
+    color: red;
+}
+
+.donneesClient {
+    border: 1px solid black; 
+    padding: 30px;          
+    display: inline-block;
+    border-radius: 5px;     
+    font-size: 16px;        
+    text-align: center;
+}
+
+.client-data {
+    border: 1px solid #dee2e6;
+    padding:15px; 
+    padding-left: 10%;
+    margin: 5px 0;
+    border-radius: 5px;
+    text-align: left;
+}
+.client-data p {
+    margin: 5px 0;        
+    font-size: 16px;  
+}
+
+.modal-header {
+    padding-top: 20px; 
+}
+
+
+.modal-title {
+    margin-top: 20px;
+}
+.total {
+    padding: 0px;
+    margin-top: 120px;
+    padding-right : 20px;
+    background: fixed;
+    box-sizing: border-box;
+    text-align: right;
+}
+
+.product-list {
+    border: 1px solid #dee2e6;
+    margin: 15px 0;
+}
+
+.bold{
+    font-weight: bold;
+}
+.product-item {
+    display: flex;          
+    align-items: center;    
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+.product-img {
+    width: 50px;
+    height: auto;
+    margin-right: 15px; 
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-details p {
+    margin: 0;       
+    font-size: 16px;
+}
