@@ -9,7 +9,7 @@
 {% endblock %}
 {% block body %}
 
-	{{ include('vente/infoPatient.html.twig') }}
+	{{ include('consommation_patient/infoPatient.html.twig') }}
 
 	<div class="alert alert-danger alert-dismissible fade show errorMessage" role="alert">
 		<p class='alert-message'></p>
@@ -70,7 +70,7 @@
 
 							<div class="listProduit scroll">
 								<div class="row row-produit ">
-									{{ include ('vente/produit.html.twig') }}
+									{{ include ('consommation_patient/produit.html.twig') }}
 								</div>
 
 							</div>
@@ -79,14 +79,14 @@
 				</div>
 				<!--lise de liste des produits à vendre avec code barre-->
 				<div class="col-md-5 ol-lg-5 col-sm-12 scrolling" id="cart">
-					<div class="card ">
+					<div class="card">
 						<div class="card-body text-center card-shadow">
-							<div class="">
+							<div>
 								<div class="col d-flex mb-2">
 									<button data-bs-toggle="modal" data-bs-target="#commande-service" class="btn btn-fcz float-right ms-auto text-white" style="background-color:#265828;font-size:12px;">
 										Commandes
 									</button>
-									{{ include('vente/commandes.html.twig') }}
+									{{ include('consommation_patient/commandes.html.twig') }}
 								</div>
 								<div class="row text-start">
 									<fieldset class='border' id="userCom" style='font-size:13px;'>
@@ -241,10 +241,7 @@
 			</div>
 		</div>
 	</div>
-	{# {{ include ('vente/client.html.twig') }} #}
 {% endblock %}
 {% block javascripts %}
-
-	{{ parent() }}
-	{# {{ encore_entry_script_tags('vente') }} #}
+	{{ encore_entry_script_tags('consommation_patient') }}
 {% endblock %}

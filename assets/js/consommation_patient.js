@@ -1,7 +1,5 @@
-import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
-
-$(document).ready(function() {
-
+ import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
+ $(document).ready(function() {
     let selectedCard;
 
     $('.produit').click(function() {
@@ -14,18 +12,14 @@ $(document).ready(function() {
             const quantityBadge = selectedCard.find('.quantity-badge');
             quantityBadge.text(quantity);
             quantityBadge.removeClass('d-none');
-           $('#qteModal').modal('hide')
-            // let modal = new Modal($('#qteModal'));
-            // console.log(modal)
-            // modal.hide();
-        }else if(quantity==''){
+        } else if (quantity === '') {
             const quantityBadge = selectedCard.find('.quantity-badge');
-            quantityBadge.text(quantity);
+            quantityBadge.text('0');
             quantityBadge.addClass('d-none');
-
-            const modal = new Modal(document.getElementById('qteModal'));
-           
-            modal.hide();
         }
+
+        const modalElement = document.getElementById('qteModal');
+        const modal = Modal.getInstance(modalElement) || new Modal(modalElement);
+        modal.hide();
     });
 });

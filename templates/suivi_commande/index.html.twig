@@ -22,13 +22,12 @@
 			<ul class="ul-link">
 				<div class="input-group search-bar2 text-center">
 					<button class="btn btn-success search-img text-center" type="button" id="search-icon">
-						<i class="fas fa-search"></i>
+						<i class="fas fa-search"></i> 
 					</button>
 					<input type="text" class="form-control search-input2" aria-label="Search" aria-describedby="search-icon">
 				</div>
 				<div class="card sideCat justify-content-center align-items-center">
 					<img src="{{ asset('img/vacc.png') }}" class="card-img-cat" alt="...">
-
 					<div class="card-body">
 						<h5 class="card-title cat-title">medicaments</h5>
 					</div>
@@ -89,12 +88,9 @@
 						<span class="col-auto">Articles</span>
 						<input type="text" class="col-4 offset-5 form-control mb-1" id="codebar"  placeholder="Chercher"/>
 					</div>
-					
 						<div class="listProduit scroll">
-							<div class="row row-produit " >
-								
+							<div class="row row-produit " >						
 							</div>
-							
 						</div>
 					</div>
 				</div>
@@ -104,8 +100,4 @@
 	</div>
 </div>
 {# {{ include ('vente/client.html.twig') }} #}
-{% endblock %}
-{% block javascripts %}
-	{{ parent() }}
-	{{ encore_entry_script_tags('vente') }}
 {% endblock %}
