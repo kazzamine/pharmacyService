@@ -1,5 +1,10 @@
  import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
  $(document).ready(function() {
+    const modalElement = document.getElementById('infoPatient');
+    const modal = Modal.getInstance(modalElement) || new Modal(modalElement);
+    modal.show();
+
+
     let selectedCard;
 
     $('.produit').click(function() {
