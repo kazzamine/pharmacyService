@@ -16,28 +16,23 @@ class UfamilleRepository extends ServiceEntityRepository
         parent::__construct($registry, Ufamille::class);
     }
 
-//    /**
-//     * @return Ufamille[] Returns an array of Ufamille objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getFamille($search)
+    {
+        $searchTerm='%'.$search.'%';
+        $sql = '
+         SELECT * from ufamille
+          
+            ';
+            $params=[];
+        if($search!==null){
+            $sql.='WHERE ufamille.designation LIKE :search';
+            $params['search']=$searchTerm;
+        }
+        $conn = $this->getEntityManager()->getConnection();
 
-//    public function findOneBySomeField($value): ?Ufamille
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery($params);
+
+        return $resultSet->fetchAllAssociative();
+    }
 }

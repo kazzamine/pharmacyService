@@ -1,49 +1,34 @@
 
 {% if articles|length > 0 %}
     {% for article in articles %}
-               <div class="col-lg-3 col-md-4 p-1 col-sm-5 produit position-relative" data-bs-toggle="modal" data-bs-target="#qteModal" data-id="1">
+               <div class="col-lg-3 col-md-4 p-1 col-sm-5 produit position-relative" data-bs-toggle="modal" data-bs-target="#qteModal" data-id="{{article.id}}">
                     <span class="qte-produit quantity-badge d-none">0</span>
                     <div class="div-img">
                         <img class="img-produit rounded" src="{{ asset('img/dolip.png') }}" alt="Image de ">
                         <div class="col-sm-12 name-produit Limit_text">{{article.titre}}</div>
                         <div class="col-sm-12 col-md-12 price-produit card-body text-start">
-                            Disponible : <span>20</span> <i class="fas fa-plus-circle" style="color:#265828"></i>
+                            Disponible : <span>{{article.quantite}}</span> <i class="fas fa-plus-circle" style="color:#265828"></i>
                         </div>
                     </div>
                 </div>
-                    {# <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                            <div class="modal-header position-relative text-center">
-                                <img src="{{ asset('img/selectQte.png') }}" class="modal-img" alt="Header Image">
-                                <h5 class="modal-title mx-auto" id="exampleModalLabel">Insérer la Quantité</h5>
-                            </div>
-                            <div class="modal-body">
-                                    <input class="form-control" type="number" placeholder="Quantité" />    
-                                    <br>
-                                    <button class="btn btn-success offset-4" style="background-color:#265828;">validé </button>                            
-                            </div>
-                            
-                            </div>
-                        </div>
-                    </div> #}
        
     {% endfor %}
-     <div class="modal fade" id="qteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header position-relative text-center">
-                                <img src="{{ asset('img/selectQte.png') }}" class="modal-img" alt="Header Image">
-                                <h5 class="modal-title mx-auto" id="exampleModalLabel">Insérer la Quantité</h5>
-                            </div>
-                            <div class="modal-body">
-                                <input class="form-control" type="number" placeholder="Quantité" id="quantityInput" />
-                                <br>
-                                <button class="btn btn-success offset-9" style="background-color:#265828;" id="confirmQuantity">Validé</button>
-                            </div>
-                        </div>
-                    </div>
+    <div class="modal fade" id="qteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header position-relative text-center">
+                    <img src="{{ asset('img/selectQte.png') }}" class="modal-img" alt="Header Image">
+                    <h5 class="modal-title mx-auto" id="exampleModalLabel">Insérer la Quantité</h5>
                 </div>
+                <div class="modal-body">
+                    <input class="form-control" type="number" id="article_id" readonly hidden />
+                    <input class="form-control" type="number" placeholder="Quantité" id="quantityInput" />
+                    <br>
+                    <button class="btn btn-success offset-9" style="background-color:#265828;" id="confirmQuantity">Validé</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% else %}
     <div class="nonTrouve"> 
         Aucune correspondance exacte trouvée !

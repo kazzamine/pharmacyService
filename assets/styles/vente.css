@@ -94,7 +94,7 @@ border: .5px solid #ddd;
 .listCategorie{
 position: fixed ;
 flex: 0 0 10.333333%;
- max-width: 10rem; 
+ max-width: 9rem; 
 min-width: 8rem;
 background-color: #ffffff;
 border: solid #343a40 1px;
@@ -115,14 +115,14 @@ margin-top: .5rem;
 cursor: pointer;
 }
 .listCategorie li{
-padding: 0.7rem 1rem;
-font-size: .6rem;
+padding: 0.5rem 1rem;
+font-size: .2rem;
 font-weight: bold;
 letter-spacing: .05rem;
 text-transform: uppercase;
 }
 .listCategorie .card {
-    width: 70%;
+    width: 60%;
     margin: 0 auto 10px auto;
 }
 .card-img-cat {
@@ -157,7 +157,7 @@ text-transform: uppercase;
     font-size: 14px;
 }
 .cat-title{
-    font-size: 12px;
+    font-size: 10px;
 }
 .h6-categorie{
     padding: 0.2rem 0.5rem;
@@ -176,7 +176,7 @@ top: 1.5rem;
 padding: 0 .3rem;
 height: 36vw;
 }
-#codebar{
+#articleSearch{
     font-size: .7rem;
     width: 40%;
     border: 1px solid #98999b;
@@ -359,7 +359,7 @@ element.style {
     background: #265828; 
   }
   .product-card {
-    width: 100%;
+    width: 80%;
     height: 90px;
 }
 .product-img {
@@ -368,18 +368,18 @@ element.style {
     object-fit: cover;
 }
 .product-name,.product-price{
-    font-size: 15px;
+    font-size: 13px;
     font-family: 'Work Sans';
 }
 
 .quantity-control {
     display: flex;
-    margin-left: .5rem;
+    margin-left: auto;
     align-items: center;
 }
 .quantity-control button {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -387,9 +387,7 @@ element.style {
 }
 
 .remove-icon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    margin-left:3.6rem ;
     cursor: pointer;
 }
 .search-bar2 {

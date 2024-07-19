@@ -20,54 +20,33 @@ class UarticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Uarticle::class);
     }
 
-    public function getArticlesByCat($dossier,$famille)
+    public function getArticlesByCat($dossier,$famille,$search)
     {
-        $conn = $this->getEntityManager()->getConnection();
-
+        $searchTerm='%'.$search.'%';
         $sql = '
           SELECT uarticle.id , uarticle.titre,stock_actual.quantite FROM `uarticle` 
           JOIN udepot on udepot.id = uarticle.depot_id JOIN p_dossier on p_dossier.id=udepot.dossier_id 
           JOIN stock_actual ON stock_actual.u_article_id=uarticle.id 
-          WHERE 1 
-          AND p_dossier.id=:dossier 
-          AND uarticle.famille=:famille
+          WHERE p_dossier.id=:dossier 
           AND stock_actual.uantenne_id=9 
           AND uarticle.active=1
             ';
+        $params['dossier']=$dossier;
+        if($famille!==null){
+            $sql.='AND uarticle.famille=:famille';
+            $params['famille']=$famille;
+        }
+        if($search!==null){
+            $sql.='AND (uarticle.titre like :search OR uarticle.id like :search)';
+            $params['search']=$searchTerm;
+        }
+        $conn = $this->getEntityManager()->getConnection();
 
-        $resultSet = $conn->executeQuery($sql, ['dossier' => $dossier,'famille'=>$famille]);
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery($params);
 
         return $resultSet->fetchAllAssociative();
     }
-
-    // /**
-    //  * @return Uarticle[] Returns an array of Uarticle objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Uarticle
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 
     public function GetNiveau($id,$placeholder) {
         try {

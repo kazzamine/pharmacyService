@@ -1,7 +1,6 @@
-
 {% if articles|length > 0 %}
     {% for article in articles %}
-               <div class="col-lg-2 col-md-2 p-1 col-sm-2 produit" data-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#exampleModal"  data-placement="bottom" >
+               <div class="col-lg-2 col-md-2 p-1 col-sm-2 produit" data-bs-toggle="modal" data-bs-target="#detProd" data-id="{{article.id}}">
                     <div  class="div-img ">  
                         {# <span class="qte-produit prod1" name="prod1"> 55 </span> #}
                         <img class="img-produit " src="{{ asset('img/dolip.png') }}"  alt="Image de ">
@@ -10,31 +9,28 @@
                         </div>
                        
                         <div class="col-sm-12 mt-1 col-md-12 price-produit card-body text-start ">
-                            Disponible : <span class="col-md-6"></span>  
+                            Disponible :{{article.quantite}} <span class="col-md-6"></span>  
                         </div>
                     </div>
                 </div>
-     
-
-                    {# <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                            <div class="modal-header position-relative text-center">
-                                <img src="{{ asset('img/selectQte.png') }}" class="modal-img" alt="Header Image">
-                                <h5 class="modal-title mx-auto" id="exampleModalLabel">Insérer la Quantité</h5>
-                            </div>
-                            <div class="modal-body">
-                                    <input class="form-control" type="number" placeholder="Quantité" />    
-                                    <br>
-                                    <button class="btn btn-success offset-4" style="background-color:#265828;">validé </button>                            
-                            </div>
-                            
-                            </div>
-                        </div>
-                    </div> #}
        
     {% endfor %}
-    
+    <div class="modal fade" id="detProd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header position-relative text-center">
+                    <img src="{{ asset('img/selectQte.png') }}" class="modal-img" alt="Header Image">
+                    <h5 class="modal-title mx-auto" id="exampleModalLabel">Detail du produit</h5>
+                </div>
+                <div class="modal-body">
+                    <input class="form-control" type="number" id="article_id" readonly />
+                    <input class="form-control" type="number" placeholder="Quantité" id="quantityInput" />
+                    <br>
+                    <button class="btn btn-success offset-9" style="background-color:#265828;" id="confirmQuantity">Validé</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% else %}
     <div class="nonTrouve"> 
         Aucune correspondance exacte trouvée !

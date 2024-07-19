@@ -23,6 +23,8 @@ Encore
     .addEntry('app', './assets/app.js')
     .addEntry('consommation_patient','./assets/js/consommation_patient.js')
     .addEntry('suiviCommande','./assets/styles/suiviCommande.css')
+    .addEntry('suivi_stock','./assets/js/suivi_stock.js')
+    .addEntry('common','./assets/js/common.js')
     .addEntry('home','./assets/js/home.js')
     .addEntry('loginStyle','./assets/styles/login.css')
     .addEntry('detailCommandeStyle','./assets/styles/detailCommande.css')

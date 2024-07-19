@@ -4,9 +4,6 @@
 {% endblock %}
 {% block stylesheets%}
     {{ parent() }}
-  
-    
-
 {% endblock %}
 {% block body %}
 
@@ -31,25 +28,21 @@
     <div class="container-fluid ">
             {# list Categorie #}
             <div class="listCategorie scroll">
-                <h6 class='h6-categorie text-center'> <img src="{{ asset('img/logo.png') }}" width='80px' />  </h6>
+                <h6 class='h6-categorie text-center'>
+				    <a href="{{ path('app_home') }}"><img src="{{ asset('img/logo.png') }}" width='80px'/></a>	
+			    </h6>
                 <hr class="hr" />
                 <ul class="ul-link">
-               
-                     {% for familleitem in famille %}
-					<div class="card sideCat justify-content-center align-items-center">
-						{# <img src="{{ asset('img/vacc.png') }}" class="card-img-cat" alt="..."> #}
-
-						<div class="card-body">
-							<h5 class="card-title cat-title">{{familleitem.designation}}</h5>
-						</div>
-					</div>
-				{% endfor %}
-                    {# {% for categorie in categories %}
-                    <li>cat</li>
-                        <li class='box-title' id='{{categorie.id}}' > {{categorie.designation}} </li>
-                    {% endfor %} #}
-                
-                </ul>
+				<div class="input-group search-bar2 text-center">
+					<button class="btn btn-success search-img" type="button" id="search-icon" style='padding:2px;'>
+						<i class="fas fa-search"></i>
+					</button>
+					<input id="familleSearch" type="text" class="form-control search-input2" aria-label="Search" aria-describedby="search-icon">
+				</div>
+                <div id="famille-card">
+				    {{ include('includes/familleCard.html.twig') }}
+                </div>
+			</ul>
             </div>
         <div class='contenu_index'>
             <div class="row align-items-start ">
@@ -58,7 +51,7 @@
                         <div class="card-body text-center card-shadow p-1">
                         <div class="row align-items-center">
                             <span class="col-auto offset-1 fw-bold">Articles</span>
-                            <input type="text" class="col-2 offset-6 form-control mb-1" id="codebar" style="width:30%" placeholder="Chercher"/>
+                            <input type="text" class="col-2 offset-6 form-control mb-1" id="articleSearch" style="width:30%" placeholder="Chercher"/>
                         </div>
                         
                             <div class="listProduit scroll">
@@ -70,19 +63,11 @@
                         </div>
                     </div>
                 </div>
-               
             </div>
         </div>
     </div>
-    {# {{ include ('vente/client.html.twig') }} #}
 {% endblock %}
 {% block javascripts %}
-
-    {{ parent() }}<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    <script>
-
-    let i=$('.col-md-4')
-    console.log(i)
-    //getAllProduits();
-    </script>
+	{{ encore_entry_script_tags('suivi_stock') }}
+    {{ encore_entry_script_tags('common') }}
 {% endblock %}

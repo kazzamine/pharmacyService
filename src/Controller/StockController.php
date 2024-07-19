@@ -6,6 +6,8 @@ use App\Entity\Uarticle;
 use App\Entity\Ufamille;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request ;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -16,20 +18,42 @@ class StockController extends AbstractController
     {
         $this->entityManager=$entityManager;
     }
-    #[Route('/stock', name: 'app_stock')]
-    public function index(): Response
+    #[Route('/suivi_stock', name: 'app_stock')]
+    public function index(Request $request): Response
     {
-        $famille = $this->entityManager->getRepository(Ufamille::class)->findAll();
-        $articles=$this->entityManager->getRepository(Uarticle::class)->findBy(
-                                                                                ['active'=>1], 
-                                                                                [], 
-                                                                                10,
-                                                                                0
-                                                                            );
-        // dd($articles);
+        $dossier=$request->getSession()->get('selectedDossier');
+        $famille =$this->entityManager->getRepository(Ufamille::class)->findAll();
+        $articles=$this->entityManager->getRepository(Uarticle::class)->getArticlesByCat($dossier,null,null);
         return $this->render('stock/index.html.twig', [
-            'famille' =>  $famille,
+            'famille' => $famille,
             'articles'=>$articles
         ]);
+    }
+
+    #[Route('/suivi_stock/byfam', name: 'app_stock_byfam')]
+    public function articlesByFamille(Request $request): JsonResponse
+    {
+        $dossier=$request->getSession()->get('selectedDossier');
+        $familleID=$request->request->get('famId');
+        $search='';
+        $articles=$this->entityManager->getRepository(Uarticle::class)->getArticlesByCat($dossier->getId(),$familleID,null);
+        $returnedHtml= $this->render('stock/produit.html.twig', [
+            'articles'=>$articles
+        ]);
+       
+        return new JsonResponse($returnedHtml->getContent());
+    }
+
+    #[Route('/suivi_stock/bySearch', name: 'app_stock_bysearch')]
+    public function articlesbySearch(Request $request): JsonResponse
+    {
+        $dossier=$request->getSession()->get('selectedDossier');
+        $search=$request->request->get('search');
+        $articles=$this->entityManager->getRepository(Uarticle::class)->getArticlesByCat($dossier->getId(),null,$search);
+        $returnedHtml= $this->render('stock/produit.html.twig', [
+            'articles'=>$articles
+        ]);
+       
+        return new JsonResponse($returnedHtml->getContent());
     }
 }
