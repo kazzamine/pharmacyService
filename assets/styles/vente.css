@@ -168,7 +168,7 @@ background-color: #5f5f5f;
 color: #fff;
 }
 .contenu_index{
-margin-left:  8rem;
+margin-left:  10rem;
 position: relative;
 top: 1.5rem;
 }
@@ -214,9 +214,12 @@ height: 5rem;
 .name-produit{
     font-weight: 500;
 height: 1rem;
-font-size: 0.9rem;
+font-size: 0.7rem;
 padding: auto;
 margin-top: 5px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 }
 .price-produit{
 font-weight: 600;

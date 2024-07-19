@@ -8,85 +8,109 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
-#[ORM\Entity(repositoryClass: "App\Repository\UdepotRepository")]
-#[ORM\HasLifecycleCallbacks]
-#[UniqueEntity(fields: ["code"])]
+#[ORM\Entity(repositoryClass: \App\Repository\UdepotRepository::class)]
+#[UniqueEntity('code')]
 class Udepot
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    private int $id;
+    #[ORM\Column(type: 'integer')]
+    private $id;
 
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $code;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $code;
 
     #[Assert\NotBlank]
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $titre;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $titre;
+    
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $description;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $description;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $adresse;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $adresse;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $codePostal;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $codePostal;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $ville;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $ville;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $pays;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $pays;
+ 
+    
+    
+    
+    /**
+     * @var string
+     */
+    #[ORM\Column(name: 'active', type: 'boolean', nullable: true)]
+    private $active;
+    
+    
+     /**
+     * @var string
+     */
+    #[ORM\Column(name: 'etat', type: 'boolean', nullable: true)]
+    private $etat;
+    
+    
+    
+        
+    #[ORM\Column(name: 'autre_information', type: 'text', nullable: true)]
+    private $autreInformation;
 
-    #[ORM\Column(name: "active", type: "boolean", nullable: true)]
-    private ?bool $active;
+    /**
+     *
+     * @var \DateTime
+     *
+     *
+     */
+    #[ORM\Column(name: 'created', type: 'datetime', nullable: true)]
+    private $created;
 
-    #[ORM\Column(name: "etat", type: "boolean", nullable: true)]
-    private ?bool $etat;
+    /**
+     *
+     * @var \DateTime
+     *
+     */
+    #[ORM\Column(name: 'updated', type: 'datetime', nullable: true)]
+    private $updated;
 
-    #[ORM\Column(name: "autre_information", type: "text", nullable: true)]
-    private ?string $autreInformation;
-
-    #[ORM\Column(name: "created", type: "datetime", nullable: true)]
-    private ?\DateTimeInterface $created;
-
-    #[ORM\Column(name: "updated", type: "datetime", nullable: true)]
-    private ?\DateTimeInterface $updated;
-
-    #[ORM\ManyToOne(targetEntity: "User")]
-    #[ORM\JoinColumn(name: "user_created", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'user_created', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \User::class)]
     private $userCreated;
 
-    #[ORM\ManyToOne(targetEntity: "User")]
-    #[ORM\JoinColumn(name: "user_updated", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'user_updated', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \User::class)]
     private $userUpdated;
-
-    #[ORM\OneToMany(targetEntity: "App\Entity\Uarticle", mappedBy: "depot")]
+    
+    
+    
+    #[ORM\OneToMany(targetEntity: \App\Entity\Uarticle::class, mappedBy: 'depot')]
     private $uarticles;
 
-    #[ORM\OneToMany(targetEntity: "App\Entity\UmouvementStock", mappedBy: "depot")]
+    #[ORM\OneToMany(targetEntity: \App\Entity\UmouvementStock::class, mappedBy: 'depot')]
     private $umouvementStocks;
-
-    #[ORM\OneToMany(targetEntity: "App\Entity\Uantenne", mappedBy: "depot")]
+    
+    #[ORM\OneToMany(targetEntity: \App\Entity\Uantenne::class, mappedBy: 'depot')]
     private $antennes;
-
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PDossier", inversedBy: "udepots")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PDossier::class, inversedBy: 'udepots')]
     private $dossier;
+    
+    
+          #[ORM\PrePersist]
+    public function setCreatedValue() {
 
-    #[ORM\PrePersist]
-    public function setCreatedValue(): void
-    {
         $this->created = new \DateTime();
     }
 
     #[ORM\PreUpdate]
-    public function setUpdatedValue(): void
-    {
+    public function setUpdatedValue() {
         $this->updated = new \DateTime();
     }
 

@@ -26,12 +26,15 @@
 					</button>
 					<input type="text" class="form-control search-input2" aria-label="Search" aria-describedby="search-icon">
 				</div>
-				<div class="card sideCat justify-content-center align-items-center">
-					<img src="{{ asset('img/vacc.png') }}" class="card-img-cat" alt="...">
-					<div class="card-body">
-						<h5 class="card-title cat-title">medicaments</h5>
+				{% for familleitem in famille %}
+					<div class="card sideCat justify-content-center align-items-center">
+						{# <img src="{{ asset('img/vacc.png') }}" class="card-img-cat" alt="..."> #}
+
+						<div class="card-body">
+							<h5 class="card-title cat-title">{{familleitem.designation}}</h5>
+						</div>
 					</div>
-				</div>
+				{% endfor %}
 				{# {% for categorie in categories %}
 					<li>cat</li>
 					<li class='box-title' id='{{categorie.id}}' > {{categorie.designation}} </li>

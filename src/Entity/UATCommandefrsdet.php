@@ -5,69 +5,94 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
-#[ORM\Table(name: "ua_t_commandefrsdet")]
+/**
+ * UATCommandefrsdet
+ *
+ *
+ */
+#[ORM\Table(name: 'ua_t_commandefrsdet')]
 #[ORM\Entity]
-#[UniqueEntity(
-    fields: ["cab", "article"],
-    errorPath: "article",
-    message: "Article dèja utilisé."
-)]
+#[UniqueEntity(fields: ['cab', 'article'], errorPath: 'article', message: 'Article dèja utilisé.')]
 class UATCommandefrsdet
 {
-    
+    use  DetailChampCalcule  ; 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[ORM\JoinColumn(name: 'u_article_id', referencedColumnName: 'id')]
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Uarticle")]
-    #[ORM\JoinColumn(name: "u_article_id", referencedColumnName: "id")]
-    private $article;
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Uarticle::class)]
+    private $article ;
 
+    #[ORM\JoinColumn(name: 'p_unite_id', referencedColumnName: 'id')]
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PUnite")]
-    #[ORM\JoinColumn(name: "p_unite_id", referencedColumnName: "id")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PUnite::class)]
     private $unite;
 
+    /**
+     *  /**
+     * @var float|null
+     *
+     */
     #[Assert\NotBlank]
     #[Assert\Positive]
-    #[ORM\Column(name: "quantite", type: "float", precision: 10, scale: 0, nullable: true)]
+    #[ORM\Column(name: 'quantite', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $quantite;
 
+    /**
+     * @var float|null
+     */
     #[Assert\NotBlank]
-    #[ORM\Column(name: "prixunitaire", type: "float", precision: 10, scale: 0, nullable: true)]
+    #[ORM\Column(name: 'prixunitaire', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $prixunitaire;
 
+    /**
+     * @var float|null
+     */
     #[Assert\Range(min: 0, max: 100)]
     #[Assert\NotBlank]
-    #[ORM\Column(name: "tva", type: "float", precision: 10, scale: 0, nullable: true)]
+    #[ORM\Column(name: 'tva', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $tva = 0;
 
-    #[ORM\Column(name: "observation", type: "text", nullable: true)]
+
+    
+     /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'observation', type: 'text', nullable: true)]
     private $observation;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\UATCommandefrscab", cascade: ["persist"], inversedBy: "details")]
-    #[ORM\JoinColumn(name: "ua_t_commandefrscab_id", referencedColumnName: "id", onDelete: "CASCADE")]
+
+     #[ORM\JoinColumn(name: 'ua_t_commandefrscab_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\UATCommandefrscab::class, cascade: ['persist'], inversedBy: 'details')]
     private $cab;
 
-    #[Assert\Range(min: 0, max: 100)]
-    #[Assert\Type(type: "numeric")]
-    #[ORM\Column(type: "float", nullable: true)]
-    private $remise = 0;
 
-    #[ORM\PrePersist]
-    public function setCreatedValue(): void
-    {
+    #[Assert\Range(min: 0, max: 100)]
+    #[Assert\Type(type: 'numeric')]
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $remise = 0;
+    
+    
+
+    
+      #[ORM\PrePersist]
+    public function setCreatedValue() {
+
         $this->created = new \DateTime();
+        
+
     }
 
     #[ORM\PreUpdate]
-    public function setUpdatedValue(): void
-    {
+    public function setUpdatedValue() {
         $this->updated = new \DateTime();
     }
+    
+    
+    
 
     public function getId(): ?int
     {

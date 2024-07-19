@@ -10,321 +10,374 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UarticleRepository")
- * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
- * @UniqueEntity(fields={"code"})
+ *
  */
+#[ORM\Entity(repositoryClass: \App\Repository\UarticleRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[UniqueEntity('code')]
 class Uarticle {
-    
+
     #[ORM\Id]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private $id;
-
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PNomenclatureStandard")]
+    
+    
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PNomenclatureStandard::class)]
     private $nomenclatureStandard;
-
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Ufamille", inversedBy: "uarticles")]
-    #[ORM\JoinColumn(name: "famille", nullable: false)]
+    
+    #[ORM\JoinColumn(name: 'famille', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Ufamille::class, inversedBy: 'uarticles')]
     private $ufamille;
-
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PArticleNiveau", inversedBy: "articles")]
-    #[ORM\JoinColumn(name: "niveau_id", nullable: true)]
+    
+     #[ORM\JoinColumn(name: 'niveau_id', nullable: true)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PArticleNiveau::class, inversedBy: 'articles')]
     private $niveau;
+    
 
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $code;
-
-    #[ORM\Column(type: "string", length: 50, nullable: true)]
+    
+    #[ORM\Column(type: 'string', length: 50, nullable: true)]
     private $rayounnage;
-
-    #[ORM\Column(type: "integer", nullable: true)]
+    #[ORM\Column(type: 'integer', length: 255, nullable: true)]
     private $partenaire;
-
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $image;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $codeArticleFournisseur;
 
     #[Assert\NotBlank]
-    #[ORM\Column(type: "text", nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private $titre;
 
-    #[ORM\Column(type: "boolean", nullable: true)]
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $etatVente;
 
-    #[ORM\Column(type: "boolean", nullable: true)]
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $etatAchat;
 
-    #[ORM\Column(type: "text", nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $url;
 
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Udepot", inversedBy: "uarticles")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Udepot::class, inversedBy: 'uarticles')]
     private $depot;
 
+    
     #[Assert\Positive]
-    #[ORM\Column(type: "float", nullable: true)]
+    #[ORM\Column(type: 'float', length: 255, nullable: true)]
     private $stockBase;
 
     #[Assert\Positive]
-    #[ORM\Column(type: "float", nullable: true)]
+    #[ORM\Column(type: 'float', length: 255, nullable: true)]
     private $poid;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PUnite")]
-    #[ORM\JoinColumn(name: "p_unite_poid_id", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'p_unite_poid_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PUnite::class)]
     private $poidUnite;
 
     #[Assert\Positive]
-    #[ORM\Column(type: "float", nullable: true)]
+    #[ORM\Column(type: 'float', length: 255, nullable: true)]
     private $longeur;
 
     #[Assert\Positive]
-    #[ORM\Column(type: "float", nullable: true)]
+    #[ORM\Column(type: 'float', length: 255, nullable: true)]
     private $largeur;
 
     #[Assert\Positive]
-    #[ORM\Column(type: "float", nullable: true)]
+    #[ORM\Column(type: 'float', length: 255, nullable: true)]
     private $hauteur;
 
     #[Assert\Positive]
-    #[ORM\Column(type: "float", nullable: true)]
+    #[ORM\Column(type: 'float', length: 255, nullable: true)]
     private $surface;
 
     #[Assert\Positive]
-    #[ORM\Column(type: "float", nullable: true)]
+    #[ORM\Column(type: 'float', length: 255, nullable: true)]
     private $volume;
 
-    #[ORM\Column(type: "float", nullable: true)]
+    
+    #[ORM\Column(type: 'float', nullable: true)]
     private $prixVente = 0;
 
-    #[ORM\Column(type: "float", nullable: true)]
+    
+    #[ORM\Column(type: 'float', nullable: true)]
     private $prixVenteMin = 0;
-
-    #[ORM\Column(type: "float", nullable: true)]
+    
+    #[ORM\Column(type: 'float', nullable: true)]
     private $prixVenteMax = 0;
-
-    #[ORM\Column(type: "float", nullable: true)]
+    
+    #[ORM\Column(type: 'float', nullable: true)]
     private $prixVenteMoyenne = 0;
 
-    #[ORM\Column(type: "float", nullable: true)]
+    
+    #[ORM\Column(type: 'float', nullable: true)]
     private $prixAchat = 0;
 
-    #[ORM\Column(type: "float", nullable: true)]
+    
+    #[ORM\Column(type: 'float', nullable: true)]
     private $prixAchatMin = 0;
-
-    #[ORM\Column(type: "float", nullable: true)]
+    
+    #[ORM\Column(type: 'float', nullable: true)]
     private $prixAchatMax = 0;
-
-    #[ORM\Column(type: "float", nullable: true)]
+    
+    #[ORM\Column(type: 'float', nullable: true)]
     private $prixAchatMoyenne = 0;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $codeComptableVente;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $codeComptableVenteExport;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $codeComptableAchat;
 
-    #[ORM\Column(type: "boolean", nullable: true)]
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $active;
 
-    #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PUnite")]
-    #[ORM\JoinColumn(name: "p_unite_default_id", referencedColumnName: "id")]
+    /**
+     *  * @Assert\NotBlank
+     */
+    #[ORM\JoinColumn(name: 'p_unite_default_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PUnite::class)]
     private $defaultUnite;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PUnite")]
-    #[ORM\JoinColumn(name: "p_unite_lang_larg_haut_id", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'p_unite_lang_larg_haut_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PUnite::class)]
     private $longLargHautUnite;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PUnite")]
-    #[ORM\JoinColumn(name: "p_unite_surface_id", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'p_unite_surface_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PUnite::class)]
     private $surfaceUnite;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PUnite")]
-    #[ORM\JoinColumn(name: "p_unite_volume_id", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'p_unite_volume_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PUnite::class)]
     private $volumeUnite;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\ParticleNature")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\ParticleNature::class)]
     private $nature;
 
-    #[ORM\Column(name: "autre_information", type: "text", nullable: true)]
+    
+    #[ORM\Column(name: 'autre_information', type: 'text', nullable: true)]
     private $autreInformation;
 
-    #[ORM\Column(name: "description_detail", type: "text", nullable: true)]
+    
+    #[ORM\Column(name: 'description_detail', type: 'text', nullable: true)]
     private $descriptionDetail;
 
-    #[ORM\Column(name: "created", type: "datetime", nullable: true)]
+    /**
+     *
+     * @var \DateTime
+     *
+     *
+     */
+    #[ORM\Column(name: 'created', type: 'datetime', nullable: true)]
     private $created;
 
-    #[ORM\Column(name: "updated", type: "datetime", nullable: true)]
-    private ?\DateTime $updated;
-    
-    #[ORM\ManyToOne(targetEntity: "User")]
-    #[ORM\JoinColumn(name: "user_created", referencedColumnName: "id")]
+    /**
+     *
+     * @var \DateTime
+     *
+     */
+    #[ORM\Column(name: 'updated', type: 'datetime', nullable: true)]
+    private $updated;
+
+    #[ORM\JoinColumn(name: 'user_created', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \User::class)]
     private $userCreated;
-    
-    #[ORM\ManyToOne(targetEntity: "User")]
-    #[ORM\JoinColumn(name: "user_updated", referencedColumnName: "id")]
+
+    #[ORM\JoinColumn(name: 'user_updated', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \User::class)]
     private $userUpdated;
-    
-    #[ORM\OneToMany(targetEntity: "App\Entity\UarticlePrix", mappedBy: "article")]
+
+    #[ORM\OneToMany(targetEntity: \App\Entity\UarticlePrix::class, mappedBy: 'article')]
     private $uarticlePrixes;
-    
-    #[ORM\OneToMany(targetEntity: "App\Entity\UmouvementStock", mappedBy: "article")]
+
+    #[ORM\OneToMany(targetEntity: \App\Entity\UmouvementStock::class, mappedBy: 'article')]
     private $umouvementStocks;
-    
-    #[ORM\Column(type: "boolean", nullable: true)]
+
+
+
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $gererEnStock;
-    
-    #[ORM\Column(type: "boolean", nullable: true)]
+
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $verificationStock;
-    
-    #[ORM\Column(type: "string", length: 200, nullable: true)]
+
+    #[ORM\Column(type: 'string', length: 200, nullable: true)]
     private $codeBarre;
-    
+
+  
+
     #[Assert\Range(min: 0, max: 100)]
-    #[ORM\Column(type: "integer", nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $tva = 20;
-    
-    #[Assert\Count(min: 1, minMessage: "Cette valeur ne doit pas être vide.")]
-    #[ORM\ManyToMany(targetEntity: "App\Entity\Ucategory", inversedBy: "articles")]
-    #[ORM\JoinTable(name: "u_articles_categories")]
+
+    #[ORM\JoinTable(name: 'u_articles_categories')]
+    #[Assert\Count(min: '1', minMessage: 'Cette valeur ne doit pas être vide.')]
+    #[ORM\ManyToMany(targetEntity: \App\Entity\Ucategory::class, inversedBy: 'articles')]
     private $categories;
-    
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PArticleNiveau", inversedBy: "uarticles1")]
+
     #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PArticleNiveau::class, inversedBy: 'uarticles1')]
     private $niveau1;
-    
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PArticleNiveau", inversedBy: "uarticles2")]
+
     #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PArticleNiveau::class, inversedBy: 'uarticles2')]
     private $niveau2;
-    
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PArticleNiveau", inversedBy: "uarticles3")]
+
     #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PArticleNiveau::class, inversedBy: 'uarticles3')]
     private $niveau3;
-    
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PArticleNiveau", inversedBy: "uarticles4")]
+
     #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PArticleNiveau::class, inversedBy: 'uarticles4')]
     private $niveau4;
     
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PForme")]
+    
+    
+       #[ORM\ManyToOne(targetEntity: \App\Entity\PForme::class)]
     private $forme;
     
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PPresentation")]
+    
+     #[ORM\ManyToOne(targetEntity: \App\Entity\PPresentation::class)]
     private $presentation;
     
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    
+      #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $codeEan13;
     
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+      #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $categorie;
     
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    
+    
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $dci;
     
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    
+    
+    
+    
+    
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $niveau5;
-    
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $taille;
-    
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $conditionnement;
-    
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+
+
+
+     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $marque;
-    
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+
+
+
+      #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $matiere;
-    
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+
+     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $niveau6;
-    
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $niveau7;
-    
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $niveau8;
-    
-    #[ORM\Column(name: "M_A", type: "string", length: 255, nullable: true)]
+
+    #[ORM\Column(type: 'string', length: 255, name: 'M_A', nullable: true)]
     private $MA;
-    
-    #[ORM\Column(name: "A_V", type: "string", length: 255, nullable: true)]
+
+      #[ORM\Column(type: 'string', length: 255, name: 'A_V', nullable: true)]
     private $AV;
-    
-    #[ORM\Column(name: "A_I", type: "string", length: 255, nullable: true)]
+
+     #[ORM\Column(type: 'string', length: 255, name: 'A_I', nullable: true)]
     private $AI;
-    
-    #[ORM\Column(name: "S_NS", type: "string", length: 255, nullable: true)]
+
+    #[ORM\Column(type: 'string', length: 255, name: 'S_NS', nullable: true)]
     private $SNS;
+
     
-    #[ORM\Column(name: "REF_INTERNE", type: "float", nullable: true)]
+    #[ORM\Column(type: 'float', name: 'REF_INTERNE', nullable: true)]
     private $refintern;
-    
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+
+
+        #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $oldSys;
-    
+
+  
     #[Assert\Range(min: 0, max: 100)]
-    #[ORM\Column(type: "integer", nullable: true)]
-    private $remise = 0;
-    
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PGroupeArticle", inversedBy: "articles")]
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $remise= 0;
+
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PGroupeArticle::class, inversedBy: 'articles')]
     private $groupeArticle;
-    
-    #[ORM\Column(type: "float", nullable: true)]
-    private $prixReference = 0;
-    
-    #[ORM\OneToMany(targetEntity: "App\Entity\UarticleFichier", cascade: ["persist", "remove"], mappedBy: "article")]
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $prixReference=0;
+
+
+     #[ORM\OneToMany(targetEntity: \App\Entity\UarticleFichier::class, cascade: ['persist', 'remove'], mappedBy: 'article')]
     private $fichiers;
-    
-    #[ORM\OneToMany(targetEntity: "DemandeStockDet", mappedBy: "uarticle")]
+
+
+    #[ORM\OneToMany(targetEntity: DemandeStockDet::class, mappedBy: 'uarticle')]
     private $demandeStockDets;
-    
-    #[ORM\OneToMany(targetEntity: "App\Entity\PMarcheDet", mappedBy: "article")]
+
+     #[ORM\OneToMany(targetEntity: \App\Entity\PMarcheDet::class, mappedBy: 'article')]
     private $pMarcheDets;
-    
-    #[ORM\OneToMany(targetEntity: "App\Entity\ArticleInfo", mappedBy: "article")]
+
+
+    #[ORM\OneToMany(targetEntity: \App\Entity\ArticleInfo::class, mappedBy: 'article')]
     private $articleInfos;
-    
-    #[ORM\OneToMany(targetEntity: "App\Entity\UaTLotDet", mappedBy: "article")]
+
+
+    #[ORM\OneToMany(targetEntity: \App\Entity\UaTLotDet::class, mappedBy: 'article')]
     private $uaTLotDets;
-    
-    #[ORM\OneToMany(targetEntity: "App\Entity\UsStockConditionnementDet", mappedBy: "article")]
+
+    #[ORM\OneToMany(targetEntity: \App\Entity\UsStockConditionnementDet::class, mappedBy: 'article')]
     private $usStockConditionnementDets;
-    
-    #[ORM\OneToMany(targetEntity: "App\Entity\UsStockConditionnementCab", mappedBy: "article")]
+
+    #[ORM\OneToMany(targetEntity: \App\Entity\UsStockConditionnementCab::class, mappedBy: 'article')]
     private $usStockConditionnementCabs;
-    
-    #[ORM\OneToMany(targetEntity: "App\Entity\StockSs", mappedBy: "article")]
+
+    #[ORM\OneToMany(targetEntity: \App\Entity\StockSs::class, mappedBy: 'article')]
     private $stockSses;
-    
-    #[ORM\OneToMany(targetEntity: "ConventionGlobal", mappedBy: "Uarticle")]
+
+
+       #[ORM\OneToMany(targetEntity: \ConventionGlobal::class, mappedBy: 'Uarticle')]
     private $conventionGlobals;
-    
-    #[ORM\Column(type: "string", length: 200, nullable: true)]
+
+    #[ORM\Column(type: 'string', length: 200, nullable: true)]
     private $codeInterne;
-    
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Forme", inversedBy: "uarticle")]
+
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Forme::class, inversedBy: 'uarticle')]
     private $formeDa;
-    
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Dosage", inversedBy: "uarticles")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Dosage::class, inversedBy: 'uarticles')]
     private $Dosage;
-    
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+
+     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $forme_art;
-    
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $dosage_art;
+
+
+
+
+
+
   
 
     public function getOldSys(): ?string
@@ -341,17 +394,13 @@ class Uarticle {
 
   
 
-    /**
-     * @ORM\PrePersist
-     */
+    #[ORM\PrePersist]
     public function setCreatedValue() {
 
         $this->created = new \DateTime();
     }
 
-    /**
-     * @ORM\PreUpdate
-     */
+    #[ORM\PreUpdate]
     public function setUpdatedValue() {
         $this->updated = new \DateTime();
     }

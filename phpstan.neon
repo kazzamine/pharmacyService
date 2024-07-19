@@ -1,0 +1,15 @@
+includes:
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+
+parameters:
+    level: 7
+    inferPrivatePropertyTypeFromConstructor: true
+
+    paths:
+        - src  # Adjust to your source directory
+
+    excludes_analyse:
+        - */Tests/*
+
+    checkMissingIterableValueType: false

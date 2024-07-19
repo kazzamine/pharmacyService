@@ -8,25 +8,25 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Entity(repositoryClass: "App\Repository\USousFamilleRepository")]
-#[ORM\Table(name: "u_sous_famille")]
+#[ORM\Table(name: 'u_sous_famille')]
+#[ORM\Entity(repositoryClass: \App\Repository\USousFamilleRepository::class)]
 class USousFamille
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: "string", length: 255, unique: true)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Assert\NotBlank]
     private $code;
 
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     private $designation;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Ufamille", inversedBy: "usousfamilles")]
     #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Ufamille::class, inversedBy: 'usousfamilles')]
     private $famille;
 
 

@@ -3,26 +3,26 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: "App\Repository\UserAntenneRepository")]
+#[ORM\Entity(repositoryClass: \App\Repository\UserAntenneRepository::class)]
 class UserAntenne
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: "userAntennes")]
     #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \User::class, inversedBy: 'userAntennes')]
     private $user;
 
-    #[ORM\ManyToOne(targetEntity: "Uantenne", inversedBy: "userAntennes")]
     #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \Uantenne::class, inversedBy: 'userAntennes')]
     private $uantenne;
 
-    #[ORM\Column(type: "datetime")]
+    #[ORM\Column(type: 'datetime')]
     private $dateCreated;
 
-    #[ORM\Column(type: "boolean")]
+    #[ORM\Column(type: 'boolean')]
     private $active;
 
     // Getters and setters

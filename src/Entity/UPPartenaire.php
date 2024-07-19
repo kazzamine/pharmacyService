@@ -8,195 +8,283 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Table(name: "u_p_partenaire")]
-#[ORM\Entity(repositoryClass: "App\Repository\UPPartenaireRepository")]
+/**
+ * UPPartenaire
+ *
+ */
+#[ORM\Table(name: 'u_p_partenaire')]
+#[ORM\Entity(repositoryClass: \App\Repository\UPPartenaireRepository::class)]
 class UPPartenaire
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private $id;
-
-    #[ORM\OneToMany(targetEntity: DemandStockCab::class, mappedBy: "uPPartenaire")]
+        #[ORM\OneToMany(targetEntity: DemandStockCab::class, mappedBy: 'uPPartenaire')]
     private $demandStockCabs;
 
-    #[ORM\Column(name: "code", type: "string", length: 100, nullable: true)]
-    private ?string $code = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'code', type: 'string', length: 100, nullable: true)]
+    private $code;
 
-    #[ORM\Column(name: "forme_juridique", type: "string", length: 100, nullable: true)]
-    private ?string $formeJuridique = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'forme_juridique', type: 'string', length: 100, nullable: true)]
+    private $formeJuridique;
 
+    /**
+     * @var string|null
+     */
     #[Assert\NotBlank]
-    #[ORM\Column(name: "nom", type: "string", length: 150, nullable: true)]
-    private ?string $nom = null;
+    #[ORM\Column(name: 'nom', type: 'string', length: 150, nullable: true)]
+    private $nom;
 
+    /**
+     * @var string|null
+     */
     #[Assert\NotBlank]
-    #[ORM\Column(name: "prenom", type: "string", length: 150, nullable: true)]
-    private ?string $prenom = null;
+    #[ORM\Column(name: 'prenom', type: 'string', length: 150, nullable: true)]
+    private $prenom;
 
+    /**
+     * @var string|null
+     */
     #[Assert\NotBlank]
-    #[ORM\Column(name: "societe", type: "string", length: 150, nullable: true)]
-    private ?string $societe = null;
+    #[ORM\Column(name: 'societe', type: 'string', length: 150, nullable: true)]
+    private $societe;
 
-    #[ORM\Column(name: "adresse", type: "text", length: 65535, nullable: true)]
-    private ?string $adresse = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'adresse', type: 'text', length: 65535, nullable: true)]
+    private $adresse;
 
-    #[ORM\Column(name: "pays", type: "string", length: 100, nullable: true)]
-    private ?string $pays = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'pays', type: 'string', length: 100, nullable: true)]
+    private $pays;
 
-    #[ORM\Column(name: "ville", type: "string", length: 100, nullable: true)]
-    private ?string $ville = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'ville', type: 'string', length: 100, nullable: true)]
+    private $ville;
 
-    #[ORM\Column(name: "tel1", type: "string", length: 100, nullable: true)]
-    private ?string $tel1 = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'tel1', type: 'string', length: 100, nullable: true)]
+    private $tel1;
 
-    #[ORM\Column(name: "tel2", type: "string", length: 100, nullable: true)]
-    private ?string $tel2 = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'tel2', type: 'string', length: 100, nullable: true)]
+    private $tel2;
 
-    #[ORM\Column(name: "tel3", type: "string", length: 100, nullable: true)]
-    private ?string $tel3 = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'tel3', type: 'string', length: 100, nullable: true)]
+    private $tel3;
 
-    #[ORM\Column(name: "fax1", type: "string", length: 100, nullable: true)]
-    private ?string $fax1 = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'fax1', type: 'string', length: 100, nullable: true)]
+    private $fax1;
 
-    #[ORM\Column(name: "fax2", type: "string", length: 100, nullable: true)]
-    private ?string $fax2 = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'fax2', type: 'string', length: 100, nullable: true)]
+    private $fax2;
 
-    #[ORM\Column(name: "mail1", type: "string", length: 100, nullable: true)]
-    private ?string $mail1 = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'mail1', type: 'string', length: 100, nullable: true)]
+    private $mail1;
 
-    #[ORM\Column(name: "mail2", type: "string", length: 100, nullable: true)]
-    private ?string $mail2 = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'mail2', type: 'string', length: 100, nullable: true)]
+    private $mail2;
 
-    #[ORM\Column(name: "rib", type: "string", length: 100, nullable: true)]
-    private ?string $rib = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'rib', type: 'string', length: 100, nullable: true)]
+    private $rib;
 
-    #[ORM\Column(name: "banque", type: "string", length: 100, nullable: true)]
-    private ?string $banque = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'banque', type: 'string', length: 100, nullable: true)]
+    private $banque;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'iban', type: 'string', length: 100, nullable: true)]
+    private $iban;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'swift', type: 'string', length: 100, nullable: true)]
+    private $swift;
 
-    #[ORM\Column(name: "iban", type: "string", length: 100, nullable: true)]
-    private ?string $iban = null;
-
-    #[ORM\Column(name: "swift", type: "string", length: 100, nullable: true)]
-    private ?string $swift = null;
-
-    #[ORM\ManyToOne(targetEntity: "App\Entity\UPPartenaireTy")]
-    #[ORM\JoinColumn(name: "u_p_partenaire_ty_id", referencedColumnName: "id")]
+    
+    #[ORM\JoinColumn(name: 'u_p_partenaire_ty_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\UPPartenaireTy::class)]
     private $type;
-
-    #[ORM\ManyToOne(targetEntity: "App\Entity\CcCategorieTiers")]
-    #[ORM\JoinColumn(name: "categorie_tiers_id", referencedColumnName: "id")]
+    
+    
+    #[ORM\JoinColumn(name: 'categorie_tiers_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\CcCategorieTiers::class)]
     private $categorieTiers;
 
-    #[ORM\OneToMany(targetEntity: "App\Entity\UaTFacturefrscab", mappedBy: "fournisseur")]
+    #[ORM\OneToMany(targetEntity: \App\Entity\UaTFacturefrscab::class, mappedBy: 'fournisseur')]
     private $factures;
 
-    #[ORM\Column(type: "boolean", nullable: true)]
-    private ?bool $active = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private $active;
 
-    #[ORM\Column(type: "boolean", nullable: true)]
-    private ?bool $taxable = null;
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private $taxable;
 
     #[Assert\Range(min: 0, max: 100)]
-    #[ORM\Column(type: "integer", nullable: true)]
-    private ?int $tva = 20;
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $tva = 20;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PModepaiement")]
-    #[ORM\JoinColumn(name: "modepaiement_id", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'modepaiement_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PModepaiement::class)]
     private $modepaiement;
 
-    #[ORM\Column(type: "string", length: 100, nullable: true)]
-    private ?string $iff = null;
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $iff;
 
-    #[ORM\Column(type: "string", length: 100, nullable: true)]
-    private ?string $rc = null;
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $rc;
 
-    #[ORM\Column(type: "string", length: 100, nullable: true)]
-    private ?string $ice = null;
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $ice;
 
-    #[ORM\Column(type: "string", length: 100, nullable: true)]
-    private ?string $patente = null;
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $patente;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $oldSys = null;
+    //    /**
+    //     * @ORM\OneToMany(targetEntity="App\Entity\TrCharge", mappedBy="fournisseur")
+    //     */
+    //    private $trCharges;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $oldSys;
 
-    #[ORM\Column(type: "string", length: 100, nullable: true)]
-    private ?string $lettrageAdonix = null;
 
-    #[ORM\Column(type: "boolean", nullable: true)]
-    private ?bool $u3sClient = null;
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $lettrageAdonix;
 
-    #[ORM\Column(name: "created", type: "datetime", nullable: true)]
-    private ?\DateTime $created = null;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private $u3sClient;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PGlobalParamDet")]
+    /**
+     *
+     * @var \DateTime
+     *
+     *
+     */
+    #[ORM\Column(name: 'created', type: 'datetime', nullable: true)]
+    private $created;
+
+    
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PGlobalParamDet::class)]
     private $categorie;
 
+
+
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PGlobalParamDet")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PGlobalParamDet::class)]
     private $typePartenaire;
 
-    #[ORM\OneToOne(targetEntity: "App\Entity\PDossier")]
+
+
+
+
+    
+    #[ORM\OneToOne(targetEntity: \App\Entity\PDossier::class)]
     private $dossier;
 
-    #[ORM\ManyToOne(targetEntity: "User")]
-    #[ORM\JoinColumn(name: "user_created", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'user_created', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \User::class)]
     private $userCreated;
+  
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $iceO;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $iceO = null;
+    #[ORM\Column(name: 'date_msj', type: 'datetime', nullable: true)]
+    private $dateMsj;
 
-    #[ORM\Column(name: "date_msj", type: "datetime", nullable: true)]
-    private ?\DateTimeInterface $dateMsj = null;
-
-    #[ORM\ManyToOne(targetEntity: "User")]
-    #[ORM\JoinColumn(name: "user_msj", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'user_msj', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \User::class)]
     private $userMsj;
+    
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $nomContact;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $nomContact = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $telContact;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $telContact = null;
-
-    #[ORM\OneToMany(targetEntity: "App\Entity\PMarche", mappedBy: "tiers")]
+    #[ORM\OneToMany(targetEntity: \App\Entity\PMarche::class, mappedBy: 'tiers')]
     private $pMarches;
 
-    #[ORM\OneToMany(targetEntity: "App\Entity\UsStockConditionnementDet", mappedBy: "tiers")]
+    #[ORM\OneToMany(targetEntity: \App\Entity\UsStockConditionnementDet::class, mappedBy: 'tiers')]
     private $usStockConditionnementDets;
 
-    #[ORM\Column(type: "float", nullable: true)]
-    private ?float $capital = null;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $registreCommerce = null;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $capital;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $cnss = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $registreCommerce;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $numCompte = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $cnss;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $adresseBanque = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $numCompte;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $representant = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $adresseBanque;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $fonctionRepresentant = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $representant;
 
-    #[ORM\Column(type: "integer", nullable: true)]
-    private ?int $parent = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $fonctionRepresentant;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $identifiantFiscal = null;
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $parent;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $representant2 = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $identifiantFiscal;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $fonctionRepresentant2 = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $representant2;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $fonctionRepresentant2;
+
 
     public function getIceO(): ?string
     {

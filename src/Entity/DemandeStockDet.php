@@ -10,35 +10,66 @@ class DemandeStockDet
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    private int $id;
+    #[ORM\Column(type: 'integer')]
+    private $id;
 
-    #[ORM\ManyToOne(targetEntity: Uarticle::class, inversedBy: "demandeStockDets")]
-    private ?Uarticle $uarticle;
+    #[ORM\ManyToOne(targetEntity: Uarticle::class, inversedBy: 'demandeStockDets')]
+    private $uarticle;
 
-    #[ORM\Column(type: "float", nullable: true)]
-    private ?float $prix;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $prix;
 
-    #[ORM\Column(type: "float", nullable: true)]
-    private ?float $qte;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $qte;
 
-    #[ORM\ManyToOne(targetEntity: DemandStockCab::class, inversedBy: "demandeStockDets")]
-    private ?DemandStockCab $demandeCab;
+    #[ORM\ManyToOne(targetEntity: DemandStockCab::class, inversedBy: 'demandeStockDets')]
+    private $demandeCab;
 
-    #[ORM\Column(type: "float", nullable: true)]
-    private ?float $qt_livre;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $qt_livre;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $conditionnement;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $conditionnement_livre;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $observation;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $conditionnement;
+    public function getConditionnement_livre(): ?string
+    {
+        return $this->conditionnement_livre;
+    }
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $conditionnement_livre;
+    public function setConditionnement_livre(?string $conditionnement_livre): self
+    {
+        $this->conditionnement_livre = $conditionnement_livre;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $observation;
+        return $this;
+    }
 
-    // Getters and setters for each attribute
 
+    public function getConditionnement(): ?string
+    {
+        return $this->conditionnement;
+    }
+
+    public function setConditionnement(?string $Conditionnement): self
+    {
+        $this->conditionnement = $Conditionnement;
+
+        return $this;
+    }
+
+    public function getobservation(): ?string
+    {
+        return $this->observation;
+    }
+
+    public function setobservation(?string $observation): self
+    {
+        $this->observation = $observation;
+
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -92,50 +123,14 @@ class DemandeStockDet
         return $this;
     }
 
-    public function getQtLivre(): ?float
+    public function getQt_livre(): ?float
     {
         return $this->qt_livre;
     }
 
-    public function setQtLivre(?float $qt_livre): self
+    public function setQt_livre(?float $qt_livre): self
     {
         $this->qt_livre = $qt_livre;
-
-        return $this;
-    }
-
-    public function getConditionnement(): ?string
-    {
-        return $this->conditionnement;
-    }
-
-    public function setConditionnement(?string $conditionnement): self
-    {
-        $this->conditionnement = $conditionnement;
-
-        return $this;
-    }
-
-    public function getConditionnementLivre(): ?string
-    {
-        return $this->conditionnement_livre;
-    }
-
-    public function setConditionnementLivre(?string $conditionnement_livre): self
-    {
-        $this->conditionnement_livre = $conditionnement_livre;
-
-        return $this;
-    }
-
-    public function getObservation(): ?string
-    {
-        return $this->observation;
-    }
-
-    public function setObservation(?string $observation): self
-    {
-        $this->observation = $observation;
 
         return $this;
     }

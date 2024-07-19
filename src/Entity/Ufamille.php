@@ -8,27 +8,26 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Entity(repositoryClass: "App\Repository\UfamilleRepository")]
-#[UniqueEntity("code")]
+#[ORM\Entity(repositoryClass: \App\Repository\UfamilleRepository::class)]
+#[UniqueEntity('code')]
 class Ufamille
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: "string", length: 255, unique: true)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Assert\NotBlank]
     private $code;
-
-    #[ORM\OneToMany(targetEntity: "App\Entity\USousFamille", mappedBy: "famille")]
+    #[ORM\OneToMany(targetEntity: \App\Entity\USousFamille::class, mappedBy: 'famille')]
     private $usousfamilles;
 
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     private $designation;
 
-    #[ORM\OneToMany(targetEntity: "App\Entity\Uarticle", mappedBy: "ufamille")]
+    #[ORM\OneToMany(targetEntity: \App\Entity\Uarticle::class, mappedBy: 'ufamille')]
     private $uarticles;
 
     public function __construct()

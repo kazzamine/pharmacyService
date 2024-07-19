@@ -9,254 +9,355 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
-#[ORM\Table(name: "ua_t_commandefrscab")]
-#[ORM\Entity(repositoryClass: UATCommandefrscabRepository::class)]
+/**
+ * UATCommandefrscab
+ */
+#[ORM\Table(name: 'ua_t_commandefrscab')]
+#[ORM\Entity(repositoryClass: \App\Repository\UATCommandefrscabRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class UATCommandefrscab
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    private ?int $id;
+    #[ORM\Column(type: 'integer')]
+    private $id;
 
-    #[ORM\Column(name: "code", type: "string", length: 100, nullable: true)]
-    private ?string $code;
-
-    #[ORM\ManyToOne(targetEntity: UPProjet::class)]
-    #[ORM\JoinColumn(name: "u_p_projet_id", referencedColumnName: "id")]
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'code', type: 'string', length: 100, nullable: true)]
+    private $code;
+     #[ORM\JoinColumn(name: 'u_p_projet_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\UPProjet::class)]
     private $projet;
 
-    #[ORM\Column(name: "datecommande", type: "date", nullable: true)]
-    private ?\DateTimeInterface $datecommande;
 
-    #[ORM\Column(name: "refDocAsso", type: "string", length: 100, nullable: true)]
-    private ?string $refdocasso;
+    /**
+     * @var \DateTime|null
+     */
+    #[ORM\Column(name: 'datecommande', type: 'date', nullable: true)]
+    private $datecommande;
 
-    #[ORM\Column(name: "responsable", type: "string", length: 100, nullable: true)]
-    private ?string $responsable;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'refDocAsso', type: 'string', length: 100, nullable: true)]
+    private $refdocasso;
 
-    #[ORM\ManyToOne(targetEntity: PPiece::class)]
-    #[ORM\JoinColumn(name: "p_piece_id", referencedColumnName: "id")]
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'responsable', type: 'string', length: 100, nullable: true)]
+    private $responsable;
+    
+      #[ORM\JoinColumn(name: 'p_piece_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PPiece::class)]
     private $pPiece;
 
-    #[ORM\Column(type: "float", nullable: true)]
+    
     #[Assert\Range(min: 0, max: 100)]
-    #[Assert\Type(type: "numeric")]
-    private ?float $remise;
+    #[Assert\Type(type: 'numeric')]
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $remise;
 
-    #[ORM\Column(name: "dateremise", type: "date", nullable: true)]
-    private ?\DateTimeInterface $dateremise;
+    /**
+     * @var \DateTime|null
+     */
+    #[ORM\Column(name: 'dateremise', type: 'date', nullable: true)]
+    private $dateremise;
 
-    #[ORM\Column(name: "mtremise", type: "float", precision: 10, scale: 0, nullable: true)]
+    /**
+     * @var float|null
+     */
     #[Assert\Positive]
-    private ?float $mtremise;
+    #[ORM\Column(name: 'mtremise', type: 'float', precision: 10, scale: 0, nullable: true)]
+    private $mtremise;
 
-    #[ORM\Column(name: "observation", type: "text", length: 65535, nullable: true)]
-    private ?string $observation;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'observation', type: 'text', length: 65535, nullable: true)]
+    private $observation;
 
-    #[ORM\Column(name: "dateoperation", type: "datetime", nullable: true)]
-    private ?\DateTimeInterface $dateoperation;
+    /**
+     * @var \DateTime
+     */
+    #[ORM\Column(name: 'dateoperation', type: 'datetime', nullable: true)]
+    private $dateoperation;
 
-    #[ORM\Column(name: "utilisateur", type: "string", length: 100, nullable: true)]
-    private ?string $utilisateur;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'utilisateur', type: 'string', length: 100, nullable: true)]
+    private $utilisateur;
 
-    #[ORM\ManyToOne(targetEntity: PStatutgrv::class)]
-    #[ORM\JoinColumn(name: "p_statutgrv_id", referencedColumnName: "id")]
+    
+    #[ORM\JoinColumn(name: 'p_statutgrv_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PStatutgrv::class)]
     private $statut;
 
-    #[ORM\Column(name: "ismultiple", type: "smallint", nullable: true, options: ["unsigned" => true])]
-    private ?int $ismultiple = 0;
+    /**
+     * @var int
+     */
+    #[ORM\Column(name: 'ismultiple', type: 'smallint', nullable: true, options: ['unsigned' => true])]
+    private $ismultiple = '0';
 
-    #[ORM\Column(name: "dateDocAsso", type: "date", nullable: true)]
-    private ?\DateTimeInterface $datedocasso;
+    /**
+     * @var \DateTime|null
+     */
+    #[ORM\Column(name: 'dateDocAsso', type: 'date', nullable: true)]
+    private $datedocasso;
 
-    #[ORM\Column(name: "frs1", type: "string", length: 100, nullable: true)]
-    private ?string $frs1;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'frs1', type: 'string', length: 100, nullable: true)]
+    private $frs1;
 
-    #[ORM\Column(name: "frs2", type: "string", length: 100, nullable: true)]
-    private ?string $frs2;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'frs2', type: 'string', length: 100, nullable: true)]
+    private $frs2;
 
-    #[ORM\Column(name: "mtfrs1", type: "float", nullable: true)]
+    /**
+     * @var float|null
+     */
     #[Assert\Positive]
-    private ?float $mtfrs1;
+    #[ORM\Column(name: 'mtfrs1', type: 'float', nullable: true)]
+    private $mtfrs1;
 
-    #[ORM\Column(name: "mtfrs2", type: "float", precision: 10, scale: 0, nullable: true)]
+    /**
+     * @var float|null
+     */
     #[Assert\Positive]
-    private ?float $mtfrs2;
+    #[ORM\Column(name: 'mtfrs2', type: 'float', precision: 10, scale: 0, nullable: true)]
+    private $mtfrs2;
 
-    #[ORM\ManyToOne(targetEntity: PDossier::class)]
-    #[ORM\JoinColumn(name: "pour_compte", referencedColumnName: "id")]
+    
+    #[ORM\JoinColumn(name: 'pour_compte', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PDossier::class)]
     private $pourCompte;
 
-    #[ORM\Column(name: "dateLivprv", type: "date", nullable: true)]
-    private ?\DateTimeInterface $datelivprv;
+    /**
+     * @var \DateTime|null
+     */
+    #[ORM\Column(name: 'dateLivprv', type: 'date', nullable: true)]
+    private $datelivprv;
 
-    #[ORM\Column(name: "donttva", type: "float", precision: 10, scale: 0, nullable: true)]
-    private ?float $donttva;
+    /**
+     * @var float|null
+     */
+    #[ORM\Column(name: 'donttva', type: 'float', precision: 10, scale: 0, nullable: true)]
+    private $donttva;
 
-    #[ORM\Column(name: "cdc", type: "boolean", nullable: true)]
-    private ?bool $cdc = false;
+    /**
+     * @var int
+     */
+    #[ORM\Column(name: 'cdc', type: 'boolean', nullable: true)]
+    private $cdc = '0';
 
-    #[ORM\Column(name: "cdv", type: "boolean", nullable: true)]
-    private ?bool $cdv = false;
+    /**
+     * @var int
+     */
+    #[ORM\Column(name: 'cdv', type: 'boolean', nullable: true)]
+    private $cdv = '0';
 
-      #[ORM\Column(type: "boolean", nullable: true)]
-    private $bec = false;
+    /**
+     * @var int
+     */
+    #[ORM\Column(name: 'bec', type: 'boolean', nullable: true)]
+    private $bec = '0';
 
-    #[ORM\Column(type: "boolean", nullable: true)]
-    private $bev = false;
+    /**
+     * @var int
+     */
+    #[ORM\Column(name: 'bev', type: 'boolean', nullable: true)]
+    private $bev = '0';
 
-    #[ORM\Column(type: "string", length: 10, nullable: true, options: ["default" => "NL"])]
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'st_liv', type: 'string', length: 10, nullable: true, options: ['default' => 'NL'])]
     private $stLiv = 'NL';
 
-    #[ORM\Column(type: "string", length: 10, nullable: true, options: ["default" => "NF"])]
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'st_fac', type: 'string', length: 10, nullable: true, options: ['default' => 'NF'])]
     private $stFac = 'NF';
 
-    #[ORM\Column(type: "string", length: 10, nullable: true, options: ["default" => "NR"])]
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'st_reg', type: 'string', length: 10, nullable: true, options: ['default' => 'NR'])]
     private $stReg = 'NR';
 
-    #[ORM\Column(type: "boolean", nullable: true)]
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $active;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PComptemasse")]
-    #[ORM\JoinColumn(name: "p_compte_masse_id", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'p_compte_masse_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PComptemasse::class)]
     private $compteMasse;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PCompterubrique")]
-    #[ORM\JoinColumn(name: "p_compte_rubrique_id", referencedColumnName: "id")]
+    /**
+     *
+     *
+     */
+    #[ORM\JoinColumn(name: 'p_compte_rubrique_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PCompterubrique::class)]
     private $compteRubrique;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PCompteposte")]
-    #[ORM\JoinColumn(name: "p_compte_poste_id", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'p_compte_poste_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PCompteposte::class)]
     private $comptePoste;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PCompte")]
-    #[ORM\JoinColumn(name: "p_compte_id", referencedColumnName: "id")]
+    
+    #[ORM\JoinColumn(name: 'p_compte_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PCompte::class)]
     private $compte;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\UPDevise")]
-    #[ORM\JoinColumn(name: "p_devise_id", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'p_devise_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\UPDevise::class)]
     private $devise;
 
+    #[ORM\JoinColumn(name: 'u_p_partenaire_id', referencedColumnName: 'id')]
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: "App\Entity\UPPartenaire")]
-    #[ORM\JoinColumn(name: "u_p_partenaire_id", referencedColumnName: "id")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\UPPartenaire::class)]
     private $fournisseur;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PDossier")]
-    #[ORM\JoinColumn(name: "p_dossier_id", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'p_dossier_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PDossier::class)]
     private $dossier;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\TAchatdemandeinternecab", inversedBy: "commandes")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\TAchatdemandeinternecab::class, inversedBy: 'commandes')]
     private $referenceBci;
 
-    #[ORM\Column(type: "datetime", nullable: true)]
+    /**
+     *
+     * @var \DateTime
+     *
+     *
+     */
+    #[ORM\Column(name: 'created', type: 'datetime', nullable: true)]
     private $created;
 
-    #[ORM\Column(type: "datetime", nullable: true)]
+    /**
+     *
+     * @var \DateTime
+     *
+     */
+    #[ORM\Column(name: 'updated', type: 'datetime', nullable: true)]
     private $updated;
 
-    #[ORM\ManyToOne(targetEntity: "User")]
-    #[ORM\JoinColumn(name: "user_created", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'user_created', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \User::class)]
     private $userCreated;
 
-    #[ORM\ManyToOne(targetEntity: "User")]
-    #[ORM\JoinColumn(name: "user_updated", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'user_updated', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \User::class)]
     private $userUpdated;
 
-    #[ORM\OneToMany(targetEntity: "App\Entity\UaTLivraisonfrscab", mappedBy: "commande")]
+    #[ORM\OneToMany(targetEntity: \App\Entity\UaTLivraisonfrscab::class, mappedBy: 'commande')]
     private $livraisons;
 
-    #[ORM\OneToMany(targetEntity: "App\Entity\UATCommandefrsdet", mappedBy: "cab")]
+    #[ORM\OneToMany(targetEntity: \App\Entity\UATCommandefrsdet::class, mappedBy: 'cab')]
     private $details;
 
-    #[ORM\OneToMany(targetEntity: "App\Entity\UATCommandefrscabAcompte", mappedBy: "commande", cascade: ["persist", "remove"])]
+
+    #[ORM\OneToMany(targetEntity: \App\Entity\UATCommandefrscabAcompte::class, mappedBy: 'commande', cascade: ['persist', 'remove'])]
     private $acomptes;
 
-    #[ORM\Column(type: "text", nullable: true)]
+    
+    #[ORM\Column(name: 'autre_information', type: 'text', nullable: true)]
     private $autreInformation;
 
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\User")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\User::class)]
     private $userValider;
 
-    #[ORM\Column(type: "datetime", nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $dateValider;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\User")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\User::class)]
     private $userGenerer;
 
-    #[ORM\Column(type: "datetime", nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $dateGenerer;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\User")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\User::class)]
     private $userAnnuler;
 
-    #[ORM\Column(type: "datetime", nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $dateAnnuler;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\User")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\User::class)]
     private $userEncours;
 
-    #[ORM\Column(type: "datetime", nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $dateEncours;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\User")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\User::class)]
     private $userArchiver;
 
-    #[ORM\Column(type: "datetime", nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $dateArchiver;
 
-    #[ORM\Column(type: "string", length: 100, nullable: true)]
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
     public $positionActuel = 'creer';
 
-    #[ORM\Column(type: "json", nullable: true)]
+
+
+
+    #[ORM\Column(type: 'json', nullable: true)]
     private $historique;
 
-    #[ORM\OneToMany(targetEntity: "App\Entity\UATCommandefrscabFichier", mappedBy: "comande", cascade: ["persist", "remove"])]
+
+    #[ORM\OneToMany(targetEntity: \App\Entity\UATCommandefrscabFichier::class, mappedBy: 'comande', cascade: ['persist', 'remove'])]
     private $fichiers;
 
-    #[ORM\Column(type: "text", nullable: true)]
+
+    #[ORM\Column(type: 'text', nullable: true)]
     private $notePublic;
 
-    #[ORM\Column(type: "text", nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private $notePrive;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $oldSys;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PGlobalParamDet")]
-    #[ORM\JoinColumn(name: "type_id", referencedColumnName: "id")]
+
+       #[ORM\JoinColumn(name: 'type_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PGlobalParamDet::class)]
     private $type;
 
-    #[ORM\Column(type: "boolean", nullable: true)]
+
+     #[ORM\Column(type: 'boolean', nullable: true)]
     private $isdeleted;
-
-    #[ORM\Column(type: "integer", nullable: true)]
+     #[ORM\Column(type: 'integer', nullable: true)]
     private $flag = 0;
-
-    #[ORM\Column(type: "integer", nullable: true)]
+     #[ORM\Column(type: 'integer', nullable: true)]
     private $signature1 = 0;
-
-    #[ORM\Column(type: "integer", nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $signature2 = 0;
-
-    #[ORM\Column(type: "integer", nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $signature3 = 0;
-
-    #[ORM\Column(type: "integer", nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $signature4 = 0;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\UATCommandefrscab", inversedBy: "no", cascade: ["persist"])]
-    #[ORM\JoinColumn(name: "parentId", referencedColumnName: "id", onDelete: "SET NULL")]
+        
+    #[ORM\JoinColumn(referencedColumnName: 'id', onDelete: 'SET NULL')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\UATCommandefrscab::class, inversedBy: 'no', cascade: ['persist'])]
     private $parentId;
 
-    #[ORM\OneToMany(targetEntity: "App\Entity\UATCommandefrscab", mappedBy: "parentId")]
+      #[ORM\OneToMany(targetEntity: \App\Entity\UATCommandefrscab::class, mappedBy: 'parentId')]
     private $no;
-
-    #[ORM\Column(type: "integer", nullable: true)]
+     #[ORM\Column(type: 'integer', nullable: true)]
     private $statutsig = 0;
+
+
 
         
   public function getParentId(): ?self
@@ -340,9 +441,7 @@ class UATCommandefrscab
         return $this;
     }
 
-    /**
-     * @ORM\PrePersist
-     */
+    #[ORM\PrePersist]
     public function setCreatedValue()
     {
 
@@ -381,9 +480,7 @@ class UATCommandefrscab
         return $existnext;
     }
 
-    /**
-     * @ORM\PreUpdate
-     */
+    #[ORM\PreUpdate]
     public function setUpdatedValue()
     {
         $this->updated = new \DateTime();
@@ -1284,7 +1381,6 @@ class UATCommandefrscab
 
         return array('fournisseur'=>$fournisseur,'datefacture'=>$datefacture,'acompteRef'=>$acompteRef,'idAcompte'=>$idAcompte,'montantTotalCommande' => $montantTotalCommande,"montantTotalLivraisons"=>$montantTotalLivraisons,"montantAcompte"=>$montantAcompte);
 
-        
     }
 
 

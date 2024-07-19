@@ -7,41 +7,67 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PArticleNiveauRepository::class)]
-#[ORM\Table(name: "p_article_niveau")]
+#[ORM\Table(name: 'p_article_niveau')]
+#[ORM\Entity(repositoryClass: \App\Repository\PArticleNiveauRepository::class)]
 class PArticleNiveau
 {
     #[ORM\Id]
-    #[ORM\Column(type: "integer")]
-    private ?int $id;
+    #[ORM\Column(type: 'integer')]
+    private $id;
 
-    #[ORM\Column(type: "string", length: 100, nullable: true)]
-    private ?string $designation;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $designation;
 
-    #[ORM\Column(type: "integer", nullable: true)]
-    private ?int $niveau;
+    /**
+     * @var integer|null
+     */
+    #[ORM\Column(type: 'integer', length: 100, nullable: true)]
+    private $niveau;
 
-    #[ORM\ManyToOne(targetEntity: PArticleNiveau::class, inversedBy: "niveaux")]
-    #[ORM\JoinColumn(name: "parent_id", nullable: true)]
-    private ?self $parent;
+    #[ORM\JoinColumn(name: 'parent_id', nullable: true)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PArticleNiveau::class, inversedBy: 'niveaux')]
+    private $parent;
 
-    #[ORM\OneToMany(targetEntity: PArticleNiveau::class, mappedBy: "parent")]
-    private Collection $niveaux;
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\OneToMany(targetEntity: \App\Entity\PArticleNiveau::class, mappedBy: 'parent')]
+    private $niveaux;
 
-    #[ORM\OneToMany(targetEntity: UArticle::class, mappedBy: "niveau")]
-    private Collection $articles;
+    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\OneToMany(targetEntity: \App\Entity\Uarticle::class, mappedBy: 'niveau')]
+    private $articles;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $CCA1;
+    
+    // /**
+    //  * @ORM\ManyToOne(targetEntity="App\Entity\PStatut")
+    //  * @ORM\JoinColumn(name="statut_id", nullable=true)
+    //  */
+    // private $statut;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $CCA1;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $CCA2;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $CCA2;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $CCA3;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $CCA3;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $CCA4;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $CCA4;
 
     public function __construct()
     {
@@ -53,10 +79,10 @@ class PArticleNiveau
     {
         return $this->id;
     }
-
     public function setId(?int $id): self
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -68,6 +94,7 @@ class PArticleNiveau
     public function setDesignation(?string $designation): self
     {
         $this->designation = $designation;
+
         return $this;
     }
 
@@ -79,6 +106,7 @@ class PArticleNiveau
     public function setNiveau(?int $niveau): self
     {
         $this->niveau = $niveau;
+
         return $this;
     }
 
@@ -90,9 +118,13 @@ class PArticleNiveau
     public function setParent(?self $parent): self
     {
         $this->parent = $parent;
+
         return $this;
     }
 
+    /**
+     * @return Collection<int, self>
+     */
     public function getNiveaux(): Collection
     {
         return $this->niveaux;
@@ -104,19 +136,25 @@ class PArticleNiveau
             $this->niveaux[] = $niveau;
             $niveau->setParent($this);
         }
+
         return $this;
     }
 
     public function removeNiveau(self $niveau): self
     {
         if ($this->niveaux->removeElement($niveau)) {
+            // set the owning side to null (unless already changed)
             if ($niveau->getParent() === $this) {
                 $niveau->setParent(null);
             }
         }
+
         return $this;
     }
 
+    /**
+     * @return Collection<int, UArticle>
+     */
     public function getArticles(): Collection
     {
         return $this->articles;
@@ -128,19 +166,37 @@ class PArticleNiveau
             $this->articles[] = $article;
             $article->setNiveau($this);
         }
+
         return $this;
     }
 
     public function removeArticle(UArticle $article): self
     {
         if ($this->articles->removeElement($article)) {
+            // set the owning side to null (unless already changed)
             if ($article->getNiveau() === $this) {
                 $article->setNiveau(null);
             }
         }
+
         return $this;
     }
 
+  
+
+    // public function getStatut(): ?PStatut
+    // {
+    //     return $this->statut;
+    // }
+
+    // public function setStatut(?PStatut $statut): self
+    // {
+    //     $this->statut = $statut;
+
+    //     return $this;
+    // }
+
+    
     public function getCCA1(): ?string
     {
         return $this->CCA1;
@@ -149,6 +205,7 @@ class PArticleNiveau
     public function setCCA1(?string $CCA1): self
     {
         $this->CCA1 = $CCA1;
+
         return $this;
     }
 
@@ -160,6 +217,7 @@ class PArticleNiveau
     public function setCCA2(?string $CCA2): self
     {
         $this->CCA2 = $CCA2;
+
         return $this;
     }
 
@@ -171,6 +229,7 @@ class PArticleNiveau
     public function setCCA3(?string $CCA3): self
     {
         $this->CCA3 = $CCA3;
+
         return $this;
     }
 
@@ -182,6 +241,7 @@ class PArticleNiveau
     public function setCCA4(?string $CCA4): self
     {
         $this->CCA4 = $CCA4;
+
         return $this;
     }
 }

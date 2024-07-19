@@ -11,225 +11,575 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Table(name: "p_dossier")]
-#[ORM\Entity(repositoryClass: "App\Repository\PDossierRepository")]
+/**
+ * PDossier
+ * @Vich\Uploadable
+ *
+ */
+#[ORM\Table(name: 'p_dossier')]
+#[UniqueEntity('code')]
+#[UniqueEntity('prefix')]
+#[UniqueEntity('abreviation')]
+#[UniqueEntity('abreviation2')]
+#[ORM\Entity(repositoryClass: \App\Repository\PDossierRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[Vich\Uploadable]
-#[UniqueEntity(fields: ["code"])]
-#[UniqueEntity(fields: ["prefix"])]
-#[UniqueEntity(fields: ["abreviation"])]
-#[UniqueEntity(fields: ["abreviation2"])]
-class PDossier
-{
+class PDossier {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(name: "code", type: "string", length: 20, nullable: true)]
-    private ?string $code;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'code', type: 'string', length: 20, nullable: true)]
+    private $code;
 
-    #[ORM\Column(name: "abreviation", type: "string", length: 12, nullable: true, unique: true)]
+    /**
+     * @var string|null
+     *
+     */
     #[Assert\NotBlank]
-    private ?string $abreviation;
-
-    #[ORM\Column(name: "abreviation2", type: "string", length: 100, nullable: true, unique: true)]
+    #[ORM\Column(name: 'abreviation', type: 'string', length: 12, nullable: true, unique: true)]
+    private $abreviation;
+    
+    
+     /**
+     * @var string|null
+     *
+     */
     #[Assert\NotBlank]
-    private ?string $abreviation2;
+    #[ORM\Column(name: 'abreviation2', type: 'string', length: 100, nullable: true, unique: true)]
+    private $abreviation2;
 
-    #[ORM\Column(name: "nom_dossier", type: "string", length: 255, nullable: true)]
+    /**
+     * @var string
+     */
     #[Assert\NotBlank]
-    private string $nomDossier;
+    #[ORM\Column(name: 'nom_dossier', type: 'string', length: 255, nullable: true)]
+    private $nomDossier;
 
-    #[ORM\Column(name: "description", type: "text", nullable: true)]
+    /**
+     * @var string
+     *
+     *
+     */
+    #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[Assert\NotBlank]
-    private string $description;
+    private $description;
 
-    #[ORM\Column(name: "utilisateur", type: "string", length: 255, nullable: true)]
-    private ?string $utilisateur;
+    /**
+     * @var string
+     */
+    #[ORM\Column(name: 'utilisateur', type: 'string', length: 255, nullable: true)]
+    private $utilisateur;
 
-    #[ORM\Column(name: "datecreation", type: "datetime", nullable: true)]
-    private ?\DateTimeInterface $datecreation;
+    /**
+     * @var \DateTime
+     */
+    #[ORM\Column(name: 'datecreation', type: 'datetime', nullable: true)]
+    private $datecreation;
 
-    #[ORM\Column(name: "adresse", type: "text", nullable: true)]
-    private ?string $adresse;
+  
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'adresse', type: 'text', nullable: true)]
+    private $adresse;
 
-    #[ORM\Column(name: "tel", type: "string", length: 20, nullable: true)]
-    private ?string $tel;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'tel', type: 'string', length: 20, nullable: true)]
+    private $tel;
 
-    #[ORM\Column(name: "active", type: "boolean", nullable: true)]
-    private ?bool $active;
+    /**
+     * @var int|null
+     */
+    #[ORM\Column(name: 'active', type: 'boolean', nullable: true)]
+    private $active;
+    /**
+     * @var int|null
+     */
+    #[ORM\Column(name: 'externe', type: 'boolean', nullable: true)]
+    private $externe;
 
-    #[ORM\Column(name: "externe", type: "boolean", nullable: true)]
-    private ?bool $externe;
+ 
 
-    #[Assert\Length(
-        min: 2,
-        max: 20,
-        minMessage: "Vous devez ajouter plus que {{ limit }} caractères.",
-        maxMessage: "Vous ne devez pas dépasser {{ limit }} caractères."
-    )]
+    
+    #[Assert\Length(min: 2, max: 20, minMessage: 'Vous devez ajouter plus que {{ limit }} caractères.', maxMessage: 'Vous ne devez pas dépasser {{ limit }} caractères.')]
     #[Assert\NotBlank]
-    #[ORM\Column(type: "string", length: 100, unique: true)]
-    private string $prefix;
+    #[ORM\Column(type: 'string', length: 100, unique: true)]
+    private $prefix;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Assert\NotBlank]
-    private ?string $titre;
+    private $titre;
 
-    #[ORM\OneToMany(targetEntity: "App\Entity\UaTFacturefrscab", mappedBy: "dossier")]
-    private Collection $uaTFacturefrscabs;
+    #[ORM\OneToMany(targetEntity: \App\Entity\UaTFacturefrscab::class, mappedBy: 'dossier')]
+    private $uaTFacturefrscabs;
 
-    #[ORM\OneToMany(targetEntity: "App\Entity\UaTFacturefrscab", mappedBy: "pourcompte")]
-    private Collection $yes;
+    #[ORM\OneToMany(targetEntity: \App\Entity\UaTFacturefrscab::class, mappedBy: 'pourcompte')]
+    private $yes;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $icon;
+
+    #[ORM\Column(type: 'smallint', nullable: true)]
+    private $ugouv;
+
+    
+
+    
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $iff;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $rc;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $ice;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $patente;
+    
+    
+    
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $cnss;
+    
+    
+
+        
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $originalName;
+    
+    
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $mimeType;
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * 
+
+     *
+     * 
+     * @Vich\UploadableField(mapping="dossierConfigFichier", fileNameProperty="logo", size="imageSize")
+     * 
+     * @var File
+     */
+    private $imageFile;
+
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $logo;
+
+    /**
+     * @var integer
+     */
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $imageSize;
+
+    /**
+     * @var \DateTime
+     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $updatedAt;
+
+    #[ORM\ManyToMany(targetEntity: \App\Entity\UPProjet::class, mappedBy: 'dossiers')]
+    private $projets;
+
+    #[ORM\ManyToMany(targetEntity: \App\Entity\PMarche::class, mappedBy: 'dossiers')]
+    private $marches;
+    
+    #[ORM\JoinTable(name: 'us_modules_dossiers')]
+    #[ORM\ManyToMany(targetEntity: \App\Entity\UsModule::class, cascade: ['persist'])]
+    private $ModulesDossiers;
+    
+     #[ORM\Column(type: 'integer', nullable: true)]
+    private $ordr;
+
+
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $email;
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $tel2;
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $fax;
+
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $site;
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $siege;
+    
+    
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $compteBancaire;  
+    
+    
+     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $libelleCompte;
+    
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $rib;
+    
+    
+
+
+    #[ORM\JoinColumn(referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Font::class, fetch: 'EAGER')]
+    private $font;
+    
+    
+    
+     #[ORM\JoinColumn(referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PacParam::class)]
+    private $pacParam;
+
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PDossierOrganisation::class, inversedBy: 'dossiers')]
+    private $organisation;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $parentId;
+
+    #[ORM\Column(name: 'image_id', type: 'integer', nullable: true)]
+    private $image;
+    #[ORM\Column(name: 'is_entreprise', type: 'integer', nullable: true)]
+    private $isEntreprise;
+
+    
+    #[ORM\OneToMany(targetEntity: \App\Entity\Udepot::class, mappedBy: 'dossier')]
+    private $udepots;
+
+    
+    #[ORM\OneToOne(targetEntity: \App\Entity\UPPartenaire::class, mappedBy: 'dossier')]
+    private $partenaire;
+
+    /**
+     * @var string
+     */
+    #[ORM\Column(name: 'width_logo', type: 'string', length: 255, nullable: true)]
+    private $width_logo;
+
+    /**
+     * @var string
+     */
+    #[ORM\Column(name: 'height_logo', type: 'string', length: 255, nullable: true)]
+    private $height_logo;
+    
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $role_STK;
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'string', name: 'cce_0_libelle', length: 255, nullable: true)]
+    private $cce0Libelle;
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'string', name: 'cce_0', length: 255, nullable: true)]
+    private $cce0;
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'string', name: 'fcy_0_libelle', length: 255, nullable: true)]
+    private $fcy0Libelle;
+    
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'string', name: 'fcy_0', length: 255, nullable: true)]
+    private $fcy0;
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'string', name: 'cpy_0', length: 255, nullable: true)]
+    private $cpy0;
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'string', name: 'cpy_0_libelle', length: 255, nullable: true)]
+    private $cpy0Libelle;
+
+    #[ORM\OneToMany(targetEntity: DemandStockCab::class, mappedBy: 'demandeur')]
+    private $demandStockCabs;
+    
+
+    #[ORM\ManyToMany(targetEntity: PCompteBanque::class, mappedBy: 'DossierC')]
+    private $pCompteBanques;
+    #[ORM\OneToMany(targetEntity: PCompteBanque::class, mappedBy: 'dossier')]
+    private $compteBanques;
+    #[ORM\OneToMany(targetEntity: PCompteBanqueCaisse::class, mappedBy: 'dossier')]
+    private $compteBanqueCaisses;
+
+
+
+    #[ORM\OneToMany(targetEntity: UGeneralOperation::class, mappedBy: 'dossierTrt')]
+    private $uGeneralOperations;
+
+    /**
+     * @var integer
+     *
+     *
+     */
+    #[ORM\Column(name: 'plan_comptable', type: 'string', length: 255)]
+    private $planComptable;
+    /**
+     * @var integer
+     *
+     *
+     */
+    #[ORM\Column(name: 'can_create', type: 'integer')]
+    private $canCreate;
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $type;
+    
+     #[ORM\OneToMany(targetEntity: \ConventionGlobal::class, mappedBy: 'pDossier')]
+    private $conventionGlobals;
+
+
+    public function setHeightLogo(?string $height_logo): void {
+        $this->height_logo = $height_logo;
+    }
+
+    public function getHeightLogo(): ?string {
+        return $this->height_logo;
+    }
+
+    public function setWidthLogo(?string $width_logo): void {
+        $this->width_logo = $width_logo;
+    }
+
+    public function getWidthLogo(): ?string {
+        return $this->width_logo;
+    }
+
+
+
+    public function getPartenaire(): ?UPPartenaire
+    {
+        return $this->partenaire;
+    }
+
+   
+
+
+
+    public function setPartenaire(?UPPartenaire $partenaire): self
+    {
+        $this->partenaire = $partenaire;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newPartenaire = null === $partenaire ? null : $this;
+        if ($partenaire->getPartenaire() !== $newPartenaire) {
+            $partenaire->SetPartenaire($newPartenaire);
+        }
+
+        return $this;
+    }
+
+ 
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): void {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File {
+        return $this->imageFile;
+    }
+
+    public function setLogo(?string $logo): void {
+        $this->logo = $logo;
+    }
+
+    public function getLogo(): ?string {
+        return $this->logo;
+    }
+
+    public function setImageSize(?int $imageSize): void {
+        $this->imageSize = $imageSize;
+    }
+
+    public function getImageSize(): ?int {
+        return $this->imageSize;
+    }
+    
+
+    public function __construct() {
+        $this->uaTFacturefrscabs = new ArrayCollection();
+        $this->yes = new ArrayCollection();
+        $this->conventionGlobals = new ArrayCollection();
+
+        $this->projets = new ArrayCollection();
+        $this->marches = new ArrayCollection();
+        $this->ModulesDossiers = new ArrayCollection();
+        $this->depots = new ArrayCollection();
+        $this->demandStockCabs = new ArrayCollection();
+        $this->pCompteBanques = new ArrayCollection();
+        $this->compteBanques = new ArrayCollection();
+        $this->compteBanqueCaisses = new ArrayCollection();
+        $this->uGeneralOperations = new ArrayCollection();
+    }
+
+    public function getId(): ?int {
+        return $this->id;
+    }
+
+       /**
+     * @return Collection|ConventionGlobal[]
+     */
+    public function getConventionGlobals(): Collection
+    {
+        return $this->conventionGlobals;
+    }
+    
+    public function getCode(): ?string {
+        return $this->code;
+    }
+    public function getCCe0(): ?string {
+        return $this->cce0;
+    }
+
+    public function setCode(?string $code): self {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    public function getAbreviation(): ?string {
+        return $this->abreviation;
+    }
+
+    public function setAbreviation(?string $abreviation): self {
+        $this->abreviation = $abreviation;
+
+        return $this;
+    }
+
+    public function getNomDossier(): ?string {
+        return $this->nomDossier;
+    }
+
+    public function setNomDossier(string $nomDossier): self {
+        $this->nomDossier = $nomDossier;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?string {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?string $utilisateur): self {
+        $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    public function getDatecreation(): ?\DateTimeInterface {
+        return $this->datecreation;
+    }
+
+    public function setDatecreation(?\DateTimeInterface $datecreation): self {
+        $this->datecreation = $datecreation;
+
+        return $this;
+    }
 
   
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $icon;
+    public function getAdresse(): ?string {
+        return $this->adresse;
+    }
 
-    #[ORM\Column(type: "smallint", nullable: true)]
-    private $ugouv;
+    public function setAdresse(?string $adresse): self {
+        $this->adresse = $adresse;
 
-    #[ORM\Column(type: "string", length: 100, nullable: true)]
-    private $iff;
+        return $this;
+    }
 
-    #[ORM\Column(type: "string", length: 100, nullable: true)]
-    private $rc;
+    public function getTel(): ?string {
+        return $this->tel;
+    }
 
-    #[ORM\Column(type: "string", length: 100, nullable: true)]
-    private $ice;
+    public function setTel(?string $tel): self {
+        $this->tel = $tel;
 
-    #[ORM\Column(type: "string", length: 100, nullable: true)]
-    private $patente;
+        return $this;
+    }
 
-    #[ORM\Column(type: "string", length: 100, nullable: true)]
-    private $cnss;
+    public function getActive(): ?bool {
+        return $this->active;
+    }
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $originalName;
+    public function setActive(?bool $active): self {
+        $this->active = $active;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $mimeType;
+        return $this;
+    }
+    public function getExterne(): ?bool {
+        return $this->externe;
+    }
 
-    #[Vich\UploadableField(mapping: "dossierConfigFichier", fileNameProperty: "logo", size: "imageSize")]
-    private $imageFile;
+    public function setExterne(?bool $externe): self {
+        $this->externe = $externe;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $logo;
-
-    #[ORM\Column(type: "integer", nullable: true)]
-    private $imageSize;
-
-    #[ORM\Column(type: "datetime", nullable: true)]
-    private $updatedAt;
-
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $email;
-
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $tel2;
-
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $fax;
-
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $site;
-
-    #[ORM\Column(type: "text", nullable: true)]
-    private $siege;
-
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $compteBancaire;
-
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $libelleCompte;
-
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $rib;
-
-
-
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Font", fetch: "EAGER")]
-    #[ORM\JoinColumn(referencedColumnName: "id")]
-    private $font;
-
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PacParam")]
-    #[ORM\JoinColumn(referencedColumnName: "id")]
-    private $pacParam;
-
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PDossierOrganisation", inversedBy: "dossiers")]
-    private $organisation;
-
-    #[ORM\Column(type: "integer", nullable: true)]
-    private $parentId;
-
-    #[ORM\Column(name: "image_id", type: "integer", nullable: true)]
-    private $image;
-
-    #[ORM\Column(name: "is_entreprise", type: "integer", nullable: true)]
-    private $isEntreprise;
-
-    #[ORM\OneToMany(targetEntity: "App\Entity\Udepot", mappedBy: "dossier")]
-    private $udepots;
-
-    #[ORM\OneToOne(targetEntity: "App\Entity\UPPartenaire", mappedBy: "dossier")]
-    private $partenaire;
-
-    #[ORM\Column(name: "width_logo", type: "string", length: 255, nullable: true)]
-    private $width_logo;
-
-    #[ORM\Column(name: "height_logo", type: "string", length: 255, nullable: true)]
-    private $height_logo;
-
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $role_STK;
-
-    #[ORM\Column(type: "string", name: "cce_0_libelle", length: 255, nullable: true)]
-    private $cce0Libelle;
-
-    #[ORM\Column(type: "string", name: "cce_0", length: 255, nullable: true)]
-    private $cce0;
-
-    #[ORM\Column(type: "string", name: "fcy_0_libelle", length: 255, nullable: true)]
-    private $fcy0Libelle;
-
-    #[ORM\Column(type: "string", name: "fcy_0", length: 255, nullable: true)]
-    private $fcy0;
-
-    #[ORM\Column(type: "string", name: "cpy_0", length: 255, nullable: true)]
-    private $cpy0;
-
-    #[ORM\Column(type: "string", name: "cpy_0_libelle", length: 255, nullable: true)]
-    private $cpy0Libelle;
-
-    #[ORM\OneToMany(targetEntity: "App\Entity\DemandStockCab", mappedBy: "demandeur")]
-    private $demandStockCabs;
-
-    #[ORM\ManyToMany(targetEntity: "App\Entity\PCompteBanque", mappedBy: "DossierC")]
-    private $pCompteBanques;
-
-    #[ORM\OneToMany(targetEntity: "App\Entity\PCompteBanque", mappedBy: "dossier")]
-    private $compteBanques;
-
-    #[ORM\OneToMany(targetEntity: "App\Entity\PCompteBanqueCaisse", mappedBy: "dossier")]
-    private $compteBanqueCaisses;
-
-    #[ORM\OneToMany(targetEntity: "App\Entity\UGeneralOperation", mappedBy: "dossierTrt")]
-    private $uGeneralOperations;
-
-    #[ORM\Column(name: "plan_comptable", type: "string", length: 255)]
-    private $planComptable;
-
-    #[ORM\Column(name: "can_create", type: "integer")]
-    private $canCreate;
-
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $type;
-
-    #[ORM\OneToMany(targetEntity: "ConventionGlobal", mappedBy: "pDossier")]
-    private $conventionGlobals;
-
+        return $this;
+    }
 
     public function getPrefix(): ?string {
         return $this->prefix;

@@ -9,8 +9,9 @@
 				{# <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 					Launch demo modal
 				</button> #}
-				{% include 'home/serviceModal.html.twig' %}
-				{{data}}
+				{% if selectedDossier == 0 %}
+					{% include 'home/serviceModal.html.twig' %}
+				{% endif %}
 				<div class="container-fluid">
 					<div>
 						<div class="row card-body">
@@ -61,6 +62,5 @@
 	</div>
 {% endblock %}
 {% block javascripts %}
-	{{ parent() }}
 	{{encore_entry_script_tags('home')}}
 {% endblock %}

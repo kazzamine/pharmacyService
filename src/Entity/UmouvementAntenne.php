@@ -9,97 +9,88 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-#[ORM\Entity(repositoryClass: "App\Repository\UmouvementAntenneRepository")]
+
+#[ORM\Entity(repositoryClass: \App\Repository\UmouvementAntenneRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class UmouvementAntenne
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private $id;
     
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Umouvementcab", inversedBy: "mouvementAntennes")]
-    #[ORM\JoinColumn(nullable: false)]
+       #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Umouvementcab::class, inversedBy: 'mouvementAntennes')]
     private $umouvementcab;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Uarticle")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Uarticle::class)]
     private $article;
 
-    #[ORM\ManyToOne(targetEntity: DemandStockCab::class, inversedBy: "demandeStockDets")]
+    #[ORM\ManyToOne(targetEntity: DemandStockCab::class, inversedBy: 'demandeStockDets')]
     private $demandeCab;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Uantenne", inversedBy: "mouvements")]
-    private $antenne;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\UaTLivraisonfrscab")]
-    #[ORM\JoinColumn(name: "source_id", referencedColumnName: "id")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Uantenne::class, inversedBy: 'mouvements')]
+    private $antenne;
+    #[JoinColumn(name: 'source_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\UaTLivraisonfrscab::class)]
     private $source;
 
-    #[ORM\Column(type: "datetime", nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $created;
-
-    #[ORM\Column(type: "datetime", nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $datePeremption;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\UmouvementType")]
-    #[ORM\JoinColumn(name: "type_mouvement_id", referencedColumnName: "id")]
+   #[JoinColumn(name: 'type_mouvement_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\UmouvementType::class)]
     private $typeMouvement;
-
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Utransfercab")]
-    #[ORM\JoinColumn(name: "transfer_id", referencedColumnName: "id")]
+    #[JoinColumn(name: 'transfer_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Utransfercab::class)]
     private $transfer;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\User")]
-    private $UserCreated;
+    #[ORM\ManyToOne(targetEntity: \App\Entity\User::class)]
+    private $UserCreated;    
 
-    #[ORM\Column(type: "string", length: 255)]
+       #[ORM\Column(type: 'string', length: 255)]
     private $lot;
-
-    #[ORM\Column(type: "float", nullable: true)]
+    #[ORM\Column(type: 'float', nullable: true)]
     private $ajoSup;
-
-    #[ORM\Column(type: "float", nullable: true)]
+    #[ORM\Column(type: 'float', nullable: true)]
     private $prix;
-
-    #[ORM\Column(type: "float", nullable: true)]
+    #[ORM\Column(type: 'float', nullable: true)]
     private $quantite;
-
-    #[ORM\Column(type: "boolean")]
+    
+   #[ORM\Column(type: 'boolean')]
     private $outFlag;
-
+     #[ORM\JoinColumn(nullable: false)]
     #[ORM\ManyToOne(targetEntity: PNaturePrix::class)]
-    #[ORM\JoinColumn(nullable: false)]
     private $nature_prix;
-
-    #[ORM\Column(type: "integer", nullable: true)]
+    
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $level;
-
-    #[ORM\Column(type: "float", nullable: true)]
+    #[ORM\Column(type: 'float', nullable: true)]
     private $qtCdmt;
-
-    #[ORM\Column(type: "string", nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     private $cmtCode;
 
-    #[ORM\OneToMany(targetEntity: "App\Entity\UmouvementAntenneDet", mappedBy: "umouvementAntenne", cascade: ["persist", "remove"])]
+      #[ORM\OneToMany(targetEntity: \App\Entity\UmouvementAntenneDet::class, mappedBy: 'umouvementAntenne', cascade: ['persist', 'remove'])]
     private $umouvementAntenneDets;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\UmouvementAntenne")]
-    #[ORM\JoinColumn(name: "parant_id", referencedColumnName: "id")]
+    #[JoinColumn(name: 'parant_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\UmouvementAntenne::class)]
     private $parant;
 
-    #[ORM\OneToOne(targetEntity: "App\Entity\StockSs", mappedBy: "mvmtAntenne", cascade: ["persist", "remove"])]
+    #[ORM\OneToOne(targetEntity: \App\Entity\StockSs::class, mappedBy: 'mvmtAntenne', cascade: ['persist', 'remove'])]
     private $stockSs;
 
-    #[ORM\Column(type: "integer", nullable: true)]
+     #[ORM\Column(type: 'integer', nullable: true)]
     private $active;
 
-    #[ORM\OneToOne(targetEntity: "App\Entity\UmouvementAntenne", inversedBy: "umouvementAntenne", cascade: ["persist", "remove"])]
+    #[ORM\OneToOne(targetEntity: \App\Entity\UmouvementAntenne::class, inversedBy: 'umouvementAntenne', cascade: ['persist', 'remove'])]
     private $parentTransfert;
-
-    #[ORM\OneToMany(targetEntity: "App\Entity\UsStockConditionnementCab", mappedBy: "umouvementAntenne")]
+    #[ORM\OneToMany(targetEntity: \App\Entity\UsStockConditionnementCab::class, mappedBy: 'umouvementAntenne')]
     private $conditionnementCabs;
-
-    #[ORM\OneToOne(targetEntity: "App\Entity\UmouvementAntenne", mappedBy: "parentTransfert", cascade: ["persist", "remove"])]
+    #[ORM\OneToOne(targetEntity: \App\Entity\UmouvementAntenne::class, mappedBy: 'parentTransfert', cascade: ['persist', 'remove'])]
     private $umouvementAntenne;
 
     public function __construct()

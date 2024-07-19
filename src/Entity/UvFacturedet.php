@@ -5,59 +5,87 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Table(name: "uv_facturedet")]
-#[ORM\Entity(repositoryClass: "App\Repository\UvFacturedetRepository")]
+/**
+ * UvFacturedet
+ */
+#[ORM\Table(name: 'uv_facturedet')]
+#[ORM\Entity(repositoryClass: \App\Repository\UvFacturedetRepository::class)]
 class UvFacturedet
 {
 
+    use  DetailChampCalcule;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    private ?int $id;
+    #[ORM\Column(type: 'integer')]
+    private $id;
 
+    #[ORM\JoinColumn(name: 'u_article_id', referencedColumnName: 'id')]
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: Uarticle::class, fetch: "EAGER")]
-    #[ORM\JoinColumn(name: "u_article_id", referencedColumnName: "id")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Uarticle::class, fetch: 'EAGER')]
     private $article;
 
+    #[ORM\JoinColumn(name: 'p_unite_id', referencedColumnName: 'id')]
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: PUnite::class)]
-    #[ORM\JoinColumn(name: "p_unite_id", referencedColumnName: "id")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PUnite::class)]
     private $unite;
 
-    #[ORM\Column(name: "quantite", type: "float", precision: 10, scale: 0, nullable: true)]
+    /**
+     *  /**
+     * @var float|null
+     *
+     *
+     */
+    #[Assert\NotBlank]
+    #[ORM\Column(name: 'quantite', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $quantite;
 
-    #[ORM\Column(name: "prixunitaire", type: "float", precision: 10, scale: 0, nullable: true)]
+    /**
+     * @var float|null
+     */
+    #[Assert\NotBlank]
+    #[ORM\Column(name: 'prixunitaire', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $prixunitaire;
 
-    #[ORM\Column(name: "tva", type: "float", precision: 10, scale: 0, nullable: true)]
+    /**
+     * @var float|null
+     */
     #[Assert\Range(min: 0, max: 100)]
+    #[ORM\Column(name: 'tva', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $tva = 0;
 
-    #[ORM\Column(name: "prixttc", type: "float", precision: 10, scale: 0, nullable: true)]
+    /**
+     * @var float|null
+     */
+    #[ORM\Column(name: 'prixttc', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $prixttc;
 
-    #[ORM\Column(name: "observation", type: "text", nullable: true)]
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'observation', type: 'text', nullable: true)]
     private $observation;
 
-    #[ORM\ManyToOne(targetEntity: UvFacturecab::class, inversedBy: "details")]
-    #[ORM\JoinColumn(name: "uv_facturecab_id", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'uv_facturecab_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\UvFacturecab::class, inversedBy: 'details')]
     private $cab;
 
-    #[ORM\Column(type: "float", nullable: true)]
+
+
+    
     #[Assert\Range(min: 0, max: 100)]
-    #[Assert\Type(type: "numeric")]
+    #[Assert\Type(type: 'numeric')]
+    #[ORM\Column(type: 'float', nullable: true)]
     private $remise = 0;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $oldSys;
-
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $planComptableVente;
-
-    #[ORM\Column(type: "string", length: 10, nullable: true)]
+    #[ORM\Column(type: 'string', length: 10, nullable: true)]
     private $sens;
+
 
 
 

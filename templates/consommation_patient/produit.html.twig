@@ -1,45 +1,35 @@
-<div class="modal" id="loadingModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div class="text-center">
-          <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-          <p class="mt-2">chargement des articles...</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-{# {% if articles|length > 0 %}
+
+{% if articles|length > 0 %}
     {% for article in articles %}
-        {% if article.pProduits|length > 0 %}
-            {% for produit in article.pProduits %} #}
-
-                <div class="col-lg-3 col-md-4 p-1 col-sm-5 produit position-relative" data-bs-toggle="modal" data-bs-target="#qteModal" data-id="1">
+               <div class="col-lg-3 col-md-4 p-1 col-sm-5 produit position-relative" data-bs-toggle="modal" data-bs-target="#qteModal" data-id="1">
                     <span class="qte-produit quantity-badge d-none">0</span>
                     <div class="div-img">
                         <img class="img-produit rounded" src="{{ asset('img/dolip.png') }}" alt="Image de ">
-                        <div class="col-sm-12 name-produit Limit_text">prodd</div>
+                        <div class="col-sm-12 name-produit Limit_text">{{article.titre}}</div>
                         <div class="col-sm-12 col-md-12 price-produit card-body text-start">
                             Disponible : <span>20</span> <i class="fas fa-plus-circle" style="color:#265828"></i>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-3 col-md-4 p-1 col-sm-5 produit position-relative" data-bs-toggle="modal" data-bs-target="#qteModal" data-id="2">
-                    <span class="qte-produit quantity-badge d-none">0</span>
-                    <div class="div-img">
-                        <img class="img-produit rounded" src="{{ asset('img/dolip.png') }}" alt="Image de ">
-                        <div class="col-sm-12 name-produit Limit_text">prodd</div>
-                        <div class="col-sm-12 col-md-12 price-produit card-body text-start">
-                            Disponible : <span>20</span> <i class="fas fa-plus-circle" style="color:#265828"></i>
+                    {# <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                            <div class="modal-header position-relative text-center">
+                                <img src="{{ asset('img/selectQte.png') }}" class="modal-img" alt="Header Image">
+                                <h5 class="modal-title mx-auto" id="exampleModalLabel">Insérer la Quantité</h5>
+                            </div>
+                            <div class="modal-body">
+                                    <input class="form-control" type="number" placeholder="Quantité" />    
+                                    <br>
+                                    <button class="btn btn-success offset-4" style="background-color:#265828;">validé </button>                            
+                            </div>
+                            
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="modal fade" id="qteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    </div> #}
+       
+    {% endfor %}
+     <div class="modal fade" id="qteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header position-relative text-center">
@@ -54,27 +44,8 @@
                         </div>
                     </div>
                 </div>
-
-            {# {% endfor %} 
-        {% endif %}
-    {% endfor %}
-{% elseif produits|length > 0 %}
-    {% for produit in produits %}
-        <div class=" col-lg-3 col-md-5 p-1 col-sm-5 produit"  data-toggle="tooltip" data-placement="bottom" title="{{produit.designation}} - {{produit.dateExp|date("m/d/Y")}} - {{produit.conditionnement}}">
-            <div  class="div-img ">  
-                <span class="qte-produit {{produit.id}}" name="{{produit.id}}"> {{produit.qteReste}} </span>
-                <img class="img-produit rounded " src="/images/produits/{{produit.slug}}" alt="Image de ">
-                <div class=" col-sm-12 name-produit Limit_text">
-                    {{produit.designation}} 
-                </div>
-                <div class=" col-sm-12 price-produit">
-                    {{produit.PrixVente|number_format(2, '.', ',')}} dhs
-                </div>
-            </div>
-        </div>
-    {% endfor %} 
-{% else %} #}
+{% else %}
     <div class="nonTrouve"> 
         Aucune correspondance exacte trouvée !
     </div>
-{# {% endif %} #}
+{% endif %}

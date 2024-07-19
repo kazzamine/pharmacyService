@@ -8,131 +8,226 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @Vich\Uploadable
+ *
+ */
+#[ORM\Table(name: 'puser')]
 #[ORM\Entity]
-#[ORM\Table(name: "puser")]
-#[UniqueEntity(fields: ["email"])]
-#[Vich\Uploadable]
+#[UniqueEntity('email')]
 #[ORM\HasLifecycleCallbacks]
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private $id;
+    
+        #[ORM\OneToMany(targetEntity: \UserAntenne::class, mappedBy: 'user')]
+    private $userAntennes;
 
 
+    /**
+     * @var bool
+     */
+    #[ORM\Column(name: 'type', type: 'boolean', nullable: true)]
+    private $type = '0';
+    /**
+     * @var bool
+     */
+    #[ORM\Column(name: 'cmd_pharmacie ', type: 'boolean', nullable: true)]
+    private $cmdPharmacie  = 0;
 
-    #[ORM\Column(type: "boolean", nullable: true)]
-    private $type = false;
+    /**
+     * @var bool
+     */
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private $menuPosition = '0';
 
-    #[ORM\Column(name: "cmd_pharmacie", type: "boolean", nullable: true)]
-    private $cmdPharmacie = false;
-
-    #[ORM\Column(name: "menu_position", type: "boolean", nullable: true)]
-    private $menuPosition = false;
-
-    #[ORM\Column(name: "username", type: "string", length: 150, unique: true)]
+    /**
+     * @var string|null
+     *
+     *
+     *
+     */
+    #[ORM\Column(name: 'username', type: 'string', length: 150, unique: true)]
     #[Assert\NotBlank]
     private $username;
 
-    #[ORM\Column(name: "password", type: "string", length: 255, nullable: true)]
-    #[Assert\Length(min: 6, minMessage: "Minimum 6 caractères")]
+    /**
+     * @var string|null
+     *
+     */
+    #[Assert\Length(min: '6', minMessage: 'Minimum 6 caractères')]
+    #[ORM\Column(name: 'password', type: 'string', length: 255, nullable: true)]
     private $password;
 
-    #[Assert\Length(min: 6, minMessage: "Minimum 6 caractères")]
+    
+    #[Assert\Length(max: 250)]
+    #[Assert\Length(min: '6', minMessage: 'Minimum 6 caractères')]
     private $plainPassword;
 
-    #[ORM\Column(name: "nom", type: "string", length: 150, nullable: true)]
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'nom', type: 'string', length: 150, nullable: true)]
     #[Assert\NotBlank]
     private $nom;
 
-    #[ORM\Column(name: "prenom", type: "string", length: 150, nullable: true)]
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'prenom', type: 'string', length: 150, nullable: true)]
     #[Assert\NotBlank]
     private $prenom;
 
+    #[ORM\JoinColumn(name: 'us_groupe_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \UsGroupe::class, inversedBy: 'users')]
+    private $groupe;
 
-
-    #[ORM\Column(name: "join_at", type: "datetime", nullable: true)]
+    /**
+     *
+     * @var \DateTime
+     *
+     */
+    #[ORM\Column(name: 'join_at', type: 'datetime', nullable: true)]
     private $joinAt;
 
-    #[ORM\Column(type: "array", nullable: true)]
-    private $roles = [];
+    #[ORM\Column(name: 'roles', type: 'array', nullable: true)]
+    private $roles = array();
 
-    #[ORM\Column(name: "email", type: "string", length: 255, unique: true, nullable: true)]
-    #[Assert\Email(message: "email.error")]
+    #[ORM\Column(name: 'email', type: 'string', length: 255, unique: true, nullable: true)]
+    #[Assert\Email(message: 'email.error')]
     #[Assert\NotBlank]
     private $email;
 
-    #[ORM\Column(name: "is_active", type: "boolean", nullable: true)]
+    #[ORM\Column(name: 'is_active', type: 'boolean', nullable: true)]
     private $isActive;
 
-    #[ORM\Column(name: "theme", type: "string", length: 150, nullable: true)]
+    //    /**
+    //     * @ORM\OneToMany(targetEntity="App\Entity\UsGroupe", mappedBy="user")
+    //     */
+    //    private $UserGroupes;
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'theme', type: 'string', length: 150, nullable: true)]
     private $theme;
 
-    #[ORM\Column(name: "created", type: "datetime", nullable: true)]
+    /**
+     *
+     * @var \DateTime
+     *
+     */
+    #[ORM\Column(name: 'created', type: 'datetime', nullable: true)]
     private $created;
 
-    #[ORM\Column(name: "updated", type: "datetime", nullable: true)]
+    /**
+     *
+     * @var \DateTime
+     *
+     */
+    #[ORM\Column(name: 'updated', type: 'datetime', nullable: true)]
     private $updated;
 
+    #[ORM\JoinColumn(name: 'solde', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \GrsSoldeConge::class)]
+    private $solde;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: "user_created", referencedColumnName: "id")]
+
+    #[ORM\JoinColumn(name: 'user_created', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \User::class)]
     private $userCreated;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: "user_updated", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'user_updated', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \User::class)]
     private $userUpdated;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+
+    
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $originalName;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $mimeType;
 
-    #[Vich\UploadableField(mapping: "userProfil", fileNameProperty: "imageName", size: "imageSize")]
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * 
+
+     *
+     * 
+     * @Vich\UploadableField(mapping="userProfil", fileNameProperty="imageName", size="imageSize")
+     * 
+     * @var File
+     */
     private $imageFile;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    /**
+     * @var string
+     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $imageName;
 
-    #[ORM\Column(type: "integer", nullable: true)]
+    /**
+     * @var integer
+     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $imageSize;
 
-    #[ORM\Column(type: "datetime", nullable: true)]
+    /**
+     * @var \DateTime
+     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $updatedAt;
 
-    #[ORM\Column(type: "string", length: 100, nullable: true)]
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $tele;
 
-    #[ORM\Column(type: "text", nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private $adresse;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $telePersonnel;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $teleEntreprise;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $pays;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $ville;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $sexe;
 
-    #[ORM\Column(type: "text", nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private $signature;
+
+    
+    #[ORM\JoinColumn(name: 'p_poste_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PPoste::class, inversedBy: 'users')]
+    private $poste;
+
+    #[ORM\OneToMany(targetEntity: \App\Entity\UPResponsable::class, mappedBy: 'user')]
+    private $uPResponsables;
+
+    #[ORM\OneToMany(targetEntity: \App\Entity\PMarcheDet::class, mappedBy: 'userCreated')]
+    private $pMarcheDets;
 
 
     #[ORM\PrePersist]
     public function setCreatedValue()
     {
+
         $this->created = new \DateTime();
     }
 
@@ -142,6 +237,24 @@ class User implements UserInterface
         $this->updated = new \DateTime();
     }
 
+    //        public function getProfilPorcentage(){
+    //        if (!$this->getImageName()){
+    //            return 50;
+    //            
+    //        }
+    //        
+    //        if (!$this->getTheme()){
+    //            return 40;
+    //            
+    //        }
+    //    }
+
+
+
+
+
+
+
     public function getUpdated(): ?\DateTimeInterface
     {
         return $this->updated;
@@ -150,6 +263,7 @@ class User implements UserInterface
     public function setUpdated(?\DateTimeInterface $updated): self
     {
         $this->updated = $updated;
+
         return $this;
     }
 
@@ -158,20 +272,92 @@ class User implements UserInterface
         return $this->type;
     }
 
-    public function setType(bool $type): self
+    public function getNom(): ?string
     {
-        $this->type = $type;
+        return $this->nom;
+    }
+
+    public function getUserCreated(): ?User
+    {
+        return $this->userCreated;
+    }
+
+    public function setCreated(?\DateTimeInterface $created): self
+    {
+        $this->created = $created;
+
         return $this;
     }
 
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setUserCreated(?User $userCreated): self
+    {
+        $this->userCreated = $userCreated;
+
+        return $this;
+    }
+
+    public function setUserUpdated(?User $userUpdated): self
+    {
+        $this->userUpdated = $userUpdated;
+
+        return $this;
+    }
+
+    public function getuserUpdated(): ?User
+    {
+        return $this->userUpdated;
+    }
+
+    public function setNom(?string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function getTheme(): ?string
+    {
+        return $this->theme;
+    }
+
+    public function setPrenom(?string $prenom): self
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function setTheme(string $theme): self
+    {
+        $this->theme = $theme;
+
+        return $this;
+    }
+
+    public function setType(bool $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
     public function getCmdPharmacie(): ?bool
     {
         return $this->cmdPharmacie;
     }
-
     public function setCmdPharmacie(bool $cmdPharmacie): self
     {
         $this->cmdPharmacie = $cmdPharmacie;
+
         return $this;
     }
 
@@ -183,102 +369,14 @@ class User implements UserInterface
     public function setMenuPosition(bool $menuPosition): self
     {
         $this->menuPosition = $menuPosition;
-        return $this;
-    }
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->username;
-    }
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
 
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-        return $this;
-    }
-
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }
-
-    public function getPlainPassword()
-    {
-        return $this->plainPassword;
-    }
-
-    public function setPlainPassword($plainPassword)
-    {
-        $this->plainPassword = $plainPassword;
-    }
-
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(?string $nom): self
-    {
-        $this->nom = $nom;
-        return $this;
-    }
-
-    public function getPrenom(): ?string
-    {
-        return $this->prenom;
-    }
-
-    public function setPrenom(?string $prenom): self
-    {
-        $this->prenom = $prenom;
-        return $this;
-    }
-
-    public function getGroupe(): ?UsGroupe
-    {
-        return $this->groupe;
-    }
-
-    public function setGroupe(?UsGroupe $groupe): self
-    {
-        $this->groupe = $groupe;
-        return $this;
-    }
-
-    public function getJoinAt(): ?\DateTimeInterface
-    {
-        return $this->joinAt;
-    }
-
-    public function setJoinAt(?\DateTimeInterface $joinAt): self
-    {
-        $this->joinAt = $joinAt;
-        return $this;
-    }
-
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        $roles[] = 'ROLE_USER'; // Ensure every user has ROLE_USER role
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
         return $this;
     }
 
     public function getSalt()
     {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
         return null;
     }
 
@@ -290,83 +388,162 @@ class User implements UserInterface
     public function setEmail(?string $email): self
     {
         $this->email = $email;
+
         return $this;
     }
-
-    public function getIsActive(): ?bool
+    public function getUserIdentifier(): string
     {
-        return $this->isActive;
+        return (string) $this->username;
+    }
+    public function getPassword(): ?string
+    {
+        
+        return $this->password;
     }
 
-    public function setIsActive(?bool $isActive): self
+    function setPassword($password)
     {
-        $this->isActive = $isActive;
-        return $this;
+        $this->password = $password;
     }
 
-    public function getTheme(): ?string
+    /**
+     * @see UserInterface
+     */
+    public function getRoles():array
     {
-        return $this->theme;
+        if (empty($this->roles)) {
+            return ['ROLE_USER'];
+        }
+        return $this->roles;
     }
 
-    public function setTheme(?string $theme): self
+    function addRole($role)
     {
-        $this->theme = $theme;
-        return $this;
+        $this->roles[] = $role;
     }
 
-    public function getCreated(): ?\DateTimeInterface
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials():void
     {
-        return $this->created;
     }
 
-    public function setCreated(?\DateTimeInterface $created): self
-    {
-        $this->created = $created;
-        return $this;
-    }
-
-    public function getId(): ?int
+    function getId()
     {
         return $this->id;
     }
 
-    public function setId(int $id): self
+    function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+    }
+    function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    function setId($id)
     {
         $this->id = $id;
+    }
+
+
+    function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+    }
+
+    public function __toString()
+    {
+        return $this->username;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
         return $this;
     }
 
-    public function getSolde(): ?GrsSoldeConge
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername()
     {
-        return $this->solde;
+        return $this->username;
     }
 
-    public function setSolde(?GrsSoldeConge $solde): self
+    public function setUsername(string $username): self
     {
-        $this->solde = $solde;
+        $this->username = $username;
+
         return $this;
     }
 
-    public function getUserCreated(): ?self
+    public function getNomComplet(): ?string
     {
-        return $this->userCreated;
+        return $this->nom . " " . $this->getPrenom();
+    }
+    public function __construct()
+    {
+        $this->isActive = true;
+
+        $this->maCommandefrscabs = new ArrayCollection();
+        $this->uPResponsables = new ArrayCollection();
+        $this->pMarcheDets = new ArrayCollection();
+        $this->userAntennes = new ArrayCollection();
+
+
+
+        // $this->UserGroupes = new ArrayCollection();
+        // may not be needed, see section on salt below
+        // $this->salt = md5(uniqid('', true));
     }
 
-    public function setUserCreated(?self $userCreated): self
+
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): void
     {
-        $this->userCreated = $userCreated;
-        return $this;
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
-    public function getUserUpdated(): ?self
+    public function getImageFile(): ?File
     {
-        return $this->userUpdated;
+        return $this->imageFile;
     }
 
-    public function setUserUpdated(?self $userUpdated): self
+    public function getJoinAt(): ?\DateTimeInterface
     {
-        $this->userUpdated = $userUpdated;
+        return $this->joinAt;
+    }
+
+    public function setJoinAt(?\DateTimeInterface $joinAt): self
+    {
+        $this->joinAt = $joinAt;
+
         return $this;
     }
 
@@ -378,6 +555,7 @@ class User implements UserInterface
     public function setOriginalName(?string $originalName): self
     {
         $this->originalName = $originalName;
+
         return $this;
     }
 
@@ -389,22 +567,7 @@ class User implements UserInterface
     public function setMimeType(?string $mimeType): self
     {
         $this->mimeType = $mimeType;
-        return $this;
-    }
 
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
-
-    public function setImageFile(?File $imageFile = null): self
-    {
-        $this->imageFile = $imageFile;
-        if ($imageFile) {
-            // It's required that at least one field changes if you are using Doctrine,
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
-        }
         return $this;
     }
 
@@ -415,7 +578,12 @@ class User implements UserInterface
 
     public function setImageName(?string $imageName): self
     {
+
         $this->imageName = $imageName;
+
+
+
+
         return $this;
     }
 
@@ -427,7 +595,68 @@ class User implements UserInterface
     public function setImageSize(?int $imageSize): self
     {
         $this->imageSize = $imageSize;
+
         return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getGroupe(): ?UsGroupe
+    {
+        return $this->groupe;
+    }
+
+    public function setGroupe(?UsGroupe $groupe): self
+    {
+        $this->groupe = $groupe;
+
+        return $this;
+    }
+
+    public function getSolde(): ?GrsSoldeConge
+    {
+        return $this->solde;
+    }
+
+    public function setSolde(?GrsSoldeConge $solde): self
+    {
+        $this->solde = $solde;
+
+        return $this;
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ]);
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized, ['allowed_classes' => false]);
     }
 
     public function getTele(): ?string
@@ -438,6 +667,7 @@ class User implements UserInterface
     public function setTele(?string $tele): self
     {
         $this->tele = $tele;
+
         return $this;
     }
 
@@ -449,6 +679,7 @@ class User implements UserInterface
     public function setAdresse(?string $adresse): self
     {
         $this->adresse = $adresse;
+
         return $this;
     }
 
@@ -460,6 +691,7 @@ class User implements UserInterface
     public function setTelePersonnel(?string $telePersonnel): self
     {
         $this->telePersonnel = $telePersonnel;
+
         return $this;
     }
 
@@ -471,6 +703,7 @@ class User implements UserInterface
     public function setTeleEntreprise(?string $teleEntreprise): self
     {
         $this->teleEntreprise = $teleEntreprise;
+
         return $this;
     }
 
@@ -482,6 +715,7 @@ class User implements UserInterface
     public function setPays(?string $pays): self
     {
         $this->pays = $pays;
+
         return $this;
     }
 
@@ -493,6 +727,7 @@ class User implements UserInterface
     public function setVille(?string $ville): self
     {
         $this->ville = $ville;
+
         return $this;
     }
 
@@ -504,6 +739,7 @@ class User implements UserInterface
     public function setSexe(?string $sexe): self
     {
         $this->sexe = $sexe;
+
         return $this;
     }
 
@@ -515,7 +751,92 @@ class User implements UserInterface
     public function setSignature(?string $signature): self
     {
         $this->signature = $signature;
+
         return $this;
+    }
+
+    public function getProfilPorcentage()
+    {
+
+        $p = 30;
+        if ($this->getnom()) {
+            $p += 5;
+        }
+        if ($this->getEmail()) {
+            $p += 5;
+        }
+        if ($this->getPrenom()) {
+            $p += 5;
+        }
+
+        if ($this->getImageName()) {
+            $p += 10;
+        }
+
+        if ($this->getSexe()) {
+            $p += 5;
+        }
+
+
+        if ($this->getTelePersonnel()) {
+            $p += 5;
+        }
+        if ($this->getTeleEntreprise()) {
+            $p += 5;
+        }
+
+
+        if ($this->getPays()) {
+            $p += 5;
+        }
+
+        if ($this->getVille()) {
+            $p += 5;
+        }
+
+        if ($this->getAdresse()) {
+            $p += 5;
+        }
+
+        if ($this->getTheme()) {
+            $p += 20;
+        }
+
+        $background = "";
+        $text = "";
+        switch ($p) {
+            case $p <= 30:
+                $background = 'danger';
+                $p1 = 100 - $p;
+                $text = "veuillez compléter les informations de votre profil , il vous reste (<strong>" . $p1 . "%</strong>) pour finaliser votre profil.";
+                break;
+            case $p > 30 && $p <= 55:
+                $background = 'warning';
+                $p1 = 100 - $p;
+                $text = "veuillez compléter les informations de votre profil , il vous reste (<strong>" . $p1 . "%</strong>) pour finaliser votre profil.";
+                break;
+            case $p > 55 && $p <= 79:
+                $background = 'info';
+                $text = "Votre profil il manque juste quelque informations. ";
+                break;
+            case $p > 79 && $p < 100:
+                $background = 'success';
+                $text = "Vous avez presque completez votre profil. ";
+                break;
+
+            case $p == 100:
+                $background = 'success';
+                $text = "Votre profil est complet , congratulations. ";
+                break;
+        }
+
+
+        if ($p >= 100) {
+            array('pourcentage' => 100, 'background' => $background, 'text' => $text);
+        }
+
+
+        return array('pourcentage' => $p, 'background' => $background, 'text' => $text);
     }
 
     public function getPoste(): ?PPoste
@@ -526,9 +847,13 @@ class User implements UserInterface
     public function setPoste(?PPoste $poste): self
     {
         $this->poste = $poste;
+
         return $this;
     }
 
+    /**
+     * @return Collection|UPResponsable[]
+     */
     public function getUPResponsables(): Collection
     {
         return $this->uPResponsables;
@@ -546,7 +871,8 @@ class User implements UserInterface
 
     public function removeUPResponsable(UPResponsable $uPResponsable): self
     {
-        if ($this->uPResponsables->removeElement($uPResponsable)) {
+        if ($this->uPResponsables->contains($uPResponsable)) {
+            $this->uPResponsables->removeElement($uPResponsable);
             // set the owning side to null (unless already changed)
             if ($uPResponsable->getUser() === $this) {
                 $uPResponsable->setUser(null);
@@ -556,6 +882,11 @@ class User implements UserInterface
         return $this;
     }
 
+
+
+    /**
+     * @return Collection|PMarcheDet[]
+     */
     public function getPMarcheDets(): Collection
     {
         return $this->pMarcheDets;
@@ -573,7 +904,8 @@ class User implements UserInterface
 
     public function removePMarcheDet(PMarcheDet $pMarcheDet): self
     {
-        if ($this->pMarcheDets->removeElement($pMarcheDet)) {
+        if ($this->pMarcheDets->contains($pMarcheDet)) {
+            $this->pMarcheDets->removeElement($pMarcheDet);
             // set the owning side to null (unless already changed)
             if ($pMarcheDet->getUserCreated() === $this) {
                 $pMarcheDet->setUserCreated(null);
@@ -583,13 +915,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function __construct()
-    {
-        $this->userAntennes = new ArrayCollection();
-        $this->uPResponsables = new ArrayCollection();
-        $this->pMarcheDets = new ArrayCollection();
-    }
-
+    
     public function getUserAntennes(): Collection
     {
         return $this->userAntennes;
@@ -617,9 +943,4 @@ class User implements UserInterface
         return $this;
     }
 
-
-    public function eraseCredentials():void
-    {
-        // Implement it if needed
-    }
 }

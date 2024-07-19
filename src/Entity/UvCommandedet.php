@@ -6,60 +6,73 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Entity(repositoryClass: "App\Repository\UvCommandedetRepository")]
-#[UniqueEntity(
-    fields: ["cab", "article"],
-    errorPath: "article",
-    message: "Article déjà utilisé."
-)]
+#[ORM\Entity(repositoryClass: \App\Repository\UvCommandedetRepository::class)]
+#[UniqueEntity(fields: ['cab', 'article'], errorPath: 'article', message: 'Article dèja utilisé.')]
 class UvCommandedet
 {
-
+    use  DetailChampCalcule  ; 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\UvCommandecab", inversedBy: "details")]
-    #[ORM\JoinColumn(name: "uv_commandecab_id", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'uv_commandecab_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\UvCommandecab::class, inversedBy: 'details')]
     private $cab;
 
+    #[ORM\JoinColumn(name: 'u_article_id', referencedColumnName: 'id')]
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Uarticle")]
-    #[ORM\JoinColumn(name: "u_article_id", referencedColumnName: "id")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Uarticle::class)]
     private $article;
 
+    #[ORM\JoinColumn(name: 'p_unite_id', referencedColumnName: 'id')]
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PUnite")]
-    #[ORM\JoinColumn(name: "p_unite_id", referencedColumnName: "id")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PUnite::class)]
     private $unite;
 
+    /**
+     * @var float|null
+     */
     #[Assert\NotBlank]
     #[Assert\Positive]
-    #[ORM\Column(name: "quantite", type: "float", precision: 10, scale: 0, nullable: true)]
+    #[ORM\Column(name: 'quantite', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $quantite;
 
+    /**
+     * @var float|null
+     */
     #[Assert\NotBlank]
-    #[ORM\Column(name: "prixunitaire", type: "float", precision: 10, scale: 0, nullable: true)]
+    #[ORM\Column(name: 'prixunitaire', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $prixunitaire;
 
+    /**
+     * @var float|null
+     */
     #[Assert\Range(min: 0, max: 100)]
-    #[ORM\Column(name: "tva", type: "float", precision: 10, scale: 0, nullable: true)]
+    #[ORM\Column(name: 'tva', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $tva = 0;
 
+    
     #[Assert\Range(min: 0, max: 100)]
-    #[Assert\Type(type: "numeric")]
-    #[ORM\Column(type: "float", nullable: true)]
+    #[Assert\Type(type: 'numeric')]
+    #[ORM\Column(type: 'float', nullable: true)]
     private $remise = 0;
 
-    #[ORM\Column(name: "prixttc", type: "float", nullable: true)]
+    /**
+     * @var float|null
+     */
+    #[ORM\Column(name: 'prixttc', type: 'float', nullable: true)]
     private $prixttc;
 
-    #[ORM\Column(name: "observation", type: "text", nullable: true)]
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'observation', type: 'text', nullable: true)]
     private $observation;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+        #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $oldSys;
+
     public function getOldSys(): ?string
     {
         return $this->oldSys;

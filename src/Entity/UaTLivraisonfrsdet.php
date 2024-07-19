@@ -8,52 +8,75 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 
 
-#[ORM\Table(name: "ua_t_livraisonfrsdet")]
-#[ORM\Entity(repositoryClass: "App\Repository\UaTLivraisonfrsdetRepository")]
+/**
+ * TLivraisonfrsdet
+ */
+#[ORM\Table(name: 'ua_t_livraisonfrsdet')]
+#[ORM\Entity(repositoryClass: \App\Repository\UaTLivraisonfrsdetRepository::class)]
 class UaTLivraisonfrsdet
 {
+    use  DetailChampCalcule  ; 
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    private int $id;
+    #[ORM\Column(type: 'integer')]
+    private $id;
 
+    #[ORM\JoinColumn(name: 'u_article_id', referencedColumnName: 'id')]
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Uarticle")]
-    #[ORM\JoinColumn(name: "u_article_id", referencedColumnName: "id")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Uarticle::class)]
     private $article;
 
+    #[ORM\JoinColumn(name: 'p_unite_id', referencedColumnName: 'id')]
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PUnite")]
-    #[ORM\JoinColumn(name: "p_unite_id", referencedColumnName: "id")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PUnite::class)]
     private $unite;
 
-    #[Assert\NotBlank]
-    #[ORM\Column(name: "quantite", type: "float", precision: 10, scale: 0, nullable: true)]
-    private ?float $quantite;
 
+    /**
+     *  /**
+     * @var float|null
+     *
+     *
+     */
     #[Assert\NotBlank]
-    #[ORM\Column(name: "prixunitaire", type: "float", precision: 10, scale: 0, nullable: true)]
-    private ?float $prixunitaire;
+    #[ORM\Column(name: 'quantite', type: 'float', precision: 10, scale: 0, nullable: true)]
+    private $quantite;
 
+    /**
+     * @var float|null
+     */
+    #[Assert\NotBlank]
+    #[ORM\Column(name: 'prixunitaire', type: 'float', precision: 10, scale: 0, nullable: true)]
+    private $prixunitaire;
+
+    /**
+     * @var float|null
+     */
     #[Assert\Range(min: 0, max: 100)]
-    #[ORM\Column(name: "tva", type: "float", precision: 10, scale: 0, nullable: true)]
-    private ?float $tva = 0;
+    #[ORM\Column(name: 'tva', type: 'float', precision: 10, scale: 0, nullable: true)]
+    private $tva = 0;
 
-    #[ORM\Column(name: "observation", type: "text", nullable: true)]
-    private ?string $observation;
+    
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'observation', type: 'text', nullable: true)]
+    private $observation;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\UaTLivraisonfrscab", inversedBy: "details")]
-    #[ORM\JoinColumn(name: "ua_t_livraisonfrscab_id", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: 'ua_t_livraisonfrscab_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\UaTLivraisonfrscab::class, inversedBy: 'details')]
     private $cab;
-
-    #[ORM\OneToMany(targetEntity: "App\Entity\UaTLotCab", mappedBy: "cab")]
+     #[ORM\OneToMany(targetEntity: \App\Entity\UaTLotCab::class, mappedBy: 'cab')]
     private $details;
 
+
+
+    
     #[Assert\Range(min: 0, max: 100)]
-    #[Assert\Type(type: "numeric")]
-    #[ORM\Column(type: "float", nullable: true)]
-    private ?float $remise = 0;
+    #[Assert\Type(type: 'numeric')]
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $remise = 0;
 
     public function getId(): ?int
     {

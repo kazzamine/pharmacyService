@@ -5,57 +5,89 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Table(name: "ua_t_facturefrsdet")]
-#[ORM\Entity(repositoryClass: "App\Repository\UaTFacturefrsdetRepository")]
+/**
+ * UaTFacturefrsdet
+ */
+#[ORM\Table(name: 'ua_t_facturefrsdet')]
+#[ORM\Entity(repositoryClass: \App\Repository\UaTFacturefrsdetRepository::class)]
 class UaTFacturefrsdet
 {
+    use  DetailChampCalcule;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[ORM\JoinColumn(name: 'u_article_id', referencedColumnName: 'id')]
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Uarticle")]
-    #[ORM\JoinColumn(name: "u_article_id", referencedColumnName: "id")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Uarticle::class)]
     private $article;
 
+    #[ORM\JoinColumn(name: 'p_unite_id', referencedColumnName: 'id')]
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: "App\Entity\PUnite")]
-    #[ORM\JoinColumn(name: "p_unite_id", referencedColumnName: "id")]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PUnite::class)]
     private $unite;
 
+    /**
+     *  /**
+     * @var float|null
+     *
+     *
+     */
     #[Assert\NotBlank]
-    #[ORM\Column(name: "quantite", type: "float", precision: 10, scale: 0, nullable: true)]
+    #[ORM\Column(name: 'quantite', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $quantite;
 
+    /**
+     * @var float|null
+     */
     #[Assert\NotBlank]
-    #[ORM\Column(name: "prixunitaire", type: "float", precision: 10, scale: 0, nullable: true)]
+    #[ORM\Column(name: 'prixunitaire', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $prixunitaire;
-
-    #[ORM\Column(name: "montant_mad", type: "float", precision: 10, scale: 0, nullable: true)]
+    /**
+     * @var float|null
+     */
+    #[Assert\NotBlank]
+    #[ORM\Column(name: 'montant_mad', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $montantMad;
 
+    /**
+     * @var float|null
+     */
     #[Assert\Range(min: 0, max: 100)]
-    #[ORM\Column(name: "tva", type: "float", precision: 10, scale: 0, nullable: true)]
+    #[ORM\Column(name: 'tva', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $tva = 0;
 
-    #[ORM\Column(name: "observation", type: "text", nullable: true)]
+
+
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'observation', type: 'text', nullable: true)]
     private $observation;
-
-    #[ORM\Column(type: "string", nullable: true)]
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $planComptableAchat;
-
-    #[ORM\Column(type: "string", nullable: true)]
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $sens;
 
-    #[ORM\ManyToOne(targetEntity: "App\Entity\UaTFacturefrscab", inversedBy: "details")]
-    #[ORM\JoinColumn(name: "ua_t_facturefrscab_id", referencedColumnName: "id")]
+
+    #[ORM\JoinColumn(name: 'ua_t_facturefrscab_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\UaTFacturefrscab::class, inversedBy: 'details')]
     private $cab;
 
+
+
+    
     #[Assert\Range(min: 0, max: 100)]
-    #[Assert\Type(type: "numeric")]
-    #[ORM\Column(type: "float", nullable: true)]
+    #[Assert\Type(type: 'numeric')]
+    #[ORM\Column(type: 'float', nullable: true)]
     private $remise = 0;
 
     public function getId(): ?int

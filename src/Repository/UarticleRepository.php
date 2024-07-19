@@ -20,6 +20,26 @@ class UarticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Uarticle::class);
     }
 
+    public function getArticlesByCat($dossier,$famille)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+          SELECT uarticle.id , uarticle.titre,stock_actual.quantite FROM `uarticle` 
+          JOIN udepot on udepot.id = uarticle.depot_id JOIN p_dossier on p_dossier.id=udepot.dossier_id 
+          JOIN stock_actual ON stock_actual.u_article_id=uarticle.id 
+          WHERE 1 
+          AND p_dossier.id=:dossier 
+          AND uarticle.famille=:famille
+          AND stock_actual.uantenne_id=9 
+          AND uarticle.active=1
+            ';
+
+        $resultSet = $conn->executeQuery($sql, ['dossier' => $dossier,'famille'=>$famille]);
+
+        return $resultSet->fetchAllAssociative();
+    }
+
     // /**
     //  * @return Uarticle[] Returns an array of Uarticle objects
     //  */

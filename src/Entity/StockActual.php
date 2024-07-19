@@ -6,58 +6,47 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\StockActualRepository")
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Entity(repositoryClass: \App\Repository\StockActualRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class StockActual
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @Assert\NotBlank
-     * @ORM\ManyToOne(targetEntity="App\Entity\Uarticle")
-     * @ORM\JoinColumn(name="u_article_id", referencedColumnName="id")
-     */
+    #[ORM\JoinColumn(name: 'u_article_id', referencedColumnName: 'id')]
+    #[Assert\NotBlank]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Uarticle::class)]
     private $article;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Uantenne")
-     * @JoinColumn(name="uantenne_id", referencedColumnName="id")
-     */
+
+ 
+    #[JoinColumn(name: 'uantenne_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Uantenne::class)]
     private $antenne;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true,name: 'dateupdate')]
     private $dateupdate;
 
-    /**
+   /**
      * @var float|null
-     * @Assert\NotBlank
-     * @Assert\Positive
-     * @ORM\Column(name="quantite", type="float", precision=10, scale=0, nullable=true)
      */
+    #[Assert\NotBlank]
+    #[Assert\Positive]
+    #[ORM\Column(name: 'quantite', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $quantite;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @ORM\Column(name="user_update")
-     */
-    private $userupdate;
-
-    /**
-     * @Assert\NotBlank
-     * @ORM\ManyToOne(targetEntity="App\Entity\PUnite")
-     * @ORM\JoinColumn(name="p_unite_id", referencedColumnName="id")
-     */
+    #[ORM\Column(type: 'integer', nullable: true,name: 'user_update')]
+    private $userupdate;    
+    
+     #[ORM\JoinColumn(name: 'p_unite_id', referencedColumnName: 'id')]
+    #[Assert\NotBlank]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PUnite::class)]
     private $unite;
 
+    
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -72,7 +61,7 @@ class StockActual
 
         return $this;
     }
-
+   
     public function getQuantite(): ?float {
         return $this->quantite;
     }
@@ -82,7 +71,6 @@ class StockActual
 
         return $this;
     }
-
     public function getAntenne(): ?Uantenne
     {
         return $this->antenne;
@@ -107,6 +95,8 @@ class StockActual
         return $this;
     }
 
+
+  
     public function getUserUpdated(): ?int
     {
         return $this->userupdate;
@@ -118,7 +108,9 @@ class StockActual
 
         return $this;
     }
-
+    
+    
+    
     public function getUnite(): ?PUnite {
         return $this->unite;
     }
@@ -128,4 +120,7 @@ class StockActual
 
         return $this;
     }
+
+   
+
 }

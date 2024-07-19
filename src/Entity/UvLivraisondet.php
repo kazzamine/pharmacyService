@@ -5,53 +5,78 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
-#[ORM\Entity(repositoryClass: "App\Repository\UvLivraisondetRepository")]
+#[ORM\Entity(repositoryClass: \App\Repository\UvLivraisondetRepository::class)]
 class UvLivraisondet
 {
-
-    #[ORM\Id]
+    use  DetailChampCalcule  ; 
+  #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    private ?int $id;
+    #[ORM\Column(type: 'integer')]
+    private $id;
 
-    #[ORM\ManyToOne(targetEntity: UvLivraisoncab::class, inversedBy: "details", cascade: ["persist"])]
-    #[ORM\JoinColumn(name: "uv_livraisoncab_id", referencedColumnName: "id")]
-    private ?UvLivraisoncab $cab;
+    #[ORM\JoinColumn(name: 'uv_livraisoncab_id', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\UvLivraisoncab::class, inversedBy: 'details', cascade: ['persist'])]
+    private $cab;
 
+    #[ORM\JoinColumn(name: 'u_article_id', referencedColumnName: 'id')]
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: Uarticle::class)]
-    #[ORM\JoinColumn(name: "u_article_id", referencedColumnName: "id")]
-    private ?Uarticle $article;
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Uarticle::class)]
+    private $article;
 
+   #[ORM\JoinColumn(name: 'p_unite_id', referencedColumnName: 'id')]
     #[Assert\NotBlank]
-    #[ORM\ManyToOne(targetEntity: PUnite::class)]
-    #[ORM\JoinColumn(name: "p_unite_id", referencedColumnName: "id")]
-    private ?PUnite $unite;
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PUnite::class)]
+    private $unite;
 
-    #[ORM\Column(name: "quantite", type: "float", precision: 10, scale: 0, nullable: true)]
+    /**
+     * @var float|null
+     */
     #[Assert\NotBlank]
     #[Assert\Positive]
-    private ?float $quantite;
+    #[ORM\Column(name: 'quantite', type: 'float', precision: 10, scale: 0, nullable: true)]
+    private $quantite;
 
-    #[ORM\Column(name: "prixunitaire", type: "float", precision: 10, scale: 0, nullable: true)]
+    /**
+     * @var float|null
+     */
     #[Assert\NotBlank]
-    private ?float $prixunitaire;
+    #[ORM\Column(name: 'prixunitaire', type: 'float', precision: 10, scale: 0, nullable: true)]
+    private $prixunitaire;
 
-    #[ORM\Column(name: "tva", type: "float", precision: 10, scale: 0, nullable: true)]
+    /**
+     * @var float|null
+     */
     #[Assert\Range(min: 0, max: 100)]
-    private float $tva = 0;
+    #[ORM\Column(name: 'tva', type: 'float', precision: 10, scale: 0, nullable: true)]
+    private $tva = 0;
 
-    #[ORM\Column(name: "observation", type: "text", nullable: true)]
-    private ?string $observation;
+ 
+    /**
+     * @var string|null
+     */
+    #[ORM\Column(name: 'observation', type: 'text', nullable: true)]
+    private $observation;
 
-    #[ORM\Column(type: "float", nullable: true)]
+
+     
     #[Assert\Range(min: 0, max: 100)]
-    #[Assert\Type(type: "numeric")]
-    private float $remise = 0;
+    #[Assert\Type(type: 'numeric')]
+    #[ORM\Column(type: 'float', nullable: true)]
+    private $remise = 0;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $oldSys;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $oldSys;
+    public function getOldSys(): ?string
+    {
+        return $this->oldSys;
+    }
+
+    public function setOldSys(?string $oldSys): self
+    {
+        $this->oldSys = $oldSys;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -66,6 +91,7 @@ class UvLivraisondet
     public function setUnite(?PUnite $unite): self
     {
         $this->unite = $unite;
+
         return $this;
     }
 
@@ -77,6 +103,7 @@ class UvLivraisondet
     public function setQuantite(?float $quantite): self
     {
         $this->quantite = $quantite;
+
         return $this;
     }
 
@@ -88,6 +115,7 @@ class UvLivraisondet
     public function setPrixunitaire(?float $prixunitaire): self
     {
         $this->prixunitaire = $prixunitaire;
+
         return $this;
     }
 
@@ -98,9 +126,12 @@ class UvLivraisondet
 
     public function setTva(?float $tva): self
     {
-        $this->tva = $tva ?? 0;
+        $this->tva = $tva;
+
         return $this;
     }
+
+
 
     public function getObservation(): ?string
     {
@@ -110,6 +141,7 @@ class UvLivraisondet
     public function setObservation(?string $observation): self
     {
         $this->observation = $observation;
+
         return $this;
     }
 
@@ -121,6 +153,7 @@ class UvLivraisondet
     public function setCab(?UvLivraisoncab $cab): self
     {
         $this->cab = $cab;
+
         return $this;
     }
 
@@ -132,9 +165,13 @@ class UvLivraisondet
     public function setArticle(?Uarticle $article): self
     {
         $this->article = $article;
+
         return $this;
     }
 
+
+
+    
     public function getRemise(): ?float
     {
         return $this->remise;
@@ -142,18 +179,10 @@ class UvLivraisondet
 
     public function setRemise(?float $remise): self
     {
-        $this->remise = $remise ?? 0;
+        $this->remise = $remise;
+
         return $this;
     }
 
-    public function getOldSys(): ?string
-    {
-        return $this->oldSys;
-    }
 
-    public function setOldSys(?string $oldSys): self
-    {
-        $this->oldSys = $oldSys;
-        return $this;
-    }
 }

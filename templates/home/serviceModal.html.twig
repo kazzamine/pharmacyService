@@ -1,4 +1,6 @@
-<div class="modal" id="servicesModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="border-radius: 30px;" aria-hidden="true">
+
+
+  <div class="modal" id="servicesModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="border-radius: 30px;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header position-relative text-center">
@@ -6,16 +8,19 @@
         <h5 class="modal-title mx-auto" id="exampleModalLabel">Choisir un service</h5>
       </div>
       <div class="modal-body">
-        <select class="form-select w-100 custom-select">
-          <option selected>choix du service</option>
-          <option>service 1</option>
-          <option>service 3</option>
-          <option>service 2</option>
+        <select class="form-select w-100 custom-select" id="serviceSelect">
+          <option selected value=''>choix du service</option>
+          {% for dossier in user_dossier %}
+             <option  value="{{dossier.dossierID}}" >{{dossier.dossierName}}</option>
+          {% endfor %}
+
         </select>
       </div>
     </div>
   </div>
 </div>
+
+
 <style>
 .custom-select {
   font-size: 1.2rem; /* Increase the font size */
