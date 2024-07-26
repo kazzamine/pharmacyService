@@ -18,6 +18,7 @@
                   </button>
                   <input type="text" class="form-control search-input-modal" placeholder="Recherche..." aria-label="Search" aria-describedby="search-icon">
                 </div>
+                <input type='text' hidden value="" id='service' />
                 <!-- Content for Select Dropdown and Date Input -->
                 <div class="form-group">
                   <div class="d-flex">
@@ -26,33 +27,46 @@
                   </div>
                 </div>
               </div>
+              <div id='demData' class='row'>
+              
+              </div>
               <!-- End Search and Selection Components -->
               <!-- Custom Card Design -->
-              <a href="#" class="col-md-3 d-block mb-3 consomCard custom-link" data-bs-toggle="modal" data-bs-target="#dtCommande" data-bs-dismiss="modal">
-                <div class="card custom-card-modal">
+              {# <a href="#" class="col-md-3 d-block mb-3 consomCard custom-link" data-bs-toggle="modal" data-bs-target="#dtCommande" data-bs-dismiss="modal">
+                
+              {# {% if demandes %} #}
+               {# {% for demande in demandes %} #}
+
+             {# <div class="card custom-card-modal">
                   <img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark-img-modal">
-                  <div class="card-header-content-modal">
-                    <span class="badge custom-badge-tag-modal">Validée</span>
-                    <p class="mb-0 text-center text-center-custom-modal">202325</p>
-                    <p class="mb-0 text-center text-center-custom-modal">C244378889</p>
-                    <p class="mb-0 text-center text-center-custom-modal">Sami Yassir</p>
-                    <p class="mb-0 text-center text-center-custom-modal">20/02/2024</p>
-                    <p class="mb-0 text-center text-center-custom-modal">Service de Soins</p>
+                  <div class="card-header-content-modal"> #}
+                    {# <span class="badge custom-badge-tag-modal">Validée</span> #}
+                    {# <p class="mb-0 text-center text-center-custom-modal">{{demande.di}}</p> #}
+                    {# <p class="mb-0 text-center text-center-custom-modal">{{demande.ipp}}</p>
+                    <p class="mb-0 text-center text-center-custom-modal">{{demande.patient}}</p>
+                    <p class="mb-0 text-center text-center-custom-modal">{{demande.date | date('d/m/Y')}}</p> #}
+                    {# <p class="mb-0 text-center text-center-custom-modal">Service de Soins</p>
                   </div>
                   <div class="card-footer card-footer-custom-modal text-center">
-                    <span class="total-label-custom-modal order-number">Total:</span>
-                    <span class="total-amount-custom-modal order-number">3500</span>
+                    <span class="total-label-custom-modal order-number">Total:</span> #}
+                    {# <span class="total-amount-custom-modal order-number">{{demande.total_price}}</span>
 
-                  </div>
-                </div>
-              </a>
+                      </div>
+                    </div>
+                    {# {{ include('includes/detailCommande.html.twig') }}		 #}
+                {# </div> #} 
+                {# {% endfor %} #}
+            {# {% else %}
+                <div> aucun demande trouvé </div> #}
+            {# {% endif %} #}
+              {# </a> #}
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-   {{ include('includes/detailCommande.html.twig') }}
+   {# {{ include('includes/detailCommande.html.twig') }} #}
  <style>
     .custom-card-modal {
       background-color: white;

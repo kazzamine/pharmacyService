@@ -1,9 +1,12 @@
 import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
-
  $(document).ready(function() {
-    const modalElement = document.getElementById('servicesModal');
-    const modal = Modal.getInstance(modalElement) || new Modal(modalElement);
-    modal.show();
+
+    $('#changeDossier').on('click',()=>{
+        const modalElement = document.getElementById('serviceModal');
+        const modal = Modal.getInstance(modalElement) || new Modal(modalElement);
+        modal.show();
+    })
+    
 
     $('#serviceSelect').on('change',()=>{
         let serviceValue=$('#serviceSelect').val();
@@ -13,7 +16,7 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
                 url:  "/home/choseService/"+serviceValue,
                 
                 success: function (result) {   
-                   console.log(result)
+                  
                     location.reload();
                 },
                 cache: false,
@@ -27,4 +30,10 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
         }
         
     })
+    const modalElement = document.getElementById('servicesModal');
+    const modal = Modal.getInstance(modalElement) || new Modal(modalElement);
+    modal.show();
+
+   
+   
 });

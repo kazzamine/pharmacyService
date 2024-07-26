@@ -118,3 +118,21 @@ body {
 .btn-success {
     background-color: #265828;
 }
+
+.error-message {
+    display: none;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 0.25rem;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545;
+}
+
+.error-icon {
+    margin-right: 8px;
+}

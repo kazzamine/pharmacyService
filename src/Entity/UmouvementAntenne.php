@@ -23,7 +23,7 @@ class UmouvementAntenne
     #[ORM\ManyToOne(targetEntity: \App\Entity\Umouvementcab::class, inversedBy: 'mouvementAntennes')]
     private $umouvementcab;
 
-    #[ORM\ManyToOne(targetEntity: \App\Entity\Uarticle::class)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Uarticle::class,fetch:'EAGER')]
     private $article;
 
     #[ORM\ManyToOne(targetEntity: DemandStockCab::class, inversedBy: 'demandeStockDets')]

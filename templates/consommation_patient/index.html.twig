@@ -6,17 +6,13 @@
 {% endblock %}
 {% block body %}
 
-	{{ include('consommation_patient/infoPatient.html.twig') }}
+		{% if app.session.get('patient') == 0 %}
+			{{ include('consommation_patient/infoPatient.html.twig') }}
+		{% endif %}
 
-	<div class="alert alert-danger alert-dismissible fade show errorMessage" role="alert">
-		<p class='alert-message'></p>
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-	</div>
 	<div class="alert alert-success alert-dismissible fade show successMessage" role="alert">
 		<p class='alert-message'></p>
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>
 	</div>
@@ -37,9 +33,12 @@
 					<button class="btn btn-success search-img" type="button" id="search-icon" style='padding:2px;'>
 						<i class="fas fa-search"></i>
 					</button>
-					<input type="text" class="form-control search-input2" aria-label="Search" aria-describedby="search-icon">
+					<input type="text" class="form-control search-input2" aria-label="Search" id='familleSearch'  aria-describedby="search-icon">
 				</div>
+				<div id='famille-card'>
 				{{ include('includes/familleCard.html.twig') }}
+				</div>
+				
 			</ul>
 		</div>
 		<div class='contenu_index'>
@@ -67,22 +66,24 @@
 						<div class="card-body text-center card-shadow">
 							<div>
 								<div class="col d-flex mb-2">
-									<button data-bs-toggle="modal" data-bs-target="#commande-service" class="btn btn-fcz float-right ms-auto text-white" style="background-color:#265828;font-size:12px;">
+									<button data-bs-toggle="modal" id='demandes' data-bs-target="#commande-service" class="btn btn-fcz float-right ms-auto text-white" style="background-color:#265828;font-size:12px;">
 										Commandes
 									</button>
 									{{ include('consommation_patient/commandes.html.twig') }}
 								</div>
 								<div class="row text-start">
 									<fieldset class='border' id="userCom" style='font-size:12px;'>
-										<span class="fw-bolder">0021547</span>
+									{% if app.session.get('patient') != 0 %}
+										<span class="fw-bolder">{{app.session.get('patient')[0].ipp}}</span>
 										<br>
-										<span class="fw-bolder">C244378889</span>
+										<span class="fw-bolder">{{app.session.get('patient')[0].di}}</span>
 										<br>
-										<span class="fw-bolder">Sami Yassir</span>
+										<span class="fw-bolder">{{app.session.get('patient')[0].patient}}</span>
 										<br>
-										<span>Date d’hospitalisation: 22/06/2024</span>
+										<span>Date d’hospitalisation: </span>
 										<br>
 										<span>Service d’hospitalisation</span>
+									{% endif %}
 									</fieldset>
 								</div>
 								<div class="row d-flex flex-row mb-1">
@@ -91,98 +92,36 @@
 									</fieldset>
 								</div>
 								<div class="row d-flex flex-row scrollable-cart">
-									<fieldset class='border ml-auto'>
+									{% for cartItem in cart %}
+									
+										<fieldset class='border ml-auto'>
+										<h5 class="product-name mb-1">{{cartItem.name}}</h5>
 										<div class="card border-0 product-card d-flex flex-row align-items-center p-2">
+										
 											<img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Product Image">
+											
 											<div class="product-info">
-												<h5 class="product-name mb-1">Product Name</h5>
+												
 												<p class="product-price mb-1">prix:
-													<span id='prodprice'>99.99</span>
+													<span id='prodprice'>{{cartItem.article.ajoSup}}</span>
 												</p>
 											</div>
 											<div class="quantity-control">
-												<button class="btn btn-sm text-center">
+												<button class="btn btn-sm text-center updateQte" data='decrease' id="{{cartItem.article.article.id}}">
 													<i class="fas fa-minus-circle" style="color:red;"></i>
 												</button>
-												<input type="number" value="1" class="form-control form-control-sm mx-2" style="width: 50px;">
-												<button class="btn btn-sm">
+												<input type="number" value="{{cartItem.quantity}}" class="form-control form-control-sm mx-2 qteDisplay" style="width: 50px;">
+												<button class="btn btn-sm updateQte" data='increase' id="{{cartItem.article.article.id}}" >
 													<i class="fas fa-plus-circle text-primary"></i>
 												</button>
-											</div>
-											<button class="btn btn-danger remove-icon btn-sm">
-												<i class="far fa-trash-alt"></i>
-											</button>
+											</div> 
+											 <a class="btn btn-danger remove-icon btn-sm" href="{{ path('app_consommation_cart_remove', {'id': cartItem.article.article.id}) }}" >
+											 	<i class="far fa-trash-alt"></i>
+												</a>
+
 										</div>
 									</fieldset>
-									<fieldset class='border ml-auto'>
-										<div class="card border-0 product-card d-flex flex-row align-items-center p-2">
-											<img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Product Image">
-											<div class="product-info">
-												<h5 class="product-name mb-1">Product Name</h5>
-												<p class="product-price mb-1">prix:
-													<span id='prodprice'>99.99</span>
-												</p>
-											</div>
-											<div class="quantity-control">
-												<button class="btn btn-sm text-center">
-													<i class="fas fa-minus-circle" style="color:red;"></i>
-												</button>
-												<input type="number" value="1" class="form-control form-control-sm mx-2" style="width: 50px;">
-												<button class="btn btn-sm">
-													<i class="fas fa-plus-circle text-primary"></i>
-												</button>
-											</div>
-											<button class="btn btn-danger remove-icon btn-sm">
-												<i class="far fa-trash-alt"></i>
-											</button>
-										</div>
-									</fieldset>
-									<fieldset class='border ml-auto'>
-										<div class="card border-0 product-card d-flex flex-row align-items-center p-2">
-											<img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Product Image">
-											<div class="product-info">
-												<h5 class="product-name mb-1">Product Name</h5>
-												<p class="product-price mb-1">prix:
-													<span id='prodprice'>99.99</span>
-												</p>
-											</div>
-											<div class="quantity-control">
-												<button class="btn btn-sm text-center">
-													<i class="fas fa-minus-circle" style="color:red;"></i>
-												</button>
-												<input type="number" value="1" class="form-control form-control-sm mx-2" style="width: 50px;">
-												<button class="btn btn-sm">
-													<i class="fas fa-plus-circle text-primary"></i>
-												</button>
-											</div>
-											<button class="btn btn-danger remove-icon btn-sm">
-												<i class="far fa-trash-alt"></i>
-											</button>
-										</div>
-									</fieldset>
-									<fieldset class='border ml-auto'>
-										<div class="card border-0 product-card d-flex flex-row align-items-center p-2">
-											<img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Product Image">
-											<div class="product-info">
-												<h5 class="product-name mb-1">Product Name</h5>
-												<p class="product-price mb-1">prix:
-													<span id='prodprice'>99.99</span>
-												</p>
-											</div>
-											<div class="quantity-control">
-												<button class="btn btn-sm text-center">
-													<i class="fas fa-minus-circle" style="color:red;"></i>
-												</button>
-												<input type="number" value="1" class="form-control form-control-sm mx-2" style="width: 50px;">
-												<button class="btn btn-sm">
-													<i class="fas fa-plus-circle text-primary"></i>
-												</button>
-											</div>
-											<button class="btn btn-danger remove-icon btn-sm">
-												<i class="far fa-trash-alt"></i>
-											</button>
-										</div>
-									</fieldset>
+									{% endfor %}	
 								</div>
 							</div>
 						</div>
@@ -193,13 +132,14 @@
 								<div class="col">
 									<h4 class="mt-0 totalDiv btn-total text-dark rounded" style="font-size: 12px!important;font-weight:bold;" id="totalDiv">
 										Total:
-										<span class='somme_prod' style="color:red;font-weight:bold;">0 dhs</span>
+										<span class='somme_prod' style="color:red;font-weight:bold;">{{ app.session.get('totalPrice')}} dhs</span>
 									</h4>
 								</div>
 								<div class="col">
-									<button type="submit" class=" btn btn-success offset-5 vendre_vente" style='font-size: 15px;background-color:#265828;font-size: 12px;'>
+									<button type="submit" class=" btn btn-success offset-5 vendre_vente" id='validateCommande' style='font-size: 15px;background-color:#265828;font-size: 12px;'>
 										Valider
 									</button>
+									<div class="loader offset-9"></div>
 								</div>
 							</div>
 						</div>

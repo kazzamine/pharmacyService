@@ -37,7 +37,7 @@ class StockActual
     #[ORM\Column(name: 'quantite', type: 'float', precision: 10, scale: 0, nullable: true)]
     private $quantite;
 
-    #[ORM\Column(type: 'integer', nullable: true,name: 'user_update')]
+    #[ORM\Column(type: 'integer', nullable: true,name: 'userupdate')]
     private $userupdate;    
     
      #[ORM\JoinColumn(name: 'p_unite_id', referencedColumnName: 'id')]

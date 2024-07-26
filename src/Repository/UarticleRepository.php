@@ -29,8 +29,7 @@ class UarticleRepository extends ServiceEntityRepository
           JOIN stock_actual ON stock_actual.u_article_id=uarticle.id 
           WHERE p_dossier.id=:dossier 
           AND stock_actual.uantenne_id=9 
-          AND uarticle.active=1
-            ';
+          AND uarticle.active=1 ';
         $params['dossier']=$dossier;
         if($famille!==null){
             $sql.='AND uarticle.famille=:famille';
@@ -39,6 +38,9 @@ class UarticleRepository extends ServiceEntityRepository
         if($search!==null){
             $sql.='AND (uarticle.titre like :search OR uarticle.id like :search)';
             $params['search']=$searchTerm;
+        }
+        if($search===null and $famille ===null){
+            $sql.='LIMIT 50';
         }
         $conn = $this->getEntityManager()->getConnection();
 

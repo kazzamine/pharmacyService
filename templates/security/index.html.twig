@@ -20,7 +20,10 @@
         <div class="right w-50 container-deco">
             <h2>Se connecter</h2>
             {% if error %}
-                <div class="bg-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                 <div id="formErrors" class="error-message">
+                    <i class="fas fa-exclamation-circle error-icon"></i>
+                    <span id="errorText">{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+                </div>
             {% endif %}
 
             <form method="post" action="{{ path('app_login') }}">

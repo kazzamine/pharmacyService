@@ -6,12 +6,31 @@
 	<div id="wrapper">
 		<div class="d-flex flex-column" id="content-wrapper">
 			<div id="content">
-				{# <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-					Launch demo modal
-				</button> #}
 				{% if selectedDossier == 0 %}
 					{% include 'home/serviceModal.html.twig' %}
 				{% endif %}
+				
+				<div id="selectDossier">
+					<div class="modal" id="serviceModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="border-radius: 30px;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content">
+							<div class="modal-header position-relative text-center">
+								<img src="{{ asset('img/iconService.png') }}" class="modal-img" alt="Header Image">
+								<h5 class="modal-title mx-auto" id="exampleModalLabel">Choisir un service</h5>
+							</div>
+							<div class="modal-body">
+								<select class="form-select w-100 custom-select" id="serviceSelect">
+								<option selected value=''>choix du service</option>
+								{% for dossier in user_dossier %}
+									<option  value="{{dossier.dossierID}}" >{{dossier.dossierName}}</option>
+								{% endfor %}
+
+								</select>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="container-fluid">
 					<div>
 						<div class="row card-body">

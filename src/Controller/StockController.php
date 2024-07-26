@@ -23,7 +23,7 @@ class StockController extends AbstractController
     {
         $dossier=$request->getSession()->get('selectedDossier');
         $famille =$this->entityManager->getRepository(Ufamille::class)->findAll();
-        $articles=$this->entityManager->getRepository(Uarticle::class)->getArticlesByCat($dossier,null,null);
+        $articles=$this->entityManager->getRepository(Uarticle::class)->getArticlesByCat($dossier->getId(),null,null);
         return $this->render('stock/index.html.twig', [
             'famille' => $famille,
             'articles'=>$articles
@@ -55,5 +55,17 @@ class StockController extends AbstractController
         ]);
        
         return new JsonResponse($returnedHtml->getContent());
+    }
+
+    #[Route('/suivi_stock/articleDet', name: 'app_stock_articleDet')]
+    public function articleDetail(Request $request): JsonResponse
+    {
+        $articleID=$request->request->get('articleID');
+        $article=$this->entityManager->getRepository(Uarticle::class)->find($articleID);
+       $articleData['titre']=$article->getTitre();
+       $articleData['description']=$article->getDescription();
+       $articleData['code_barre']=$article->getcodeBarre();
+       
+        return new JsonResponse($articleData);
     }
 }

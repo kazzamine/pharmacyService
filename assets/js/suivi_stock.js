@@ -4,11 +4,38 @@ $(document).ready(function() {
    let currentRequest = null;
    $('body').on('click', '.produit',(event)=> {
     let articleId =$(event.currentTarget).data('id');
-    let articleQuantity = $(event.currentTarget).data('quantity');
     
     $('#article_id').val(articleId);
-    $('#quantityInput').val('');
+
+    if (currentRequest !== null) {
+        currentRequest.abort();
+    }
+
+     currentRequest=$.ajax({
+        type: "POST",
+        url:"/suivi_stock/articleDet",
+        data:{
+            articleID:articleId
+        },
+        success:(result)=>{
+          $('#artTitre').text(result.titre)
+          $('#artDesc').text(result.description)
+          if(result.description=='null'){
+            $('#artDesc').text('')
+          }
+         
+          $('#artCode').text(result.code_barre)
+          if(result.description=='null'){
+            $('#artCode').text('')
+          }
+        }
+    })
+
+
 });
+
+
+
    //articles by selected categorie
 
    const getArticleByFam=(id)=>{
@@ -60,6 +87,8 @@ $(document).ready(function() {
        let searchTerm= $('#articleSearch').val();
        getArticleBySearch(searchTerm);
    })
+
+   
 
   
 });

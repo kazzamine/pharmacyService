@@ -2,46 +2,42 @@
   {{encore_entry_link_tags('detailCommandeStyle')}}
 {% endblock %}
 
-<div class="modal fade" id="dtCommande" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="dtCommande{{demande.demandCabID}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered row">
     <div class="modal-content col-md-7">
       <div class="modal-header position-relative text-center">
         <h5 class="modal-title mx-auto order-number2 Poppins text-center" id="exampleModalLabel">Commande de Mr Yassir-service soins</h5>
       </div>
+    
       <div class="modal-body">
         <div class="client-data Inter">
-          <p class="bold">202325</p>
-          <p class="bold">C244378889</p>
-          <p class="bold">Sami Yassir</p>
-          <p>date d’hospitalisation: 22/06/2024</p>
+          <p class="bold ">{{demande.di}}</p>
+          <p class="bold">{{demande.ipp}}</p>
+          <p class="bold">{{demande.patient}}</p>
+          <p>date d’hospitalisation: {{demande.date | date('d/m/Y')}}</p>
         </div>
         <div class="product-list">
+        {% for article in demande.articles %}
+      
           <div class="product-item Pro">
             <img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Doliprane">
             <div class="product-details">
-              <p>Doliprane 1000 mg cp</p>
-              <p class="Poppins">Prix : 3400.22</p>
+              <p>{{article.article_name}}</p>
+              <p class="Poppins">Prix : {{article.price}}</p>
             </div>
           </div>
-          <div class="product-item Andada Pro">
-            <img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Doliprane">
-            <div class="product-details">
-              <p>Doliprane 1000 mg cp</p>
-              <p class="Poppins">Prix : 3400.22</p>
-            </div>
-          </div>
-          <div class="product-item Andada Pro">
-            <img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Doliprane">
-            <div class="product-details">
-              <p>Doliprane 1000 mg cp</p>
-              <p class="Poppins">Prix : 3400.22</p>
-            </div>
-          </div>
+          {% endfor %}
+         
           <div class="total Inter">
-          <span class="total-label order-number2">Total:</span> <span class="total-amount order-number2">4770.00</span>
+          <span class="total-label order-number2">Total:</span> <span class="total-amount order-number2">{{demande.total_price}}</span>
         </div>
         </div>
+      
       </div>
+    
+    
     </div>
+
+
   </div>
 </div>

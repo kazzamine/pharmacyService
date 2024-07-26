@@ -1,3 +1,5 @@
+import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
+
 $(document).ready(function() {
     let currentRequest = null;
  //search famille by info
@@ -25,4 +27,5 @@ $('#familleSearch').on('keyup',()=>{
     console.log(searchTerm)
     getFamilleBySearch(searchTerm);
 })
+
 });

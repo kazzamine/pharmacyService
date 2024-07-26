@@ -23,10 +23,11 @@
                     <h5 class="modal-title mx-auto" id="exampleModalLabel">Detail du produit</h5>
                 </div>
                 <div class="modal-body">
-                    <input class="form-control" type="number" id="article_id" readonly />
-                    <input class="form-control" type="number" placeholder="Quantité" id="quantityInput" />
+                    <input class="form-control" type="number" id="article_id" readonly hidden/>
+                    <span>Titre : <i id="artTitre"></i></span> <br>
+                    <span>Description :  <i id="artDesc"></i></span><br>
+                    <span>Code barre :  <i id="artCode"></i></span>
                     <br>
-                    <button class="btn btn-success offset-9" style="background-color:#265828;" id="confirmQuantity">Validé</button>
                 </div>
             </div>
         </div>

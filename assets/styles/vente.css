@@ -279,9 +279,6 @@ input::-webkit-inner-spin-button {
     font-size: .8rem;
     width: 29.8%;
 }
-.alert-message{
-    padding: 0 2.5rem;
-}
 .list-produit .input-qte{
     max-width: 3rem;
 }
@@ -428,4 +425,35 @@ element.style {
    font-size: 15px;
 
 }
+.hr{
+    margin: 0.5rem 0;
+}
 
+.error-message {
+    display: none;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 0.25rem;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545;
+}
+
+.error-icon {
+    margin-right: 8px;
+}
+.loader {
+    border: 15px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #343a40;
+    width: 30px;
+    height: 30px;
+    -webkit-animation: spin 2s linear infinite ;
+    animation: spin 2s linear infinite ;
+    display: none;
+    margin: 0 1rem;
+}

@@ -2,31 +2,53 @@
 
 namespace App\Controller;
 
+use App\Entity\DemandeStockDet;
+use App\Entity\DemandStockCab;
+use App\Entity\StockActual;
 use App\Entity\Uarticle;
 use App\Entity\Ufamille;
+use App\Entity\UmouvementAntenne;
+use App\Service\CartServices;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ConsommationPatientController extends AbstractController
 {
     private $entityManager;
-    public function __construct(EntityManagerInterface $entityManager)
+    private $httpClient; 
+    public function __construct(EntityManagerInterface $entityManager,HttpClientInterface $httpClient)
     {
         $this->entityManager=$entityManager;
+        $this->httpClient=$httpClient;
     }
+
     #[Route('/consommation_patient', name: 'app_consommation_patient')]
-    public function index(Request $request): Response
+    public function index(Request $request,SessionInterface $session): Response
     {
         $dossier=$request->getSession()->get('selectedDossier');
         $famille =$this->entityManager->getRepository(Ufamille::class)->findAll();
-        $articles=$this->entityManager->getRepository(Uarticle::class)->getArticlesByCat($dossier,null,null);
+        $articles=$this->entityManager->getRepository(Uarticle::class)->getArticlesByCat($dossier->getId(),null,null);
+        $cart = $session->get('cart', []);
+
+        $totalQuantity = 0;
+        $totalPrice = 0.0;
+
+        foreach ($cart as $item) {
+            $totalQuantity += $item['quantity'];
+            $totalPrice += $item['quantity'] * $item['article']->getAjoSup();
+        }
+        $session->set('totalPrice',$totalPrice);
         return $this->render('consommation_patient/index.html.twig', [
             'famille' => $famille,
-            'articles'=>$articles
+            'articles'=>$articles,
+            'cart'=>$cart
         ]);
     }
 
@@ -55,5 +77,114 @@ class ConsommationPatientController extends AbstractController
         ]);
        
         return new JsonResponse($returnedHtml->getContent());
+    }
+
+    #[Route('/consommation_patient/addCart', name: 'app_consommation_addCart')]
+    public function addArtCart(Request $request,CartServices $cartService,SessionInterface $session): JsonResponse
+    {
+        $articleID=$request->request->get('articleID');
+        $quantity=$request->request->get('quantity');
+        $article=$this->entityManager->getRepository(UmouvementAntenne::class)->findOneBy(['article'=>$articleID,'antenne'=>9]);
+        $articleData=$this->entityManager->getRepository(StockActual::class)->findOneBy(['article'=>$articleID,'antenne'=>9]);
+        $data=[];
+        if($articleData->getQuantite()==0){
+            $data['error']='vendu';
+        }
+        if($quantity>$articleData->getQuantite()){
+            $data['error']='supQuantite';
+        }
+        if($quantity<$articleData->getQuantite() and $quantity!=0){
+             $returnedServ=$cartService->addToCart($article,$quantity,$session);
+             if($returnedServ=='success'){
+                $data['success']='success';
+            }
+        }
+      
+       
+        return new JsonResponse($data);
+    }
+
+    #[Route('/consommation_patient/remove/{id}', name: 'app_consommation_cart_remove')]
+    public function removeFromCart($id, SessionInterface $session,CartServices $cartService)
+    {
+        $cartService->removeFromCart($id, $session);
+
+        return $this->redirectToRoute('app_consommation_patient');
+    }
+
+    #[Route('/consommation_patient/updateQte', name: 'app_consommation_updateQte')]
+    public function updateQte(SessionInterface $session,CartServices $cartService,Request $request)
+    {
+        
+        $id=$request->request->get('articleID');
+        $operation=$request->request->get('operation');
+        $data['res']=$cartService->updateCart($id,$session,$operation);
+        $cart = $session->get('cart', []);
+        $data['qte']=$cart[$id]['quantity'];
+       return new JsonResponse($data);
+    }
+
+    #[Route('/consommation_patient/findPatient',name:'app_consommation_find_patient')]
+    public function findPatient(Request $request,SessionInterface $session):JsonResponse
+    {
+        $method = $request->getMethod();
+        $body = $request->getContent();
+        $headers = $request->headers->all();
+        $queryParams = $request->query->all();
+        $ipp=$request->request->get('ipp');
+        $apiUrl = 'http://52.213.254.104/api/upharma/dossier/imputation/' . $ipp;
+        $response = $this->httpClient->request($method, $apiUrl, [
+            'headers' => $headers,
+            'body' => $body,
+            'query' => $queryParams,
+        ]);
+        $statusCode = $response->getStatusCode();
+        if($statusCode != 500){
+            
+            $session->set('patient',json_decode($response->getContent()));
+            return new JsonResponse(
+                json_decode($response->getContent())
+            );
+        }else{
+            return new JsonResponse([
+                'error' => 'not found',
+              
+            ]);
+        }
+    }
+
+    #[Route('/consommation_patient/addDemande',name:'app_consommation_add_demande')]
+    public function addDemande(Request $request,SessionInterface $session)
+    {
+        $patient=$session->get('patient');
+        $articles=$session->get('cart');
+        $currentDateTime = new \DateTime();
+
+        $demandeCab=new DemandStockCab();
+        $demandeCab->setIpp($patient[0]->ipp);
+        $demandeCab->setDi($patient[0]->di);
+        $demandeCab->setCode($patient[0]->codeOrg);
+        $demandeCab->setPatient($patient[0]->patient);
+        $demandeCab->setDossierPatient($patient[0]->dossier);
+        $demandeCab->setTipoFacturac($patient[0]->idtipofacturac);
+        $demandeCab->setDate($currentDateTime);
+        $demandeCab->setUrgent(0);
+        $demandeCab->setCommandeType(null);
+
+        $this->entityManager->persist($demandeCab);
+        
+        foreach ($articles as $article) {
+           $demandDet=new DemandeStockDet();
+           $demandDet->setDemandeCab($demandeCab);
+           $articleData=$this->entityManager->getRepository(Uarticle::class)->find($article['article']->getArticle());
+           $demandDet->setUarticle($article['article']->getArticle());
+           $demandDet->setQte($article['quantity']);
+           $this->entityManager->persist($demandeCab);
+        } 
+        $this->entityManager->flush();
+        return new JsonResponse([
+            'success'=>'added successfully'
+        ]);
+        
     }
 }
