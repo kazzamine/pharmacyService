@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\CommandeType;
 use App\Entity\DemandeStockDet;
+use App\Entity\DemandStatus;
 use App\Entity\DemandStockCab;
+use App\Entity\PDossier;
 use App\Entity\StockActual;
 use App\Entity\Uarticle;
 use App\Entity\Ufamille;
@@ -159,29 +162,65 @@ class ConsommationPatientController extends AbstractController
         $patient=$session->get('patient');
         $articles=$session->get('cart');
         $currentDateTime = new \DateTime();
+        $commandeType=$this->entityManager->getRepository(CommandeType::class)->find(2);
+        $dossierid=$request->getSession()->get('selectedDossier')->getId();
+        $dossier=$this->entityManager->getRepository(PDossier::class)->find($dossierid);
+        $status=$this->entityManager->getRepository(DemandStatus::class)->find(4);
 
-        $demandeCab=new DemandStockCab();
-        $demandeCab->setIpp($patient[0]->ipp);
-        $demandeCab->setDi($patient[0]->di);
-        $demandeCab->setCode($patient[0]->codeOrg);
-        $demandeCab->setPatient($patient[0]->patient);
-        $demandeCab->setDossierPatient($patient[0]->dossier);
-        $demandeCab->setTipoFacturac($patient[0]->idtipofacturac);
-        $demandeCab->setDate($currentDateTime);
-        $demandeCab->setUrgent(0);
-        $demandeCab->setCommandeType(null);
-
-        $this->entityManager->persist($demandeCab);
+        $this->entityManager->beginTransaction();
+        if($articles){
+            try{
+            $demandeCab=new DemandStockCab();
+            $demandeCab->setIpp($patient[0]->ipp);
+            $demandeCab->setDi($patient[0]->di);
+            $demandeCab->setCode($patient[0]->codeOrg);
+            $demandeCab->setPatient($patient[0]->patient);
+            $demandeCab->setDossierPatient($patient[0]->dossier);
+            $demandeCab->setTipoFacturac($patient[0]->idtipofacturac);
+            $demandeCab->setDate($currentDateTime);
+            $demandeCab->setUrgent(0);
+            $demandeCab->setCommandeType($commandeType);
         
-        foreach ($articles as $article) {
-           $demandDet=new DemandeStockDet();
-           $demandDet->setDemandeCab($demandeCab);
-           $articleData=$this->entityManager->getRepository(Uarticle::class)->find($article['article']->getArticle());
-           $demandDet->setUarticle($article['article']->getArticle());
-           $demandDet->setQte($article['quantity']);
-           $this->entityManager->persist($demandeCab);
-        } 
-        $this->entityManager->flush();
+            $demandeCab->setDemandeur($dossier);
+            $demandeCab->setStatus($status);
+
+            $this->entityManager->persist($demandeCab);
+            $this->entityManager->flush();
+            foreach ($articles as $article) {
+            $demandDet=new DemandeStockDet();
+            $demandDet->setDemandeCab($demandeCab);
+            $articleData=$this->entityManager->getRepository(Uarticle::class)->find($article['article']->getArticle());
+            $demandDet->setUarticle($articleData);
+            $demandDet->setQte($article['quantity']);
+            $this->entityManager->persist($demandDet);
+            $this->entityManager->flush();
+
+            $stockActual=$this->entityManager->getRepository(StockActual::class)->findOneBy(['article'=>$article['article']->getArticle()->getId(),'antenne'=>9]);
+            $artStockactual=$stockActual->getQuantite();
+            $stockActual->setQuantite($artStockactual-$article['quantity']);
+            $this->entityManager->persist($stockActual);
+            $this->entityManager->flush();
+
+            $umouvAnt=$this->entityManager->getRepository(UmouvementAntenne::class)->find($article['article']->getId());
+            $umouvStock=$stockActual->getQuantite();
+            $umouvAnt->setQuantite($umouvStock-$article['quantity']);
+            $umouvAnt->setAjoSup($umouvStock-$article['quantity']);
+            $this->entityManager->persist($umouvAnt);
+            $this->entityManager->flush();
+            } 
+
+            $this->entityManager->commit();
+            $session->remove('cart');
+            $session->remove('patient');
+                }catch (Exception $e) {
+                    $this->entityManager->rollBack();
+                    throw $e;
+                }
+        }else{
+            return new JsonResponse([
+                'failed'=>'no data'
+            ]);
+        }
         return new JsonResponse([
             'success'=>'added successfully'
         ]);

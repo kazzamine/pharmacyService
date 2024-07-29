@@ -3,6 +3,8 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
 function hideAlert() {
     setTimeout(function () {
         $(".error-message").hide();
+        $(".successMessage").hide();
+        $(".errorMessage").hide();
     }, 7000);
 }
 
@@ -72,6 +74,8 @@ $(document).ready(function () {
             $quantityBadge.text('0').addClass('d-none');
             const modal = Modal.getInstance($('#qteModal')) || new Modal($('#qteModal'));
             modal.hide();
+            $('.loader').hide();
+            $('#confirmQuantity').show();
         }
     });
 
@@ -136,8 +140,9 @@ $(document).ready(function () {
                 $('.successMessage').show('');
                 hideAlert();
                 $('.qteDisplay').val(result.qte)
-
+                location.reload()
             }
+            
         })
     }
 
@@ -176,6 +181,13 @@ $(document).ready(function () {
                 }
                 $('.loader').hide();
                 $('#searchPatient').show();
+            },
+            error:()=>{
+                $('.error-message #errorText').html("Ressayez");
+                $('.error-message').show('');
+                hideAlert();
+                $('.loader').hide();
+                $('#searchPatient').show();
             }
         })
     })
@@ -194,13 +206,19 @@ $(document).ready(function () {
                   
                     $('.loader').hide();
                     $('#validateCommande').show();
-                    // location.reload()
+                    location.reload()
                 } 
-                 if (result.error) {
-                    console.log(result)
+                 if (result.failed) {
+                    $('.errorMessage .alert-message').html("pas d'articles selectionner");
+                    $('.errorMessage').show('');
+                    hideAlert();
                     $('.loader').hide();
                     $('#validateCommande').show();
                 }
+            },
+            error:()=>{
+                $('.loader').hide();
+                $('#validateCommande').show();
             }
         })
 

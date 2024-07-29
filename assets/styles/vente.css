@@ -279,6 +279,7 @@ input::-webkit-inner-spin-button {
     font-size: .8rem;
     width: 29.8%;
 }
+
 .list-produit .input-qte{
     max-width: 3rem;
 }

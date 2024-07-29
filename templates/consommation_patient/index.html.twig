@@ -12,9 +12,10 @@
 
 	<div class="alert alert-success alert-dismissible fade show successMessage" role="alert">
 		<p class='alert-message'></p>
-		<button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
+	</div>
+	<div class="alert alert-danger alert-dismissible fade show errorMessage" role="alert">
+		<p class='alert-message'></p>
+
 	</div>
 	<!-- produit avec le code barre -->
 	<head>
@@ -100,8 +101,7 @@
 										
 											<img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Product Image">
 											
-											<div class="product-info">
-												
+											<div class="product-info" style='margin-left:0.5rem'>
 												<p class="product-price mb-1">prix:
 													<span id='prodprice'>{{cartItem.article.ajoSup}}</span>
 												</p>

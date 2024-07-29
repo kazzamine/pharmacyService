@@ -34,7 +34,7 @@
                 </div>
                 <div class="card-footer card-footer-custom-modal text-center">
                     <span class="total-label-custom-modal order-number">Total:</span>
-                    <span class="total-amount-custom-modal order-number">{{demande.total_price}}</span>
+                    <span class="total-amount-custom-modal order-number">{{demande.total_price|number_format(2, ',', ' ')}}</span>
                 </div>
             </div>
             {{ include('includes/detailCommande.html.twig') }}		
