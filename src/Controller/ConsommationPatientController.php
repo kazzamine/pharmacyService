@@ -156,6 +156,18 @@ class ConsommationPatientController extends AbstractController
         }
     }
 
+    #[Route('/consommation_patient/validatePatient',name:'app_consommation_validate_patient')]
+    public function validatePatient(Request $request,SessionInterface $session):JsonResponse
+    {
+        $content = $request->request->get('patient');
+        $data = $content;
+        $session->set('patient',json_decode($data));
+        return new JsonResponse([
+          'success'=>'validated'
+          ]
+        );
+    }
+
     #[Route('/consommation_patient/addDemande',name:'app_consommation_add_demande')]
     public function addDemande(Request $request,SessionInterface $session)
     {
@@ -171,12 +183,12 @@ class ConsommationPatientController extends AbstractController
         if($articles){
             try{
             $demandeCab=new DemandStockCab();
-            $demandeCab->setIpp($patient[0]->ipp);
-            $demandeCab->setDi($patient[0]->di);
-            $demandeCab->setCode($patient[0]->codeOrg);
-            $demandeCab->setPatient($patient[0]->patient);
-            $demandeCab->setDossierPatient($patient[0]->dossier);
-            $demandeCab->setTipoFacturac($patient[0]->idtipofacturac);
+            $demandeCab->setIpp($patient->ipp);
+            $demandeCab->setDi($patient->di);
+            $demandeCab->setCode($patient->codeOrg);
+            $demandeCab->setPatient($patient->patient);
+            $demandeCab->setDossierPatient($patient->dossier);
+            $demandeCab->setTipoFacturac($patient->idtipofacturac);
             $demandeCab->setDate($currentDateTime);
             $demandeCab->setUrgent(0);
             $demandeCab->setCommandeType($commandeType);

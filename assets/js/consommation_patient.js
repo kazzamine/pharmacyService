@@ -154,10 +154,13 @@ $(document).ready(function () {
         op = '';
     })
 
+    let patientData={};
     $('#searchPatient').on('click', () => {
         let ipp = $('#ippSearch').val()
-        $('.loader').show();
+        $('.patientLoader').show();
         $('#searchPatient').hide();
+        $('#validatePatient').hide();
+
         $.ajax({
             method: 'POST',
             url: '/consommation_patient/findPatient',
@@ -166,28 +169,64 @@ $(document).ready(function () {
             },
             success: (result) => {
                 if (result.error == null) {
-                    console.log(result)
+                    
                     $('#ipp').text(result[0].ipp)
                     $('#nomPatient').text(result[0].patient)
                     $('#di').val(result[0].di)
-                   
-                    location.reload()
+                    patientData=result[0];
+                    console.log(patientData)
                 } else if (result.error) {
                     $('.error-message #errorText').html("Ce patient n'existe pas!!");
                     $('.error-message').show('');
                     hideAlert();
-                    $('.loader').hide();
+                    $('.patientLoader').hide();
                     $('#searchPatient').show();
+                    $('#validatePatient').show();
                 }
-                $('.loader').hide();
+                $('.patientLoader').hide();
                 $('#searchPatient').show();
+                $('#validatePatient').show();
             },
             error:()=>{
-                $('.error-message #errorText').html("Ressayez");
+                $('.error-message #errorText').html("une erreur est survenu , réessayez!!");
                 $('.error-message').show('');
                 hideAlert();
-                $('.loader').hide();
+                $('.patientLoader').hide();
                 $('#searchPatient').show();
+                $('#validatePatient').show();
+            }
+        })
+    })
+
+    $('#validatePatient').on('click', () => {
+        $('.patientLoader').show();
+        $('#searchPatient').hide();
+        $('#validatePatient').hide();
+
+        $.ajax({
+            method: 'POST',
+            url: '/consommation_patient/validatePatient',
+            data: {
+                patient: JSON.stringify(patientData),
+            },
+            success: (result) => {
+                if (result.error == null) {
+                  location.reload()
+                   
+                }
+                $('.patientLoader').hide();
+                $('#searchPatient').show();
+                $('#validatePatient').show();
+
+            },
+            error:()=>{
+                $('.error-message #errorText').html("une erreur est survenu , réessayez!!");
+                $('.error-message').show('');
+                hideAlert();
+                $('.patientLoader').hide();
+                $('#searchPatient').show();
+                $('#validatePatient').show();
+
             }
         })
     })

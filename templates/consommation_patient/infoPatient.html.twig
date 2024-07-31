@@ -10,7 +10,12 @@
                 <i class="fas fa-exclamation-circle error-icon"></i>
                 <span id="errorText"></span>
             </div>  
-            <input type="text" id='ippSearch' class="form-control" placeholder="Rechercher"/>
+            <div class="input-group">
+              <input type="text" id="ippSearch" class="form-control" placeholder="Rechercher" />
+              <button class="btn btn-success" type="button" id="searchPatient" style="background-color: #265828;">
+                <i class="fas fa-search"></i> <!-- FontAwesome search icon -->
+              </button>
+            </div>
             <div class='text-start'>
             <span class='fw-bold'>IPP : <span id='ipp'></span> </span> <br>
                 <span class='fw-bold'>Nom du patient : <span id='nomPatient'></span></span><br>
@@ -18,8 +23,8 @@
             </div>
             
             <input type="text" class="form-control" id='di' placeholder="DI" readonly/> <br>
-             <button class="btn btn-success offset-9" style="background-color:#265828;" id="searchPatient">Rechercher</button>
-              <div class="loader offset-9"></div>
+							<button class="btn btn-success offset-9" style="background-color:#265828;" id="validatePatient">Rechercher</button>
+              <div class="loader patientLoader offset-9"></div>
             </div>
     </div>
   </div>

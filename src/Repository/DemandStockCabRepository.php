@@ -60,7 +60,7 @@ class DemandStockCabRepository extends ServiceEntityRepository
                 a.titre AS article_name,
                 dsd.qte AS quantity,
                 COALESCE(um.prix, 0) AS price,
-                (dsd.qte * COALESCE(um.prix, 0)) AS total_price_for_article
+                ROUND(dsd.qte * COALESCE(um.prix, 0), 2) AS total_price_for_article
             FROM 
                 demand_stock_cab dsc
                 JOIN demande_stock_det dsd ON dsc.id = dsd.demande_cab_id
