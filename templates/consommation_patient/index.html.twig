@@ -51,12 +51,10 @@
 								<span class="col-auto">Articles</span>
 								<input type="text" class="col-4 offset-5 form-control mb-1" id="articleSearch" placeholder="Chercher"/>
 							</div>
-
 							<div class="listProduit scroll">
 								<div class="row row-produit ">
 									{{ include ('consommation_patient/produit.html.twig') }}
 								</div>
-
 							</div>
 						</div>
 					</div>
@@ -77,13 +75,14 @@
 									{% if app.session.get('patient') is not empty %}
 									
 										<span class="fw-bolder">{{app.session.get('patient').ipp}}</span>
+										<button class='btn btn-outline-success btn-sm offset-md-9 offset-sm-9' data-bs-toggle="modal" data-bs-target="#changerPatient">
+											<i class="far fa-edit"></i>										
+										</button>
 										<br>
 										<span class="fw-bolder">{{app.session.get('patient').di}}</span>
 										<br>
 										<span class="fw-bolder">{{app.session.get('patient').patient}}</span> 
-										<button class='btn btn-outline-success btn-sm offset-md-6 offset-sm-9' data-bs-toggle="modal" data-bs-target="#changerPatient">
-											<i class="far fa-edit"></i>										
-										</button>
+										
 										<br>
 										<span>Date d’hospitalisation: </span>
 										<br>

@@ -156,26 +156,25 @@ $(document).ready(function () {
 
     let patientData={};
     $('#searchPatient').on('click', () => {
-        let ipp = $('#ippSearch').val()
+        let ipp = $('#ippSearch').val();
         $('.patientLoader').show();
         $('#searchPatient').hide();
         $('#validatePatient').hide();
-
         $.ajax({
             method: 'POST',
-            url: '/consommation_patient/findPatient',
+            url: '/consommation_patient/findPatient/'+ipp,
             data: {
                 ipp: ipp,
             },
             success: (result) => {
                 if (result.error == null) {
-                    
                     $('#ipp').text(result[0].ipp)
                     $('#nomPatient').text(result[0].patient)
                     $('#di').val(result[0].di)
                     patientData=result[0];
-                    console.log(patientData)
+                    console.log(result)
                 } else if (result.error) {
+                    console.log(result)
                     $('.error-message #errorText').html("Ce patient n'existe pas!!");
                     $('.error-message').show('');
                     hideAlert();
@@ -212,7 +211,6 @@ $(document).ready(function () {
             success: (result) => {
                 if (result.error == null) {
                   location.reload()
-                   
                 }
                 $('.patientLoader').hide();
                 $('#searchPatient').show();
@@ -226,7 +224,6 @@ $(document).ready(function () {
                 $('.patientLoader').hide();
                 $('#searchPatient').show();
                 $('#validatePatient').show();
-
             }
         })
     })
@@ -234,7 +231,6 @@ $(document).ready(function () {
     $('#validateCommande').on('click', () => {
         $('.loader').show();
         $('#validateCommande').hide();
-
         $.ajax({
             method: 'POST',
             url: '/consommation_patient/addDemande',
@@ -260,57 +256,47 @@ $(document).ready(function () {
                 $('#validateCommande').show();
             }
         })
-
     })
 
     //load demandes data
     //search product by info
-   const getDemandeBySearch=(searchTerm,service,date)=>{
+   const getDemandeBySearch=(searchTerm,date)=>{
 
-    $('.loader').show();
-    $('.demandes').hide();
-       // Cancel previous request, if any
-      if (currentRequest !== null) {
-          currentRequest.abort();
-      }
+        $('.loader').show();
+        $('.demandes').hide();
+        // Cancel previous request, if any
+        if (currentRequest !== null) {
+            currentRequest.abort();
+        }
 
-       currentRequest=$.ajax({
-          type: "POST",
-          url:"/suivi/commande/byfilter",
-          data:{
-              search:searchTerm,
-              service:service,
-              date:date,
-              consomPatient:1
-          },
-          success:(result)=>{
-            console.log(result)
-              $("#demData").empty().append(result);
-              $('.loader').hide();
-            $('.demandes').show();
-          }
-      })
-      }
+        currentRequest=$.ajax({
+            type: "POST",
+            url:"/suivi/commande/byfilter",
+            data:{
+                search:searchTerm,
+                service:null,
+                date:date,
+                consomPatient:1
+            },
+            success:(result)=>{
+                $("#demData").empty().append(result);
+                $('.loader').hide();
+                $('.demandes').show();
+            }
+        })
+        }
 
-      
-   $('#demandes').on('click',()=>{
-       let searchTerm= null;
-       let service= null;
-       let date= null;
-       getDemandeBySearch(searchTerm,service,date);
-   })
-
-   $('#date').on('change',()=>{
-    let searchTerm= $('#demmande-search').val();
-    let service= $('#service').val();
-    let date= $('#date').val();
-    getDemandeBySearch(searchTerm,service,date);
+        
+    $('#demandes').on('click',()=>{
+        let searchTerm= null;
+        let date= null;
+        getDemandeBySearch(searchTerm,date);
     })
-    $('#service').on('change',()=>{
+
+    $('#date').on('change',()=>{
         let searchTerm= $('#demmande-search').val();
-        let service= $('#service').val();
         let date= $('#date').val();
-        getDemandeBySearch(searchTerm,service,date);
+        getDemandeBySearch(searchTerm,date);
     })
-
+    
 });

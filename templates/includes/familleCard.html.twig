@@ -1,9 +1,9 @@
 {% for familleitem in famille %}
     <div class="card sideCat justify-content-center align-items-center">
         {# <img src="{{ asset('img/vacc.png') }}" class="card-img-cat" alt="..."> #}
-
+        <img class="icon-gestion mt-1" src="{{ asset('img/' ~ familleitem.image) }}" width="90%" height='50px'> </img>
         <div class="card-body famille-card"  >
-            <h5 class="card-title cat-title" id="{{familleitem.id}}">{{familleitem.designation}}</h5>
+            <h5 class="card-title cat-title" id="{{familleitem.id}}">{{familleitem.designation}} </h5>
         </div>
     </div>
 {% endfor %}

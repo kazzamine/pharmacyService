@@ -1,29 +1,24 @@
 <div class="modal fade" id="commande-service" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
-        <!-- Modal Header -->
         <div class="modal-header text-center d-flex align-items-center justify-content-center">
           <h5 class="modal-title " id="exampleModalLabel">commandes service</h5>
         </div>
-        <!-- Modal Body -->
         <div class="modal-body">
           <div class="container-fluid">
             <div class="row justify-content-center">
-              <!-- Search and Selection Components -->
               <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom search-container">
-                <!-- Content for Search Bar -->
                 <div class="input-group search-bar-modal">
                   <button class="btn btn-success search-icone" type="button" id="search-icon">
                     <i class="fas fa-search"></i>
                   </button>
-                  <input type="text" class="form-control search-input-modal" placeholder="Recherche..." aria-label="Search" aria-describedby="search-icon">
+                  <input type="text" class="form-control search-input-modal" placeholder="Recherche..." aria-label="Search" id='demmande-search' aria-describedby="search-icon">
                 </div>
                 <input type='text' hidden value="" id='service' />
-                <!-- Content for Select Dropdown and Date Input -->
                 <div class="form-group">
                   <div class="d-flex">
                   
-                    <input type="date" class="form-control search-commande-modal">
+                    <input type="date" id='date' class="form-control search-commande-modal">
                   </div>
                 </div>
               </div>

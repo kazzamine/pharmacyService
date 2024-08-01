@@ -92,11 +92,10 @@ class ConsommationPatientController extends AbstractController
         $data=[];
         if($articleData->getQuantite()==0){
             $data['error']='vendu';
-        }
-        if($quantity>$articleData->getQuantite()){
+        }else if($quantity>$articleData->getQuantite()){
             $data['error']='supQuantite';
         }
-        if($quantity<$articleData->getQuantite() and $quantity!=0){
+        if($quantity<=$articleData->getQuantite() and $quantity!=0){
              $returnedServ=$cartService->addToCart($article,$quantity,$session);
              if($returnedServ=='success'){
                 $data['success']='success';
@@ -127,14 +126,14 @@ class ConsommationPatientController extends AbstractController
        return new JsonResponse($data);
     }
 
-    #[Route('/consommation_patient/findPatient',name:'app_consommation_find_patient')]
-    public function findPatient(Request $request,SessionInterface $session):JsonResponse
+    #[Route('/consommation_patient/findPatient/{ipp}',name:'app_consommation_find_patient')]
+    public function findPatient($ipp,Request $request,SessionInterface $session):JsonResponse
     {
         $method = $request->getMethod();
         $body = $request->getContent();
         $headers = $request->headers->all();
         $queryParams = $request->query->all();
-        $ipp=$request->request->get('ipp');
+        //$ipp=$request->request->get('ipp');
         $apiUrl = 'http://52.213.254.104/api/upharma/dossier/imputation/' . $ipp;
         $response = $this->httpClient->request($method, $apiUrl, [
             'headers' => $headers,
@@ -144,14 +143,13 @@ class ConsommationPatientController extends AbstractController
         $statusCode = $response->getStatusCode();
         if($statusCode != 500){
             
-            $session->set('patient',json_decode($response->getContent()));
+            //$session->set('patient',json_decode($response->getContent()));
             return new JsonResponse(
                 json_decode($response->getContent())
             );
         }else{
             return new JsonResponse([
                 'error' => 'not found',
-              
             ]);
         }
     }

@@ -30,6 +30,9 @@ class Ufamille
     #[ORM\OneToMany(targetEntity: \App\Entity\Uarticle::class, mappedBy: 'ufamille')]
     private $uarticles;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     public function __construct()
     {
         $this->uarticles = new ArrayCollection();
@@ -124,6 +127,18 @@ class Ufamille
                 $usousfamille->setFamille(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

@@ -8,8 +8,8 @@ $(document).ready(function() {
    //search product by info
    const getDemandeBySearch=(searchTerm,service,date)=>{
 
-    $('.loader').show();
-    $('.demandes').hide();
+        $('.loader').show();
+        $('.demandes').hide();
        // Cancel previous request, if any
       if (currentRequest !== null) {
           currentRequest.abort();

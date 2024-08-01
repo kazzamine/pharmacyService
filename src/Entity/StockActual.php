@@ -20,8 +20,6 @@ class StockActual
     #[ORM\ManyToOne(targetEntity: \App\Entity\Uarticle::class)]
     private $article;
 
-
- 
     #[JoinColumn(name: 'uantenne_id', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: \App\Entity\Uantenne::class)]
     private $antenne;
@@ -44,8 +42,6 @@ class StockActual
     #[Assert\NotBlank]
     #[ORM\ManyToOne(targetEntity: \App\Entity\PUnite::class)]
     private $unite;
-
-    
     
     public function getId(): ?int
     {
