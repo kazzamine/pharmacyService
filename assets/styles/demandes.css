@@ -1,0 +1,145 @@
+.custom-card-modal {
+    background-color: white;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    max-width: 230px;
+    max-height: 210px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    padding: 7px;
+}
+
+.checkmark-img-modal {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 40px;
+}
+
+.card-header-content-modal {
+    padding: 10px;
+    border-bottom: none;
+}
+
+.custom-badge-tag-modal {
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px 6px;
+    background-color: white;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    position: absolute;
+    font-weight: lighter;
+    top: 10px;
+    right: 7px;
+    color: black;
+}
+
+.card-footer-custom-modal {
+    padding: 0px;
+    background: fixed;
+    border-top: 1px solid #dee2e6;
+    box-sizing: border-box;
+}
+
+.total-label-custom-modal,
+.total-amount-custom-modal {
+    font-size: 12px;
+}
+
+.text-center-custom-modal {
+    padding: 2px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.search-bar-modal {
+    max-width: 250px;
+}
+
+.search-input-modal {
+    height: 30px;
+    font-size: 14px;
+}
+
+.search-commande-modal {
+    height: auto;
+    width: auto;
+    font-size: 12px;
+}
+
+.custom-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.custom-link:hover {
+    color: inherit;
+    text-decoration: none;
+    filter: blur(.5px);
+}
+
+.search-icone {
+    height: 30px;
+}
+
+#details-view {
+    position: relative;
+}
+
+.back-icon {
+    position: absolute;
+    top: -10px; 
+    left: -10px;
+    background-color: #265828; 
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-icon i {
+    font-size: 20px;
+}
+
+.back-icon:hover {
+    background-color: #81C784;
+    color: white;
+
+}
+@media (max-width: 768px) {
+    .back-icon {
+        top: -5px; 
+        left: 5px; 
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .back-icon i {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 576px) {
+    .back-icon {
+        top: 0px; 
+        left: 5px; 
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+
+    .back-icon i {
+        font-size: 16px;
+    }
+}
+
+

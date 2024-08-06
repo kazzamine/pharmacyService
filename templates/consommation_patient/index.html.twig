@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Consommation Patient{% endblock %}
+{% block title %}Consommation Patient
+{% endblock %}
+
 {% block stylesheets%}
 	{{ parent() }}
 {% endblock %}
@@ -53,8 +55,8 @@
 							</div>
 							<div class="listProduit scroll">
 								<div class="row row-produit ">
-									{{ include ('consommation_patient/produit.html.twig') }}
-								</div>
+									{{ include('consommation_patient/produit.html.twig') }}
+								</div>	
 							</div>
 						</div>
 					</div>
@@ -132,7 +134,6 @@
 								</div>
 								<div class="row d-flex flex-row scrollable-cart">
 									{% for cartItem in cart %}
-									
 										<fieldset class='border ml-auto'>
 										<h5 class="product-name mb-1">{{cartItem.name}}</h5>
 										<div class="card border-0 product-card d-flex flex-row align-items-center p-2">
@@ -141,7 +142,7 @@
 											
 											<div class="product-info" style='margin-left:0.5rem'>
 												<p class="product-price mb-1">prix:
-													<span id='prodprice'>{{cartItem.article.ajoSup}}</span>
+													<span id='prodprice'>{{cartItem.article.prix}}</span>
 												</p>
 											</div>
 											<div class="quantity-control">
@@ -156,9 +157,8 @@
 											 <a class="btn btn-danger remove-icon btn-sm" href="{{ path('app_consommation_cart_remove', {'id': cartItem.article.article.id}) }}" >
 											 	<i class="far fa-trash-alt"></i>
 												</a>
-
-										</div>
-									</fieldset>
+											</div>
+										</fieldset>
 									{% endfor %}	
 								</div>
 							</div>

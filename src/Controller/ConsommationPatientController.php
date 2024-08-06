@@ -8,6 +8,7 @@ use App\Entity\DemandStatus;
 use App\Entity\DemandStockCab;
 use App\Entity\PDossier;
 use App\Entity\StockActual;
+use App\Entity\Uantenne;
 use App\Entity\Uarticle;
 use App\Entity\Ufamille;
 use App\Entity\UmouvementAntenne;
@@ -45,7 +46,7 @@ class ConsommationPatientController extends AbstractController
 
         foreach ($cart as $item) {
             $totalQuantity += $item['quantity'];
-            $totalPrice += $item['quantity'] * $item['article']->getAjoSup();
+            $totalPrice += $item['quantity'] * $item['article']->getPrix();
         }
         $session->set('totalPrice',$totalPrice);
         return $this->render('consommation_patient/index.html.twig', [
@@ -99,6 +100,8 @@ class ConsommationPatientController extends AbstractController
              $returnedServ=$cartService->addToCart($article,$quantity,$session);
              if($returnedServ=='success'){
                 $data['success']='success';
+            }else{
+                $data['error']='supQuantite';
             }
         }
       
@@ -175,7 +178,9 @@ class ConsommationPatientController extends AbstractController
         $commandeType=$this->entityManager->getRepository(CommandeType::class)->find(2);
         $dossierid=$request->getSession()->get('selectedDossier')->getId();
         $dossier=$this->entityManager->getRepository(PDossier::class)->find($dossierid);
+        $antenne=$this->entityManager->getRepository(Uantenne::class)->find(9);
         $status=$this->entityManager->getRepository(DemandStatus::class)->find(4);
+        $user = $this->getUser();
 
         $this->entityManager->beginTransaction();
         if($articles){
@@ -190,10 +195,11 @@ class ConsommationPatientController extends AbstractController
             $demandeCab->setDate($currentDateTime);
             $demandeCab->setUrgent(0);
             $demandeCab->setCommandeType($commandeType);
-        
+            $demandeCab->setUserCreated( $user);
             $demandeCab->setDemandeur($dossier);
             $demandeCab->setStatus($status);
-
+            $demandeCab->setUantenne($antenne);
+            $demandeCab->setAntenneDemandeur($antenne);
             $this->entityManager->persist($demandeCab);
             $this->entityManager->flush();
             foreach ($articles as $article) {
@@ -211,7 +217,7 @@ class ConsommationPatientController extends AbstractController
             $this->entityManager->persist($stockActual);
             $this->entityManager->flush();
 
-            $umouvAnt=$this->entityManager->getRepository(UmouvementAntenne::class)->find($article['article']->getId());
+            $umouvAnt=$this->entityManager->getRepository(UmouvementAntenne::class)->findOneBy(['article'=>$article['article']->getId(),'antenne'=>$antenne]);
             $umouvStock=$stockActual->getQuantite();
             $umouvAnt->setQuantite($umouvStock-$article['quantity']);
             $umouvAnt->setAjoSup($umouvStock-$article['quantity']);

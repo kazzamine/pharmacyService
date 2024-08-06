@@ -42,7 +42,9 @@ class SuiviCommandeController extends AbstractController
         $search=$request->request->get('search');
         $service=$request->request->get('service');
         $date=$request->request->get('date');
-        $demandes=$this->entityManager->getRepository(DemandStockCab::class)->getDemandes($search,$service,$date,$dossier->getId());
+        $user = $this->getUser();
+        $userId = $user->getId();
+        $demandes=$this->entityManager->getRepository(DemandStockCab::class)->getDemandes($search,$service,$date,$dossier->getId(),$userId);
         $returnedHtml= $this->render('suivi_commande/demandes.html.twig', [
             'demandes'=>$demandes,
             'consomPat'=>$consomPatient
@@ -50,5 +52,18 @@ class SuiviCommandeController extends AbstractController
        
         return new JsonResponse($returnedHtml->getContent());
     }
+
+    #[Route('/suivi/commande/detail/{demandCabID}', name: 'commande_detail')]
+    public function getCommandeDetail($demandCabID,Request $request): JsonResponse
+    {
+        $service=$request->request->get('service');
+        $products = $this->entityManager->getRepository(DemandStockCab::class)->findProductsByDemandId($demandCabID,$service);
+        $html = $this->renderView('includes/productList.html.twig', [
+            'products' => $products
+        ]);
+    
+        return new JsonResponse($html);
+    }
+    
 
 }

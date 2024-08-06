@@ -1,45 +1,43 @@
 {% if demandes %}
     {% for demande in demandes %}
-    {% if consomPat!=1 %}
-
-        <div class="col-md-3 m-2 consomCard scrolling" data-bs-toggle="modal" data-bs-target="#dtCommande{{demande.demandCabID}}">
-            <div class="card custom-card sideCat2">
-                <img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark">
-                <div class="card-header2">
-                    {# <span class="badge custom-badge">Validée</span> #}
-                    <p class="mb-0 text-center">{{demande.di}}</p>
-                    <p class="mb-0 text-center">{{demande.ipp}}</p>
-                    <p class="mb-0 text-center">{{demande.patient}}</p>
-                    <p class="mb-0 text-center">{{demande.date | date('d/m/Y')}}</p>
-                    <p class="mb-0 text-center">Service de Soins</p>
-                </div>
-                <div class="card-footer text-center">
-                    <span class="total-label order-number">Total:</span>
-                    <span class="total-amount order-number">{{demande.total_price}}</span>
-                </div>
-            </div>
-            {{ include('includes/detailCommande.html.twig') }}		
-        </div>
-    {% else %}
-        <a  class="col-md-3 d-block mb-3 consomCard custom-link" data-bs-toggle="modal" data-bs-target="#dtCommande{{demande.demandCabID}}">
-            <div  class="card custom-card-modal">
-                <img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark-img-modal">
-                <div class="card-header-content-modal">
-                    {# <span class="badge custom-badge">Validée</span> #}
-                    <p class="mb-0 text-center text-center-custom-modal">{{demande.di}}</p>
-                    <p class="mb-0 text-center text-center-custom-modal">{{demande.ipp}}</p>
-                    <p class="mb-0 text-center text-center-custom-modal">{{demande.patient}}</p>
-                    <p class="mb-0 text-center text-center-custom-modal">{{demande.date | date('d/m/Y')}}</p>
-                    <p class="mb-0 text-center text-center-custom-modal">Service de Soins</p>
-                </div>
-                <div class="card-footer card-footer-custom-modal text-center">
-                    <span class="total-label-custom-modal order-number">Total:</span>
-                    <span class="total-amount-custom-modal order-number">{{demande.total_price|number_format(2, ',', ' ')}}</span>
+        {% if consomPat != 1 %}
+            <div class="col-md-3 m-2 consomCard scrolling" data-bs-toggle="modal" data-bs-target="#dtCommande{{demande.demandCabID}}" data-demand-id="{{demande.demandCabID}}">
+                <div class="card custom-card sideCat2">
+                    <img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark">
+                    <div class="card-header2">
+                        <p class="mb-0 text-center">{{demande.di}}</p>
+                        <p class="mb-0 text-center">{{demande.ipp}}</p>
+                        <p class="mb-0 text-center">{{demande.patient}}</p>
+                        <p class="mb-0 text-center">{{demande.date | date('d/m/Y')}}</p>
+                        <p class="mb-0 text-center">Service de Soins</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <span class="total-label order-number">Total:</span>
+                        <span class="total-amount order-number">{{demande.total_price}}</span>
+                    </div>
                 </div>
             </div>
-            {{ include('includes/detailCommande.html.twig') }}		
-        </a>
-    {% endif %}
+             {% include 'includes/detailCommande.html.twig' with {'demande': demande} %}
+        {% else %}
+            <a class="col-md-3 d-block mb-3 consomCard custom-link" href='#' data-demand-id="{{demande.demandCabID}}">
+                <div class="card custom-card-modal">
+                    <img src="{{ asset('img/Checkmark.png') }}" alt="Checkmark" class="checkmark-img-modal">
+                    <div class="card-header-content-modal">
+                        <p class="mb-0 text-center text-center-custom-modal">{{demande.di}}</p>
+                        <p class="mb-0 text-center text-center-custom-modal">{{demande.ipp}}</p>
+                        <p class="mb-0 text-center text-center-custom-modal">{{demande.patient}}</p>
+                        <p class="mb-0 text-center text-center-custom-modal">{{demande.date | date('d/m/Y')}}</p>
+                        <p class="mb-0 text-center text-center-custom-modal">Service de Soins</p>
+                    </div>
+                    <div class="card-footer card-footer-custom-modal text-center">
+                        <span class="total-label-custom-modal order-number">Total:</span>
+                        <span class="total-amount-custom-modal order-number">{{demande.total_price|number_format(2, ',', ' ')}}</span>
+                    </div>
+                </div>
+            </a>
+             
+        {% endif %}
+      
     {% endfor %}
 {% else %}
     <div> aucun demande trouvé </div>

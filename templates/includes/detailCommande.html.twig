@@ -6,7 +6,7 @@
   <div class="modal-dialog modal-lg modal-dialog-centered row">
     <div class="modal-content col-md-7">
       <div class="modal-header position-relative text-center">
-        <h5 class="modal-title mx-auto order-number2 Poppins text-center" id="exampleModalLabel">Commande de Mr Yassir-service soins</h5>
+        <h5 class="modal-title mx-auto order-number2 Poppins text-center" id="exampleModalLabel">Commande de {{demande.patient}}</h5>
       </div>
     
       <div class="modal-body">
@@ -16,28 +16,13 @@
           <p class="bold">{{demande.patient}}</p>
           <p>date d’hospitalisation: {{demande.date | date('d/m/Y')}}</p>
         </div>
-        <div class="product-list">
-        {% for article in demande.articles %}
-      
-          <div class="product-item Pro">
-            <img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Doliprane">
-            <div class="product-details">
-              <p>{{article.article_name}}</p>
-              <p class="Poppins">Prix : {{article.price}}</p>
-            </div>
-          </div>
-          {% endfor %}
-         
-          <div class="total Inter">
+        <div class="product-list" id="product-list-{{demande.demandCabID}}">
+          
+        </div>
+        <div class="total Inter">
           <span class="total-label order-number2">Total:</span> <span class="total-amount order-number2">{{demande.total_price}}</span>
         </div>
-        </div>
-      
-      </div>
-    
-    
+      </div>    
     </div>
-
-
   </div>
 </div>

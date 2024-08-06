@@ -45,103 +45,131 @@ class DemandStockCabRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
-    public function getDemandes($patient = null, $service = null, $date = null, $dossier = null) {
-        $conn = $this->getEntityManager()->getConnection();
-    
-        // Start with the base SQL query
-        $sql = "
-            SELECT 
-                dsc.id AS demandCabID,
-                dsc.date AS date,
-                dsc.di AS di,
-                dsc.patient AS patient,
-                dsc.ipp AS ipp,
-                a.id AS article_id,
-                a.titre AS article_name,
-                dsd.qte AS quantity,
-                COALESCE(um.prix, 0) AS price,
-                ROUND(dsd.qte * COALESCE(um.prix, 0), 2) AS total_price_for_article
-            FROM 
-                demand_stock_cab dsc
-                JOIN demande_stock_det dsd ON dsc.id = dsd.demande_cab_id
-                JOIN uantenne ua ON dsc.uantenne_id = ua.id
-                JOIN udepot dep ON ua.depot_id = dep.id
-                JOIN p_dossier d ON dep.dossier_id = d.id   
-                 JOIN uarticle a ON dsd.uarticle_id = a.id
-                 JOIN umouvement_antenne um ON a.id = um.article_id
-            WHERE 
-                dsc.user_created = :user
-                
-        ";
-    
-        $params = [
-            'user' => 122
-        ];
-    
-        // Dynamically append conditions and parameters
-        if ($patient!=='' && $patient!==null) {
-            $sql .= ' AND (dsc.patient LIKE :patient OR dsc.ipp LIKE :patient)';
-            $params['patient'] = '%' . $patient . '%';
-        }
-    
-        if ($date!=='' && $date!==null ) {
-            $sql .= ' AND dsc.date LIKE :date';
-            $params['date'] = '%' . $date . '%';
-        }
-    
-        if ($service!=='' && $service!==null) {
-            $sql .= ' AND d.id = :dossier';
-            $params['dossier'] = $service;
-        }
-    
-       
-        $sql .= ' LIMIT 10';
-    
-        $stmt = $conn->prepare($sql);
-        $resultSet = $stmt->executeQuery($params); 
-        $results = $resultSet->fetchAllAssociative();
-        $response = [];
-        $currentDemandCabID = null;
-        $demandData = [];
-    
-        foreach ($results as $row) {
-            if ($currentDemandCabID !== $row['demandCabID']) {
-                if ($currentDemandCabID !== null) {
-                    $response[] = $demandData;
-                }
-                $demandData = [
-                    'demandCabID' => $row['demandCabID'],
-                    'date' => $row['date'],
-                    'di' => $row['di'],
-                    'patient' => $row['patient'],
-                    'ipp' => $row['ipp'],
-                    'articles' => [],
-                    'total_price' => 0
-                ];
-                $currentDemandCabID = $row['demandCabID'];
-            }
-            if ($row['article_id']) {
-                $totalPriceForArticle = $row['total_price_for_article'];
-    
-                $demandData['articles'][] = [
-                    'article_name' => $row['article_name'],
-                    'article_id' => $row['article_id'],
-                    'quantity' => $row['quantity'],
-                    'price' => $row['price'],
-                    'total_price' => $totalPriceForArticle
-                ];
-    
-                $demandData['total_price'] += $totalPriceForArticle;
-            }
-        }
-    
-        if ($currentDemandCabID !== null) {
-            $response[] = $demandData;
-        }
-    
-        return $response;
+   
+    public function getDemandes($patient = null, $service = null, $date = null, $dossier = null,$user=null)
+{
+    $conn = $this->getEntityManager()->getConnection();
+
+    // Simplified SQL to fetch only high-level demand details
+    $sql = "
+       SELECT 
+            dsc.id AS demandCabID,
+            dsc.date AS date,
+            dsc.di AS di,
+            dsc.patient AS patient,
+            dsc.ipp AS ipp
+        FROM 
+            demand_stock_cab dsc
+          
+        WHERE 
+            dsc.user_created = :user
+    ";
+
+    $params = [
+        'user' => $user
+    ];
+
+    // Dynamically append conditions and parameters
+    if ($patient !== '' && $patient !== null) {
+        $sql .= ' AND (dsc.patient LIKE :patient OR dsc.ipp LIKE :patient)';
+        $params['patient'] = '%' . $patient . '%';
     }
-    
+
+    if ($date !== '' && $date !== null) {
+        $sql .= ' AND dsc.date LIKE :date';
+        $params['date'] = '%' . $date . '%';
+    }
+
+    if ($service !== '' && $service !== null) {
+        $sql .= ' and dsc.demandeur_id= :dossier';
+        $params['dossier'] = $service;
+    }else{
+        $sql .= ' and dsc.demandeur_id= :dossier';
+        $params['dossier'] = $dossier;
+    }
+
+    $stmt = $conn->prepare($sql);
+    $resultSet = $stmt->executeQuery($params);
+    $results = $resultSet->fetchAllAssociative();
+
+    // Calculate the total price separately
+    foreach ($results as &$row) {
+        $row['total_price'] = $this->calculateTotalPriceForDemand($row['demandCabID']);
+    }
+
+    return $results;
+}
+
+private function calculateTotalPriceForDemand($demandCabID)
+{
+    $conn = $this->getEntityManager()->getConnection();
+
+    $sql = "
+    SELECT 
+        SUM(ROUND(dsd.qte * COALESCE(um.prix, 0), 2)) AS total_price
+        FROM 
+            demande_stock_det dsd
+        JOIN 
+            uarticle a ON dsd.uarticle_id = a.id
+        JOIN 
+            (
+                SELECT 
+                    um.article_id, 
+                    MIN(um.prix) AS prix 
+                FROM 
+                    umouvement_antenne um
+                JOIN 
+                    demand_stock_cab dsc ON um.antenne_id = dsc.uantenne_id
+                WHERE 
+                    dsc.id = :demandCabID
+                GROUP BY 
+                    um.article_id
+            ) um ON a.id = um.article_id
+        WHERE 
+            dsd.demande_cab_id = :demandCabID;
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $result = $stmt->executeQuery(['demandCabID' => $demandCabID]);
+
+    // Use fetchOne() on the Result object to get the single value
+    return $result->fetchOne();
+    }   
+
+    public function findProductsByDemandId($demandCabID)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "
+     SELECT 
+        a.id AS article_id, 
+        a.titre AS article_name, 
+        dsd.qte AS quantity, 
+        ROUND(MIN(COALESCE(um.prix, 0)),2) AS price, 
+        ROUND(MIN(dsd.qte * COALESCE(um.prix, 0)), 2) AS total_price_for_article 
+    FROM 
+        demande_stock_det dsd 
+    JOIN 
+        demand_stock_cab dsc ON dsc.id = dsd.demande_cab_id 
+    JOIN 
+        uarticle a ON dsd.uarticle_id = a.id 
+    JOIN 
+        umouvement_antenne um ON a.id = um.article_id 
+    WHERE 
+        dsd.demande_cab_id = :demandCabID 
+        AND um.antenne_id = dsc.Uantenne_id
+    GROUP BY 
+        a.id, 
+        a.titre, 
+        dsd.qte;
+        ";
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->executeQuery(['demandCabID' => $demandCabID]);
+
+        return $result->fetchAllAssociative();
+    }
+
+
     // public function getDemandes($patient=null,$service=null,$date=null,$dossier=null){
     //     $umouvementRepository = $this->entityManager->getRepository(UmouvementAntenne::class);
     //     $demandStockCabRepository = $this->entityManager->getRepository(DemandStockCab::class);

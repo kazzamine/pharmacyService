@@ -62,21 +62,21 @@ $(document).ready(function () {
                         $quantityBadge.text(quantity).removeClass('d-none');
                         const modal = Modal.getInstance($('#qteModal')) || new Modal($('#qteModal'));
                         modal.hide();
-                        $('.loader').hide();
+                        $('.loader').hide();    
                         $('#confirmQuantity').show();
                         location.reload()
                     }
                 }
             })
         } else {
-            let $article = $('.produit[data-id="' + articleId + '"]');
-            let $quantityBadge = $article.find('.quantity-badge');
-            $quantityBadge.text('0').addClass('d-none');
-            const modal = Modal.getInstance($('#qteModal')) || new Modal($('#qteModal'));
-            modal.hide();
+            $('.error-message #errorText').html("saisi une quantité sup à 0");
+            $('.error-message').show('');
+            hideAlert();
             $('.loader').hide();
             $('#confirmQuantity').show();
         }
+        $('.loader').hide();
+        $('#confirmQuantity').show();
     });
 
     //articles by selected categorie
@@ -97,7 +97,7 @@ $(document).ready(function () {
         })
     }
     //on famille click
-    $('body').on('click', '.cat-title', (event) => {
+    $('body').on('click', '.sideCat', (event) => {
         let familleID = $(event.currentTarget).attr('id');
         getArticleByFam(familleID)
     })
@@ -140,7 +140,6 @@ $(document).ready(function () {
                 $('.successMessage').show('');
                 hideAlert();
                 $('.qteDisplay').val(result.qte)
-                location.reload()
             }
             
         })
@@ -259,44 +258,79 @@ $(document).ready(function () {
     })
 
     //load demandes data
-    //search product by info
-   const getDemandeBySearch=(searchTerm,date)=>{
 
+    const getDemandeBySearch = (searchTerm, date) => {
         $('.loader').show();
         $('.demandes').hide();
+    
         // Cancel previous request, if any
         if (currentRequest !== null) {
             currentRequest.abort();
         }
-
-        currentRequest=$.ajax({
+    
+        currentRequest = $.ajax({
             type: "POST",
-            url:"/suivi/commande/byfilter",
-            data:{
-                search:searchTerm,
-                service:null,
-                date:date,
-                consomPatient:1
+            url: "/suivi/commande/byfilter",
+            data: {
+                search: searchTerm,
+                service: null,
+                date: date,
+                consomPatient: 1
             },
-            success:(result)=>{
+            success: (result) => {
                 $("#demData").empty().append(result);
                 $('.loader').hide();
                 $('.demandes').show();
             }
-        })
-        }
+        });
+    };
+    
+    $('#demandes').on('click', () => {
+        let searchTerm = null;
+        let date = null;
+        getDemandeBySearch(searchTerm, date);
+    });
+    
+    $('#date').on('change', () => {
+        let searchTerm = $('#demmande-search').val();
+        let date = $('#date').val();
+        getDemandeBySearch(searchTerm, date);
+    });
+    
+   
+    $('body').on('click', '.consomCard',(event)=> {
+        let demandId =$(event.currentTarget).data('demand-id');
+        let card = $(event.currentTarget);
+        $('#demandes-view').hide();
+        console.log(demandId)
+        $('#details-view').show();
 
-        
-    $('#demandes').on('click',()=>{
-        let searchTerm= null;
-        let date= null;
-        getDemandeBySearch(searchTerm,date);
-    })
+        $('#detailDI').text(card.find('.text-center-custom-modal:eq(0)').text());
+        $('#detailIPP').text(card.find('.text-center-custom-modal:eq(1)').text());
+        $('#detailPatient').text(card.find('.text-center-custom-modal:eq(2)').text());
+        $('#detailDate').text('Date d’hospitalisation: ' + card.find('.text-center-custom-modal:eq(3)').text());
+        $('#detailTotal').text(card.find('.total-amount-custom-modal').text());
 
-    $('#date').on('change',()=>{
-        let searchTerm= $('#demmande-search').val();
-        let date= $('#date').val();
-        getDemandeBySearch(searchTerm,date);
-    })
+        $('#product-list').html('Loading...');
+
+        $.ajax({
+            url: '/suivi/commande/detail/' + demandId,
+            method: 'POST',
+            data: {
+                service: $('#service').val() 
+            },
+            success: function(response) {
+                $('#product-list').html(response);
+            },
+            error: function() {
+                $('#product-list').html("<p>Une erreur s'est produite lors du chargement des détails.</p>");
+            }
+        });
+    });
+
+    $('#back-to-demandes').on('click', function() {
+        $('#details-view').hide();
+        $('#demandes-view').show();
+    });
     
 });

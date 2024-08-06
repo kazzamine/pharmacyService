@@ -21,8 +21,7 @@ class Uarticle {
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     private $id;
-    
-    
+     
     #[ORM\ManyToOne(targetEntity: \App\Entity\PNomenclatureStandard::class)]
     private $nomenclatureStandard;
     
@@ -33,7 +32,6 @@ class Uarticle {
      #[ORM\JoinColumn(name: 'niveau_id', nullable: true)]
     #[ORM\ManyToOne(targetEntity: \App\Entity\PArticleNiveau::class, inversedBy: 'articles')]
     private $niveau;
-    
 
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
@@ -47,7 +45,6 @@ class Uarticle {
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $image;
 
-    
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $codeArticleFournisseur;
 
@@ -64,7 +61,6 @@ class Uarticle {
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
-    
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $url;
 
@@ -72,7 +68,6 @@ class Uarticle {
     #[ORM\ManyToOne(targetEntity: \App\Entity\Udepot::class, inversedBy: 'uarticles')]
     private $depot;
 
-    
     #[Assert\Positive]
     #[ORM\Column(type: 'float', length: 255, nullable: true)]
     private $stockBase;
@@ -105,11 +100,9 @@ class Uarticle {
     #[ORM\Column(type: 'float', length: 255, nullable: true)]
     private $volume;
 
-    
     #[ORM\Column(type: 'float', nullable: true)]
     private $prixVente = 0;
 
-    
     #[ORM\Column(type: 'float', nullable: true)]
     private $prixVenteMin = 0;
     
@@ -118,11 +111,9 @@ class Uarticle {
     
     #[ORM\Column(type: 'float', nullable: true)]
     private $prixVenteMoyenne = 0;
-
     
     #[ORM\Column(type: 'float', nullable: true)]
     private $prixAchat = 0;
-
     
     #[ORM\Column(type: 'float', nullable: true)]
     private $prixAchatMin = 0;
@@ -167,11 +158,9 @@ class Uarticle {
     #[ORM\ManyToOne(targetEntity: \App\Entity\ParticleNature::class)]
     private $nature;
 
-    
     #[ORM\Column(name: 'autre_information', type: 'text', nullable: true)]
     private $autreInformation;
 
-    
     #[ORM\Column(name: 'description_detail', type: 'text', nullable: true)]
     private $descriptionDetail;
 
@@ -206,8 +195,6 @@ class Uarticle {
     #[ORM\OneToMany(targetEntity: \App\Entity\UmouvementStock::class, mappedBy: 'article')]
     private $umouvementStocks;
 
-
-
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $gererEnStock;
 
@@ -216,8 +203,6 @@ class Uarticle {
 
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
     private $codeBarre;
-
-  
 
     #[Assert\Range(min: 0, max: 100)]
     #[ORM\Column(type: 'integer', nullable: true)]
@@ -242,19 +227,15 @@ class Uarticle {
 
     #[ORM\JoinColumn(nullable: true)]
     #[ORM\ManyToOne(targetEntity: \App\Entity\PArticleNiveau::class, inversedBy: 'uarticles4')]
-    private $niveau4;
+    private $niveau4;   
     
-    
-    
-       #[ORM\ManyToOne(targetEntity: \App\Entity\PForme::class)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\PForme::class)]
     private $forme;
-    
     
      #[ORM\ManyToOne(targetEntity: \App\Entity\PPresentation::class)]
     private $presentation;
     
-    
-      #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $codeEan13;
     
       #[ORM\Column(type: 'string', length: 255, nullable: true)]

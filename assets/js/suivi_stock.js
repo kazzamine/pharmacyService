@@ -57,7 +57,7 @@ $(document).ready(function() {
 
        }
    //on famille click
-   $('body').on('click','.cat-title',(event)=>{
+   $('body').on('click', '.sideCat', (event) => {
        let familleID=$(event.currentTarget).attr('id');
        getArticleByFam(familleID)
    })
