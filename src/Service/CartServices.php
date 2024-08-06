@@ -16,23 +16,30 @@ class CartServices
     
     }
 
-    public function addToCart(UmouvementAntenne $article,$quantity,SessionInterface $session)
+    public function addToCart(UmouvementAntenne $article, $quantity, SessionInterface $session)
     {
-        $articleData=$this->entityManager->getRepository(StockActual::class)->findOneBy(['article'=>$article->getArticle()->getId(),'antenne'=>9]);
+        $articleData = $this->entityManager->getRepository(StockActual::class)->findOneBy(['article' => $article->getArticle()->getId(), 'antenne' => 9]);
         $cart = $session->get('cart', []);
+
         if (isset($cart[$article->getArticle()->getId()])) {
-            $newQte=$cart[$article->getArticle()->getId()]['quantity'] + $quantity;
-            if( $newQte<=$articleData->getQuantite()){
+            $newQte = $cart[$article->getArticle()->getId()]['quantity'] + $quantity;
+            if ($newQte <= $articleData->getQuantite()) {
                 $cart[$article->getArticle()->getId()]['quantity'] += $quantity;
-            }else{
+            } else {
                 return 'supQuantite';
             }
         } else {
-            $cart[$article->getArticle()->getId()] = ['quantity'=>$quantity,'article'=>$article,'name'=>$article->getArticle()->getTitre()];
+            $cart[$article->getArticle()->getId()] = [
+                'quantity' => $quantity,
+                'article' => $article,
+                'name' => $article->getArticle()->getTitre()
+            ];
         }
+
         $session->set('cart', $cart);
         return 'success';
     }
+
     public function removeFromCart($id,SessionInterface $session)
     {
         $cart = $session->get('cart', []);

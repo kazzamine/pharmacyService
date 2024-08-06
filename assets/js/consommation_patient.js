@@ -25,59 +25,52 @@ $(document).ready(function () {
         $('#quantityInput').val('');
     });
 
-    $('body').on('click', '#confirmQuantity', () => {
-        $('.loader').show();
-        $('#confirmQuantity').hide();
+    $('body').on('click', '#confirmQuantity', function() {
         let articleId = $('#article_id').val();
         let quantity = $('#quantityInput').val();
+    
         if (quantity > 0) {
-            let $article = $('.produit[data-id="' + articleId + '"]');
-            if (currentRequest !== null) {
-                currentRequest.abort();
-            }
-
-            currentRequest = $.ajax({
+            $.ajax({
                 type: "POST",
                 url: "/consommation_patient/addCart",
                 data: {
                     articleID: articleId,
                     quantity: quantity
                 },
-                success: (result) => {
-                    if (result.error == 'supQuantite') {
-                        $('.error-message #errorText').html("la quantité que vous voulez est supérieur à la quantité en Stock!");
-                        $('.error-message').show('');
-                        hideAlert();
+                success: function(result) {
+                    if (result.success === 'success') {
+                        // Update the quantity badge on the product card
+                        let $badge = $('.produit[data-id="' + result.articleID + '"] .qte-produit');
+                        $badge.text(result.updatedQuantity); // Set the updated quantity text
+                        $badge.removeClass('d-none'); // Ensure the badge is visible
+    
+                        // Optionally update the cart and total price display as before
+                        $('.scrollable-cart').html(result.cartHtml);
+                        $('#totalPrice').text('Total Price: ' + result.totalPrice + ' EUR');
+    
+                        // Optionally hide the loader and close the modal
                         $('.loader').hide();
-                        $('#confirmQuantity').show();
-                    } else if (result.error == 'vendu') {
-                        $('.error-message #errorText').html("ce produit est vendu!");
-                        $('.error-message').show('');
-                        hideAlert();
-                        $('.loader').hide();
-                        $('#confirmQuantity').show();
-                    }
-                    if (result.success == 'success') {
-                        let $quantityBadge = $article.find('.quantity-badge');
-                        $quantityBadge.text(quantity).removeClass('d-none');
                         const modal = Modal.getInstance($('#qteModal')) || new Modal($('#qteModal'));
                         modal.hide();
-                        $('.loader').hide();    
+                    } else if (result.error) {
+                        // Handle errors if any
+                        $('.error-message #errorText').html(result.error);
+                        $('.error-message').show();
+                        $('.loader').hide();
                         $('#confirmQuantity').show();
-                        location.reload()
                     }
                 }
-            })
+            });
         } else {
-            $('.error-message #errorText').html("saisi une quantité sup à 0");
-            $('.error-message').show('');
-            hideAlert();
+            $('.error-message #errorText').html("Please enter a quantity greater than 0.");
+            $('.error-message').show();
             $('.loader').hide();
             $('#confirmQuantity').show();
         }
-        $('.loader').hide();
-        $('#confirmQuantity').show();
     });
+    
+    
+    
 
     //articles by selected categorie
     const getArticleByFam = (id) => {

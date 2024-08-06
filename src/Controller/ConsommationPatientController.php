@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Twig\Environment;
 
 class ConsommationPatientController extends AbstractController
 {
@@ -84,30 +85,69 @@ class ConsommationPatientController extends AbstractController
     }
 
     #[Route('/consommation_patient/addCart', name: 'app_consommation_addCart')]
-    public function addArtCart(Request $request,CartServices $cartService,SessionInterface $session): JsonResponse
-    {
-        $articleID=$request->request->get('articleID');
-        $quantity=$request->request->get('quantity');
-        $article=$this->entityManager->getRepository(UmouvementAntenne::class)->findOneBy(['article'=>$articleID,'antenne'=>9]);
-        $articleData=$this->entityManager->getRepository(StockActual::class)->findOneBy(['article'=>$articleID,'antenne'=>9]);
-        $data=[];
-        if($articleData->getQuantite()==0){
-            $data['error']='vendu';
-        }else if($quantity>$articleData->getQuantite()){
-            $data['error']='supQuantite';
+public function addArtCart(
+    Request $request, 
+    CartServices $cartService, 
+    SessionInterface $session, 
+    Environment $twig
+): JsonResponse {
+    $articleID = $request->request->get('articleID');
+    $quantity = (int) $request->request->get('quantity');
+    
+    $article = $this->entityManager->getRepository(UmouvementAntenne::class)
+                                   ->findOneBy(['article' => $articleID, 'antenne' => 9]);
+    $articleData = $this->entityManager->getRepository(StockActual::class)
+                                       ->findOneBy(['article' => $articleID, 'antenne' => 9]);
+
+    if ($articleData->getQuantite() == 0) {
+        return new JsonResponse(['error' => 'vendu']);
+    } elseif ($quantity > $articleData->getQuantite()) {
+        return new JsonResponse(['error' => 'supQuantite']);
+    } elseif ($quantity <= $articleData->getQuantite() && $quantity != 0) {
+        $result = $cartService->addToCart($article, $quantity, $session);
+
+if ($result == 'success') {
+    $cart = $session->get('cart', []);
+    $totalQuantity = 0;
+    $totalPrice = 0.0;
+    $cartHtml = '';
+
+    // Find the updated quantity for the specific item
+    $updatedQuantity = 0;
+
+    foreach ($cart as $cartItem) {
+        $totalQuantity += $cartItem['quantity'];
+        $totalPrice += $cartItem['quantity'] * $cartItem['article']->getPrix();
+        
+        // Check if this is the item being updated
+        if ($cartItem['article']->getArticle()->getId() == $articleID) {
+            $updatedQuantity = $cartItem['quantity'];
         }
-        if($quantity<=$articleData->getQuantite() and $quantity!=0){
-             $returnedServ=$cartService->addToCart($article,$quantity,$session);
-             if($returnedServ=='success'){
-                $data['success']='success';
-            }else{
-                $data['error']='supQuantite';
-            }
-        }
-      
-       
-        return new JsonResponse($data);
+
+        // Render each cart item and append to the cartHtml
+        $cartHtml .= $twig->render('consommation_patient/cart_item.html.twig', ['cartItem' => $cartItem]);
     }
+
+    $session->set('totalPrice', $totalPrice);
+
+    return new JsonResponse([
+        'success' => 'success',
+        'cartHtml' => $cartHtml,
+        'totalPrice' => $totalPrice,
+        'updatedQuantity' => $updatedQuantity,  // Include the updated quantity in the response
+        'articleID' => $articleID,  // Include the article ID for easy reference in the JS
+    ]);
+}
+ else {
+            return new JsonResponse(['error' => 'supQuantite']);
+        }
+    }
+
+    return new JsonResponse(['error' => 'unknown']);
+}
+
+
+
 
     #[Route('/consommation_patient/remove/{id}', name: 'app_consommation_cart_remove')]
     public function removeFromCart($id, SessionInterface $session,CartServices $cartService)
