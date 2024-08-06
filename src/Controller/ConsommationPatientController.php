@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use App\Entity\CommandeType;
@@ -62,7 +61,6 @@ class ConsommationPatientController extends AbstractController
     {
         $dossier=$request->getSession()->get('selectedDossier');
         $familleID=$request->request->get('famId');
-        $search='';
         $articles=$this->entityManager->getRepository(Uarticle::class)->getArticlesByCat($dossier->getId(),$familleID,null);
         $returnedHtml= $this->render('consommation_patient/produit.html.twig', [
             'articles'=>$articles
@@ -85,69 +83,57 @@ class ConsommationPatientController extends AbstractController
     }
 
     #[Route('/consommation_patient/addCart', name: 'app_consommation_addCart')]
-public function addArtCart(
-    Request $request, 
-    CartServices $cartService, 
-    SessionInterface $session, 
-    Environment $twig
-): JsonResponse {
-    $articleID = $request->request->get('articleID');
-    $quantity = (int) $request->request->get('quantity');
-    
-    $article = $this->entityManager->getRepository(UmouvementAntenne::class)
-                                   ->findOneBy(['article' => $articleID, 'antenne' => 9]);
-    $articleData = $this->entityManager->getRepository(StockActual::class)
-                                       ->findOneBy(['article' => $articleID, 'antenne' => 9]);
-
-    if ($articleData->getQuantite() == 0) {
-        return new JsonResponse(['error' => 'vendu']);
-    } elseif ($quantity > $articleData->getQuantite()) {
-        return new JsonResponse(['error' => 'supQuantite']);
-    } elseif ($quantity <= $articleData->getQuantite() && $quantity != 0) {
-        $result = $cartService->addToCart($article, $quantity, $session);
-
-if ($result == 'success') {
-    $cart = $session->get('cart', []);
-    $totalQuantity = 0;
-    $totalPrice = 0.0;
-    $cartHtml = '';
-
-    // Find the updated quantity for the specific item
-    $updatedQuantity = 0;
-
-    foreach ($cart as $cartItem) {
-        $totalQuantity += $cartItem['quantity'];
-        $totalPrice += $cartItem['quantity'] * $cartItem['article']->getPrix();
+    public function addArtCart( Request $request,  CartServices $cartService,  SessionInterface $session,  Environment $twig): JsonResponse 
+    {
+        $articleID = $request->request->get('articleID');
+        $quantity = (int) $request->request->get('quantity');
         
-        // Check if this is the item being updated
-        if ($cartItem['article']->getArticle()->getId() == $articleID) {
-            $updatedQuantity = $cartItem['quantity'];
-        }
+        $article = $this->entityManager->getRepository(UmouvementAntenne::class)
+                                    ->findOneBy(['article' => $articleID, 'antenne' => 9]);
+        $articleData = $this->entityManager->getRepository(StockActual::class)
+                                        ->findOneBy(['article' => $articleID, 'antenne' => 9]);
 
-        // Render each cart item and append to the cartHtml
-        $cartHtml .= $twig->render('consommation_patient/cart_item.html.twig', ['cartItem' => $cartItem]);
-    }
-
-    $session->set('totalPrice', $totalPrice);
-
-    return new JsonResponse([
-        'success' => 'success',
-        'cartHtml' => $cartHtml,
-        'totalPrice' => $totalPrice,
-        'updatedQuantity' => $updatedQuantity,  // Include the updated quantity in the response
-        'articleID' => $articleID,  // Include the article ID for easy reference in the JS
-    ]);
-}
- else {
+        if ($articleData->getQuantite() == 0) {
+            return new JsonResponse(['error' => 'vendu']);
+        } elseif ($quantity > $articleData->getQuantite()) {
             return new JsonResponse(['error' => 'supQuantite']);
+        } elseif ($quantity <= $articleData->getQuantite() && $quantity != 0) {
+            $result = $cartService->addToCart($article, $quantity, $session);
+
+        if ($result == 'success') {
+            $cart = $session->get('cart', []);
+            $totalQuantity = 0;
+            $totalPrice = 0.0;
+            $cartHtml = '';
+
+            $updatedQuantity = 0;
+
+            foreach ($cart as $cartItem) {
+                $totalQuantity += $cartItem['quantity'];
+                $totalPrice += $cartItem['quantity'] * $cartItem['article']->getPrix();
+
+                if ($cartItem['article']->getArticle()->getId() == $articleID) {
+                    $updatedQuantity = $cartItem['quantity'];
+                }
+
+                $cartHtml .= $twig->render('consommation_patient/cart_item.html.twig', ['cartItem' => $cartItem]);
+            }
+            $session->set('totalPrice', $totalPrice);
+
+            return new JsonResponse([
+                'success' => 'success',
+                'cartHtml' => $cartHtml,
+                'totalPrice' => $totalPrice,
+                'updatedQuantity' => $updatedQuantity,  
+                'articleID' => $articleID, 
+            ]);
         }
+        else {
+                    return new JsonResponse(['error' => 'supQuantite']);
+                }
+            }
+        return new JsonResponse(['error' => 'unknown']);
     }
-
-    return new JsonResponse(['error' => 'unknown']);
-}
-
-
-
 
     #[Route('/consommation_patient/remove/{id}', name: 'app_consommation_cart_remove')]
     public function removeFromCart($id, SessionInterface $session,CartServices $cartService)
@@ -160,7 +146,6 @@ if ($result == 'success') {
     #[Route('/consommation_patient/updateQte', name: 'app_consommation_updateQte')]
     public function updateQte(SessionInterface $session,CartServices $cartService,Request $request)
     {
-        
         $id=$request->request->get('articleID');
         $operation=$request->request->get('operation');
         $data['res']=$cartService->updateCart($id,$session,$operation);
@@ -170,13 +155,12 @@ if ($result == 'success') {
     }
 
     #[Route('/consommation_patient/findPatient/{ipp}',name:'app_consommation_find_patient')]
-    public function findPatient($ipp,Request $request,SessionInterface $session):JsonResponse
+    public function findPatient($ipp,Request $request):JsonResponse
     {
         $method = $request->getMethod();
         $body = $request->getContent();
         $headers = $request->headers->all();
         $queryParams = $request->query->all();
-        //$ipp=$request->request->get('ipp');
         $apiUrl = 'http://52.213.254.104/api/upharma/dossier/imputation/' . $ipp;
         $response = $this->httpClient->request($method, $apiUrl, [
             'headers' => $headers,
@@ -186,7 +170,6 @@ if ($result == 'success') {
         $statusCode = $response->getStatusCode();
         if($statusCode != 500){
             
-            //$session->set('patient',json_decode($response->getContent()));
             return new JsonResponse(
                 json_decode($response->getContent())
             );
@@ -257,7 +240,7 @@ if ($result == 'success') {
             $this->entityManager->persist($stockActual);
             $this->entityManager->flush();
 
-            $umouvAnt=$this->entityManager->getRepository(UmouvementAntenne::class)->findOneBy(['article'=>$article['article']->getId(),'antenne'=>$antenne]);
+            $umouvAnt=$this->entityManager->getRepository(UmouvementAntenne::class)->findOneBy(['article'=>$articleData,'antenne'=>$antenne]);
             $umouvStock=$stockActual->getQuantite();
             $umouvAnt->setQuantite($umouvStock-$article['quantity']);
             $umouvAnt->setAjoSup($umouvStock-$article['quantity']);
