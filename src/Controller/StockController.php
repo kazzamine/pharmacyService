@@ -65,7 +65,7 @@ class StockController extends AbstractController
        $articleData['titre']=$article->getTitre();
        $articleData['description']=$article->getDescription();
        $articleData['code_barre']=$article->getcodeBarre();
-       
+       $articleData['famille']=$article->getUfamille()->getDesignation();
         return new JsonResponse($articleData);
     }
 }

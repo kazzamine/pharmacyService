@@ -1,7 +1,21 @@
-
 {% if articles|length > 0 %}
     {% for article in articles %}
-               <div class="col-lg-3 col-md-4 p-1 col-sm-5 produit position-relative" data-bs-toggle="modal" data-bs-target="#qteModal" data-id="{{article.id}}">
+            {% if article.quantite == 0 %}
+                <div class="col-lg-3 col-md-4 p-1 col-sm-5 produit product-sold position-relative" title="{{article.titre}}" data-toggle="tooltip" data-placement="top" style='background: rgba(0, 0, 0, 0.2);'  data-id="{{article.id}}">
+                    <div class="sold-out-overlay">
+                        <img src="{{ asset('img/sold_out.png') }}" alt="Sold Out" class="sold-out-image">
+                    </div>
+                        <span class="qte-produit quantity-badge d-none">0</span>
+                        <div class="div-img" >
+                            <img class="img-produit rounded" src="{{ asset('img/dolip.png') }}" alt="Image de ">
+                            <div class="col-sm-12 name-produit Limit_text">{{article.titre}}</div>
+                            <div class="col-sm-12 col-md-12 price-produit card-body text-start" style='background: rgba(0, 0, 0, 0.02);'>
+                                Disponible : <span>{{article.quantite}}</span> <i class="fas fa-plus-circle" style="color:#265828"></i>
+                            </div>
+                        </div>
+                </div>
+            {% else %}
+                <div class="col-lg-3 col-md-4 p-1 col-sm-5 produit position-relative" data-bs-toggle="modal" data-bs-target="#qteModal" data-id="{{article.id}}" data-toggle="tooltip" data-placement="top" title="{{article.titre}}">
                     <span class="qte-produit quantity-badge d-none">0</span>
                     <div class="div-img">
                         <img class="img-produit rounded" src="{{ asset('img/dolip.png') }}" alt="Image de ">
@@ -11,7 +25,7 @@
                         </div>
                     </div>
                 </div>
-       
+            {% endif %}  
     {% endfor %}
     <div class="modal fade" id="qteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -20,18 +34,17 @@
                     <img src="{{ asset('img/selectQte.png') }}" class="modal-img" alt="Header Image">
                     <h5 class="modal-title mx-auto" id="exampleModalLabel">Insérer la Quantité</h5>
                     <br>
-                        
                 </div>
                 <div class="modal-body">
-                        <div id="formErrors" class="error-message">
-                            <i class="fas fa-exclamation-circle error-icon"></i>
-                            <span id="errorText"></span>
-                        </div>  
+                    <div id="formErrors" class="error-message">
+                        <i class="fas fa-exclamation-circle error-icon"></i>
+                        <span id="errorText"></span>
+                    </div>  
                     <input class="form-control" type="number" id="article_id" readonly hidden />
                     <input class="form-control" type="number" placeholder="Quantité" id="quantityInput" />
                     <br>
                     <button class="btn btn-success offset-9" style="background-color:#265828;" id="confirmQuantity">Valider</button>
-                     <div class="loader offset-9"></div>
+                    <div class="loader offset-9"></div>
                 </div>
             </div>
         </div>

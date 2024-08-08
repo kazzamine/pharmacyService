@@ -4,12 +4,13 @@ $(document).ready(function() {
    if (currentRequest !== null) {
     currentRequest.abort();
 }
-
+    $('#service').select2({
+        placeholder: "Service",
+        allowClear: true
+    });
    //search product by info
    const getDemandeBySearch=(searchTerm,service,date)=>{
-
-         $('#loader').show();
-       
+        $('#loader').show();
        // Cancel previous request, if any
       if (currentRequest !== null) {
           currentRequest.abort();

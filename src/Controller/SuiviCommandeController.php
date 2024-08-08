@@ -42,6 +42,7 @@ class SuiviCommandeController extends AbstractController
         $search=$request->request->get('search');
         $service=$request->request->get('service');
         $date=$request->request->get('date');
+        
         $user = $this->getUser();
         $userId = $user->getId();
         $demandes=$this->entityManager->getRepository(DemandStockCab::class)->getDemandes($search,$service,$date,$dossier->getId(),$userId);

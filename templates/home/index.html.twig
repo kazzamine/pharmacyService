@@ -14,19 +14,19 @@
 					<div class="modal" id="serviceModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="border-radius: 30px;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
 						<div class="modal-dialog modal-dialog-centered">
 							<div class="modal-content">
-							<div class="modal-header position-relative text-center">
-								<img src="{{ asset('img/iconService.png') }}" class="modal-img" alt="Header Image">
-								<h5 class="modal-title mx-auto" id="exampleModalLabel">Choisir un service</h5>
-							</div>
-							<div class="modal-body">
-								<select class="form-select w-100 custom-select" id="serviceSelect">
-								<option selected value=''>choix du service</option>
-								{% for dossier in user_dossier %}
-									<option  value="{{dossier.dossierID}}" >{{dossier.dossierName}}</option>
-								{% endfor %}
-
-								</select>
-							</div>
+								<div class="modal-header position-relative text-center">
+									<img src="{{ asset('img/iconService.png') }}" class="modal-img" alt="Header Image">
+									<h5 class="modal-title mx-auto" id="exampleModalLabel">Choisir un service</h5>
+									<button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<select class="form-select w-100 custom-select" id="serviceSelect">
+										<option selected value=''>choix du service</option>
+										{% for dossier in user_dossier %}
+											<option value="{{dossier.dossierID}}">{{dossier.dossierName}}</option>
+										{% endfor %}
+									</select>
+								</div>
 							</div>
 						</div>
 					</div>

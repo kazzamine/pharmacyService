@@ -136,3 +136,12 @@ body {
 .error-icon {
     margin-right: 8px;
 }
+/* Hide the text inside the fieldset on small screens */
+@media (max-width: 768px) {
+    .left {
+        display: none;
+    }
+    .right {
+        width: 100%;
+    }
+}

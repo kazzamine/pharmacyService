@@ -1,3 +1,95 @@
+/* Main layout adjustments */
+.search-container {
+    flex-wrap: wrap; /* Allow wrapping to avoid overflow */
+    width: 100%; /* Ensure it takes up the full width of the container */
+    display: flex; /* Flexbox to handle responsive layouts */
+    gap: 10px; /* Space between the elements */
+}
+
+.search-bar,
+.form-group {
+    flex: 1 1 100%; /* Take full width and allow wrapping */
+    margin-bottom: 10px; /* Add space between stacked elements */
+    display: flex; /* Use flexbox to align elements horizontally */
+    align-items: center; /* Vertically center the button and input */
+    max-width: 100%; /* Ensure the search bar doesn't exceed the container width */
+}
+
+.search-bar .btn {
+    border-radius: 20px 0 0 20px; /* Adjust the button's border radius */
+    height: 38px; /* Match the height of the input field */
+    width: 50px; /* Fixed width for the button */
+    display: flex; /* Center the icon */
+    justify-content: center; /* Center the icon horizontally */
+    align-items: center; /* Center the icon vertically */
+    padding: 0; /* Remove padding to center the icon perfectly */
+}
+
+.search-bar .form-control {
+    border-radius: 0 20px 20px 0; /* Rounded corners on the right */
+    height: 38px; /* Ensure the height matches the button */
+    flex-grow: 1; /* Take up the remaining width next to the button */
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+
+/* Ensure that the input fields and buttons stay within the viewport */
+.search-bar .form-control,
+.form-group .form-control,
+.search-bar .btn,
+.form-group .form-select {
+    width: 100%; /* Ensure full width */
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+/* Adjust fixed positioning of vertical line */
+.vertical-line {
+    position: absolute; /* Change to absolute positioning */
+    left: 16.6%;
+    height: 100%; /* Ensure it spans the full height */
+    border-left: 1px solid #dee2e6;
+}
+
+/* Avoid horizontal scrolling on smaller screens */
+body {
+    overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .vertical-line {
+        display: none; /* Hide vertical line on smaller screens */
+    }
+
+    .search-bar,
+    .form-group {
+        flex: 1 1 100%; /* Take full width on smaller screens */
+    }
+
+    .search-bar .form-control {
+        width: 100%; /* Full width on small screens */
+    }
+
+    .search-bar .btn {
+        width: 50px; /* Fixed width for the button */
+    }
+
+    .search-container {
+        padding: 0 10px; /* Add some padding to avoid touching the edges */
+    }
+}
+
+@media (max-width: 576px) {
+    .search-bar,
+    .form-group {
+        width: 100%; /* Ensure elements take full width */
+    }
+
+    .search-bar {
+        margin-bottom: 10px; /* Add space between stacked elements */
+    }
+}
+
+/* Base styling */
 header {
     display: flex;
     justify-content: space-between;
@@ -20,15 +112,7 @@ header .navbar-brand {
 }
 
 .align-left {
-    margin-right : auto;
-}
-
-.vertical-line {
-border-left : 1px solid #dee2e6;
-height : 100%;
-position: fixed;
-left : 16.6%;
-top : 0;
+    margin-right: auto;
 }
 
 header .navbar-brand img {
@@ -46,7 +130,6 @@ header .navbar-brand img {
 
 header h1 {
     margin: 10px;
-    
 }
 
 header .user-info {
@@ -100,13 +183,12 @@ header .user-info .user-icon {
 .custom-font {
     font-family: 'Andada Pro', sans-serif;
 }
-.search-container{
-    margin-top:-10px;
-}
-.search-icone{
+
+.search-icone {
     height: 30px;
     border-radius: 20px;
 }
+
 .search-bar {
     max-width: 250px;
     height: 30px;
@@ -117,11 +199,13 @@ header .user-info .user-icon {
     box-sizing: border-box;
     border-radius: 20px;
 }
-.search-commande{
+
+.search-commande {
     height: auto;
     width: auto;
     font-size: 12px;
 }
+
 .input-group-text {
     display: flex;
     align-items: center;
@@ -150,8 +234,8 @@ header .user-info .user-icon {
     height: 40px;
 }
 
-.Poppins{
-    font-family: 'Poppins',sans-serif;
+.Poppins {
+    font-family: 'Poppins', sans-serif;
 }
 
 .card-footer {
@@ -162,15 +246,15 @@ header .user-info .user-icon {
 }
 
 .text-center {
-    padding : 2px;
-    text-align:center;
-    font-size:12px;
+    padding: 2px;
+    text-align: center;
+    font-size: 12px;
 }
 
 .order-number {
     font-size: 13px;
     margin-top: 10px;
-    top:50%;
+    top: 50%;
 }
 
 .order-code {
@@ -203,7 +287,7 @@ header .user-info .user-icon {
 
 .custom-badge {
     display: inline-block;
-    font-size:10px;
+    font-size: 10px;
     padding: 3px 6px;
     background-color: white;
     border: 1px solid #dee2e6;
@@ -221,7 +305,7 @@ header .user-info .user-icon {
 }
 
 .consomCard {
-    padding : 1px;
+    padding: 1px;
 }
 
 .custom-card .card-header p,
@@ -255,9 +339,10 @@ header .user-info .user-icon {
 }
 
 .search-img2 {
-    width : .7rem;
+    width: .7rem;
     height: 0.7rem;
 }
+
 #loader {
     position: fixed;
     left: 50%;

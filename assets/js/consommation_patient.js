@@ -5,7 +5,7 @@ function hideAlert() {
         $(".error-message").hide();
         $(".successMessage").hide();
         $(".errorMessage").hide();
-    }, 7000);
+    }, 5000);
 }
 
 $(document).ready(function () {
@@ -24,12 +24,20 @@ $(document).ready(function () {
         $('#article_id').val(articleId);
         $('#quantityInput').val('');
     });
+    //product-sold
+    $('body').on('click', '.product-sold', (event) => {
+        $('.errorMessage .alert-message').html("le produit est épuisé");
+        $('.errorMessage').show('');
+        hideAlert();
+    });
 
     $('body').on('click', '#confirmQuantity', function() {
         let articleId = $('#article_id').val();
         let quantity = $('#quantityInput').val();
-    
+
         if (quantity > 0) {
+            $('.loader').show();
+            $('#confirmQuantity').hide();
             $.ajax({
                 type: "POST",
                 url: "/consommation_patient/addCart",
@@ -39,34 +47,40 @@ $(document).ready(function () {
                 },
                 success: function(result) {
                     if (result.success === 'success') {
-                        // Update the quantity badge on the product card
                         let $badge = $('.produit[data-id="' + result.articleID + '"] .qte-produit');
-                        $badge.text(result.updatedQuantity); // Set the updated quantity text
-                        $badge.removeClass('d-none'); // Ensure the badge is visible
-    
-                        // Optionally update the cart and total price display as before
+                        $badge.text(result.updatedQuantity); 
+                        $badge.removeClass('d-none'); 
                         $('.scrollable-cart').html(result.cartHtml);
-                        $('#totalPrice').text('Total Price: ' + result.totalPrice + ' EUR');
+                        $('#priceTotal').text( result.totalPrice + ' dhs');
     
                         // Optionally hide the loader and close the modal
                         $('.loader').hide();
                         const modal = Modal.getInstance($('#qteModal')) || new Modal($('#qteModal'));
                         modal.hide();
                     } else if (result.error) {
+                        if(result.error=='supQuantite'){
+                            $('.error-message #errorText').html('la quantité est supérieure à celle disponible');
+                        }else if(result.error=='vendu'){
+                            $('.error-message #errorText').html('ce produit est vendu');
+                        }
                         // Handle errors if any
-                        $('.error-message #errorText').html(result.error);
+                        
                         $('.error-message').show();
                         $('.loader').hide();
                         $('#confirmQuantity').show();
+                        hideAlert()
                     }
                 }
             });
         } else {
-            $('.error-message #errorText').html("Please enter a quantity greater than 0.");
+            $('.error-message #errorText').html("Veuillez saisir une quantité supérieure à 0.");
             $('.error-message').show();
             $('.loader').hide();
             $('#confirmQuantity').show();
+            hideAlert()
         }
+        $('.loader').hide();
+        $('#confirmQuantity').show();
     });
     
     

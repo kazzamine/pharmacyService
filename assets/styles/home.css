@@ -6,7 +6,7 @@
 }
 .homeCard .card .card-body .card-title{
    color: black;
-   font-size: 17px;
+   font-size: 14px;
    font-weight: bolder;
 }
 .card-img-top{
@@ -67,4 +67,15 @@
 
 .dropdown-item:hover{
     background-color: #68a16a80;
+}
+.custom-select {
+    font-size: 1rem;
+    padding: 6px; 
+}
+
+.custom-select option {
+    font-size: 1rem; 
+    padding: 10px; 
+    width: 100%;
+    height:50px
 }

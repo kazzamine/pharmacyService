@@ -73,10 +73,10 @@
 								</div>
 								<div class="row text-start">
 									<fieldset class='border' id="userCom" style='font-size:12px;'>
-									{% if app.session.get('patient') is not empty %}
+									{% if app.session.get('patient') is not empty and app.session.get('patient').ipp is defined %}
 									
 										<span class="fw-bolder">{{app.session.get('patient').ipp}}</span>
-										<button class='btn btn-outline-success btn-sm offset-md-9 offset-sm-9' data-bs-toggle="modal" data-bs-target="#changerPatient">
+										<button class='btn btn-outline-success btn-sm offset-md-9 offset-sm-9'  data-bs-toggle="modal" data-bs-target="#changerPatient">
 											<i class="far fa-edit"></i>										
 										</button>
 										<br>
@@ -95,6 +95,7 @@
 												<div class="modal-header position-relative text-center">
 													<img src="{{ asset('img/iconService.png') }}" class="modal-img" alt="Header Image">
 													<h5 class="modal-title mx-auto" id="exampleModalLabel">Info Patient</h5>
+													<button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
 												</div>
 												<div class="modal-body">
 														<div id="formErrors" class="error-message">

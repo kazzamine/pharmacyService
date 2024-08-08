@@ -13,24 +13,8 @@
           {% for dossier in user_dossier %}
              <option  value="{{dossier.dossierID}}" >{{dossier.dossierName}}</option>
           {% endfor %}
-
         </select>
       </div>
     </div>
   </div>
 </div>
-
-
-<style>
-.custom-select {
-  font-size: 1.2rem; /* Increase the font size */
-  padding: 10px; /* Increase padding */
-}
-
-.custom-select option {
-  font-size: 1.2rem; /* Ensure the options have the same increased font size */
-  padding: 10px; /* Add padding to the options */
-  width: 100%;
-  height:50px /* Ensure the options are full width */
-}
-</style>

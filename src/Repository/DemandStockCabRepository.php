@@ -79,12 +79,11 @@ class DemandStockCabRepository extends ServiceEntityRepository
         $sql .= ' AND dsc.date LIKE :date';
         $params['date'] = '%' . $date . '%';
     }
-
+$sql .= ' and dsc.demandeur_id= :dossier';
     if ($service !== '' && $service !== null) {
-        $sql .= ' and dsc.demandeur_id= :dossier';
+        
         $params['dossier'] = $service;
     }else{
-        $sql .= ' and dsc.demandeur_id= :dossier';
         $params['dossier'] = $dossier;
     }
 

@@ -1,6 +1,7 @@
 import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
 
 $(document).ready(function() {
+
    let currentRequest = null;
    $('body').on('click', '.produit',(event)=> {
     let articleId =$(event.currentTarget).data('id');
@@ -23,7 +24,8 @@ $(document).ready(function() {
           if(result.description=='null'){
             $('#artDesc').text('')
           }
-         
+          $('#artfamile').text(result.famille)
+          
           $('#artCode').text(result.code_barre)
           if(result.description=='null'){
             $('#artCode').text('')

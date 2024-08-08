@@ -234,7 +234,7 @@ class ConsommationPatientController extends AbstractController
             $this->entityManager->persist($demandDet);
             $this->entityManager->flush();
 
-            $stockActual=$this->entityManager->getRepository(StockActual::class)->findOneBy(['article'=>$article['article']->getArticle()->getId(),'antenne'=>9]);
+            $stockActual=$this->entityManager->getRepository(StockActual::class)->findOneBy(['article'=>$article['article']->getArticle()->getId(),'antenne'=>$antenne]);
             $artStockactual=$stockActual->getQuantite();
             $stockActual->setQuantite($artStockactual-$article['quantity']);
             $this->entityManager->persist($stockActual);
