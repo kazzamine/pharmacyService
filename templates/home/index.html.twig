@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Acceuil{% endblock %}
+{% block title %}Acceuil
+{% endblock %}
 {% block body %}
 
 	<div id="wrapper">
@@ -9,7 +10,7 @@
 				{% if selectedDossier == 0 %}
 					{% include 'home/serviceModal.html.twig' %}
 				{% endif %}
-				
+
 				<div id="selectDossier">
 					<div class="modal" id="serviceModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="border-radius: 30px;" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
 						<div class="modal-dialog modal-dialog-centered">
@@ -66,7 +67,7 @@
 										<div class="card">
 											<img class="card-img-top" src="{{ asset('img/gro.png') }}" height="130px" alt="Image 4">
 											<div class="card-body text-center">
-												<h5 class="card-title">     </h5>
+												<h5 class="card-title"></h5>
 											</div>
 											<div class="overlay"></div>
 										</div>

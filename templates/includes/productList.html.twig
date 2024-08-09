@@ -1,18 +1,21 @@
 {% if products is not empty %}
-    {% for product in products %}
-        <div class="product-item Pro">
-            <img src="{{ asset('img/dolip.png') }}" class="product-img" alt="{{ product.article_name }}">
-            <div class="product-details">
-                <p>{{ product.article_name }}</p>
-                <p class="Poppins">Quantité : {{ product.quantity }}</p>
-                <p class="Poppins">Prix : {{ product.price }}</p>
-                <p class="Poppins">Total : {{ product.total_price_for_article }}</p>
-            </div>
-        </div>
-    {% endfor %}
+	{% for product in products %}
+		<div class="product-item Pro">
+			<img src="{{ asset('img/dolip.png') }}" class="product-img" alt="{{ product.article_name }}">
+			<div class="product-details">
+				<p>{{ product.article_name }}</p>
+				<p class="Poppins">Quantité :
+					{{ product.quantity }}</p>
+				<p class="Poppins">Prix :
+					{{ product.price }}</p>
+				<p class="Poppins">Total :
+					{{ product.total_price_for_article }}</p>
+			</div>
+		</div>
+	{% endfor %}
 {% else %}
-    <p>Aucun produit disponible pour cette demande.</p>
+	<p>Aucun produit disponible pour cette demande.</p>
 {% endif %}
 {% block stylesheets %}
-  {{encore_entry_link_tags('detailCommandeStyle')}}
+	{{encore_entry_link_tags('detailCommandeStyle')}}
 {% endblock %}

@@ -21,6 +21,7 @@ body {
 }
 .left {
     background-color: #f2f2f2;
+    width: 50%;
 }
 .left img {
     max-width: 100%;
@@ -35,6 +36,7 @@ body {
     flex-direction: column;
     justify-content: center;
     padding: 40px;
+    width: 50%;
 }
 .right h2 {
     margin-bottom: 20px;
@@ -102,7 +104,6 @@ body {
 .input-group-text {
     background-color: #F5F5F5;
     border: 1px solid #252525;
-    border-right: none;
     height: 2.37rem;
     display: flex;
     align-items: center;

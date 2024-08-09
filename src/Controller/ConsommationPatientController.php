@@ -169,13 +169,20 @@ class ConsommationPatientController extends AbstractController
         ]);
         $statusCode = $response->getStatusCode();
         if($statusCode != 500){
-            
-            return new JsonResponse(
-                json_decode($response->getContent())
-            );
+            if($statusCode==200){
+                return new JsonResponse(
+                    json_decode($response->getContent())
+                ); 
+            }else if($statusCode==404){
+                return new JsonResponse(
+                    ['error' => '404']
+                ); 
+            }
+           
+           
         }else{
             return new JsonResponse([
-                'error' => 'not found',
+                'error' => '500',
             ]);
         }
     }

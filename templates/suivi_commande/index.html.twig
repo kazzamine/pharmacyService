@@ -7,10 +7,6 @@
 	{{encore_entry_link_tags('suiviCommande')}}
 {% endblock %}
 {% block body %}
-	<head>
-		<meta charset="UTF-8">
-	</head>
-
 	<div
 		class="container-fluid">
 		{# list Categorie #}
@@ -52,7 +48,6 @@
 							{% endfor %}
 						</select>
 					</div>
-
 					<div class="form-group col-12">
 						<input type="date" class="form-control search-commande" id="date">
 					</div>
@@ -60,7 +55,6 @@
 				<div class="row col-md-12 col-lg-12 col-sm-12 Poppins text-center demandes">
 					{{ include('suivi_commande/demandes.html.twig') }}
 					<div id="loader" style="display: none;"></div>
-
 				</div>
 			</div>
 		</div>

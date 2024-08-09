@@ -1,57 +1,51 @@
 {% block stylesheets %}
-  {{encore_entry_link_tags('demandesStyle')}}
+	{{encore_entry_link_tags('demandesStyle')}}
 {% endblock %}
 <div class="modal fade" id="commande-service" tabindex="-1" aria-labelledby="commandeServiceLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header text-center d-flex align-items-center justify-content-center">
-                <h5 class="modal-title" id="commandeServiceLabel">Commandes Service</h5>
-                <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header text-center d-flex align-items-center justify-content-center">
+				<h5 class="modal-title" id="commandeServiceLabel">Commandes Service</h5>
+				<button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div id="demandes-view" class="container-fluid">
+					<div class="row justify-content-center">
+						<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom search-container">
+							<div class="input-group search-bar-modal">
+								<button class="btn btn-success search-icone" type="button" id="search-icon">
+									<i class="fas fa-search"></i>
+								</button>
+								<input type="text" class="form-control search-input-modal" placeholder="Recherche..." {% if app.session.get('patient') is not empty and app.session.get('patient').ipp is defined %} value="{{app.session.get('patient').ipp}}" {% endif %} aria-label="Search" id="demmande-search" aria-describedby="search-icon">
+							</div>
+							<input type="text" hidden value="" id="service"/>
+							<div class="form-group">
+								<div class="d-flex">
+									<input type="date" id="date" class="form-control search-commande-modal">
+								</div>
+							</div>
+						</div>
+						<div id="demData" class="row"></div>
+					</div>
+				</div>
 
-            </div>
-            <div class="modal-body">
-                <div id="demandes-view" class="container-fluid">
-                    <div class="row justify-content-center">
-                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom search-container">
-                            <div class="input-group search-bar-modal">
-                                <button class="btn btn-success search-icone" type="button" id="search-icon">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                                <input type="text" class="form-control search-input-modal" placeholder="Recherche..." {% if app.session.get('patient') is not empty and app.session.get('patient').ipp is defined %} value="{{app.session.get('patient').ipp}}" {% endif %} aria-label="Search" id="demmande-search" aria-describedby="search-icon">
-                            </div>
-                            <input type="text" hidden value="" id="service" />
-                            <div class="form-group">
-                                <div class="d-flex">
-                                    <input type="date" id="date" class="form-control search-commande-modal">
-                                </div>
-                            </div>
-                        </div>
-                        <div id="demData" class="row">
-                           
-                        </div>
-                    </div>
-                </div>
-
-             
-                <div id="details-view" class="container-fluid" style="display:none; position: relative;">
-                    <button class="btn btn-secondary back-icon" id="back-to-demandes">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <div class="client-data Inter">
-                        <p class="bold" id="detailDI"></p>
-                        <p class="bold" id="detailIPP"></p>
-                        <p class="bold" id="detailPatient"></p>
-                        <p id="detailDate"></p>
-                    </div>
-                    <div class="product-list" id="product-list">
-                        
-                    </div>
-                    <div class="total Inter">
-                        <span class="total-label order-number2">Total:</span> 
-                        <span class="total-amount order-number2" id="detailTotal"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+				<div id="details-view" class="container-fluid" style="display:none; position: relative;">
+					<button class="btn btn-secondary back-icon" id="back-to-demandes">
+						<i class="fas fa-arrow-left"></i>
+					</button>
+					<div class="client-data Inter">
+						<p class="bold" id="detailDI"></p>
+						<p class="bold" id="detailIPP"></p>
+						<p class="bold" id="detailPatient"></p>
+						<p id="detailDate"></p>
+					</div>
+					<div class="product-list" id="product-list"></div>
+					<div class="total Inter">
+						<span class="total-label order-number2">Total:</span>
+						<span class="total-amount order-number2" id="detailTotal"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

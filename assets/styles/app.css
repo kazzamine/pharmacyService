@@ -5,7 +5,6 @@
 @import "./vente.css";
 @import "./home.css";
 
-
 #navbar{
     background-color: rgb(255, 255, 255) ;
     border: solid grey .5px;
@@ -18,4 +17,45 @@ body{
 }
 .btn-success{
     background-color: #265828;
+}
+
+.select2-container--default .select2-selection--single {
+    border: 1px solid #265828; 
+    border-radius: 4px; 
+}
+
+.select2-container--default .select2-selection--single:focus {
+    border-color: #81C784; 
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.25); 
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #265828; 
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: #81C784 transparent transparent transparent; 
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #81C784; 
+    color: white; 
+}
+
+#loader {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* Ensure it's on top of other elements */
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Animation for the spinning effect */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

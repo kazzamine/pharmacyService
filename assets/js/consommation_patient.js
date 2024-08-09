@@ -31,13 +31,14 @@ $(document).ready(function () {
         hideAlert();
     });
 
-    $('body').on('click', '#confirmQuantity', function() {
+    $('body').on('click', '#confirmQuantity', function () {
         let articleId = $('#article_id').val();
         let quantity = $('#quantityInput').val();
 
         if (quantity > 0) {
             $('.loader').show();
             $('#confirmQuantity').hide();
+
             $.ajax({
                 type: "POST",
                 url: "/consommation_patient/addCart",
@@ -45,31 +46,39 @@ $(document).ready(function () {
                     articleID: articleId,
                     quantity: quantity
                 },
-                success: function(result) {
+                success: function (result) {
                     if (result.success === 'success') {
                         let $badge = $('.produit[data-id="' + result.articleID + '"] .qte-produit');
-                        $badge.text(result.updatedQuantity); 
-                        $badge.removeClass('d-none'); 
+                        $badge.text(result.updatedQuantity);
+                        $badge.removeClass('d-none');
                         $('.scrollable-cart').html(result.cartHtml);
-                        $('#priceTotal').text( result.totalPrice + ' dhs');
-    
+                        $('#priceTotal').text(result.totalPrice + ' dhs');
+
                         // Optionally hide the loader and close the modal
                         $('.loader').hide();
                         const modal = Modal.getInstance($('#qteModal')) || new Modal($('#qteModal'));
                         modal.hide();
                     } else if (result.error) {
-                        if(result.error=='supQuantite'){
-                            $('.error-message #errorText').html('la quantité est supérieure à celle disponible');
-                        }else if(result.error=='vendu'){
-                            $('.error-message #errorText').html('ce produit est vendu');
+                        let errorMessage = '';
+                        if (result.error == 'supQuantite') {
+                            errorMessage = 'La quantité est supérieure à celle disponible.';
+                        } else if (result.error == 'vendu') {
+                            errorMessage = 'Ce produit est vendu.';
                         }
-                        // Handle errors if any
-                        
+                        $('.error-message #errorText').html(errorMessage);
                         $('.error-message').show();
                         $('.loader').hide();
                         $('#confirmQuantity').show();
-                        hideAlert()
+                        hideAlert();
                     }
+                },
+                error: function () {
+                    // Handle server errors or network issues
+                    $('.error-message #errorText').html("Une erreur s'est produite. Veuillez réessayer.");
+                    $('.error-message').show();
+                    $('.loader').hide();
+                    $('#confirmQuantity').show();
+                    hideAlert();
                 }
             });
         } else {
@@ -77,17 +86,13 @@ $(document).ready(function () {
             $('.error-message').show();
             $('.loader').hide();
             $('#confirmQuantity').show();
-            hideAlert()
+            hideAlert();
         }
-        $('.loader').hide();
-        $('#confirmQuantity').show();
     });
-    
-    
-    
 
     //articles by selected categorie
     const getArticleByFam = (id) => {
+        $('#loader').show();
         if (currentRequest !== null) {
             currentRequest.abort();
         }
@@ -100,6 +105,7 @@ $(document).ready(function () {
             },
             success: (result) => {
                 $(".row-produit").empty().append(result)
+                $('#loader').hide();
             }
         })
     }
@@ -114,7 +120,6 @@ $(document).ready(function () {
         if (currentRequest !== null) {
             currentRequest.abort();
         }
-
         currentRequest = $.ajax({
             type: "POST",
             url: "/consommation_patient/bySearch",
@@ -134,7 +139,6 @@ $(document).ready(function () {
 
     //update quantity
     const updateQte = (id, operation) => {
-
         $.ajax({
             method: 'POST',
             url: '/consommation_patient/updateQte',
@@ -147,28 +151,36 @@ $(document).ready(function () {
                 $('.successMessage').show('');
                 hideAlert();
                 $('.qteDisplay').val(result.qte)
+               
+            },
+            error:()=>{
+                location.reload()
             }
-            
         })
     }
 
     $('body').on('click', '.updateQte', (event) => {
         let artID = $(event.currentTarget).attr('id');
         let op = $(event.currentTarget).attr('data');
-
         updateQte(artID, op)
         op = '';
     })
 
-    let patientData={};
+    let patientData = {};
     $('#searchPatient').on('click', () => {
         let ipp = $('#ippSearch').val();
+        if (ipp == '' || ipp == null) {
+            $('.error-message #errorText').html("vous n'avez pas précisé l'ipp ou le nom du patient");
+            $('.error-message').show('');
+            hideAlert();
+            return;
+        }
         $('.patientLoader').show();
         $('#searchPatient').hide();
         $('#validatePatient').hide();
         $.ajax({
             method: 'POST',
-            url: '/consommation_patient/findPatient/'+ipp,
+            url: '/consommation_patient/findPatient/' + ipp,
             data: {
                 ipp: ipp,
             },
@@ -177,22 +189,21 @@ $(document).ready(function () {
                     $('#ipp').text(result[0].ipp)
                     $('#nomPatient').text(result[0].patient)
                     $('#di').val(result[0].di)
-                    patientData=result[0];
-                    console.log(result)
-                } else if (result.error) {
-                    console.log(result)
+                    patientData = result[0];
+                } else if (result.error == '404') {
                     $('.error-message #errorText').html("Ce patient n'existe pas!!");
                     $('.error-message').show('');
                     hideAlert();
-                    $('.patientLoader').hide();
-                    $('#searchPatient').show();
-                    $('#validatePatient').show();
+                } else if (result.error == '500') {
+                    $('.error-message #errorText').html("une erreur est survenu , réessayez!!");
+                    $('.error-message').show('');
+                    hideAlert();
                 }
                 $('.patientLoader').hide();
                 $('#searchPatient').show();
                 $('#validatePatient').show();
             },
-            error:()=>{
+            error: () => {
                 $('.error-message #errorText').html("une erreur est survenu , réessayez!!");
                 $('.error-message').show('');
                 hideAlert();
@@ -204,10 +215,16 @@ $(document).ready(function () {
     })
 
     $('#validatePatient').on('click', () => {
+        let ipp = $('#ippSearch').val();
+        if (ipp == '' || ipp == null) {
+            $('.error-message #errorText').html("vous n'avez pas précisé l'ipp ou le nom du patient");
+            $('.error-message').show('');
+            hideAlert();
+            return;
+        }
         $('.patientLoader').show();
         $('#searchPatient').hide();
         $('#validatePatient').hide();
-
         $.ajax({
             method: 'POST',
             url: '/consommation_patient/validatePatient',
@@ -216,14 +233,13 @@ $(document).ready(function () {
             },
             success: (result) => {
                 if (result.error == null) {
-                  location.reload()
+                    location.reload()
                 }
                 $('.patientLoader').hide();
                 $('#searchPatient').show();
                 $('#validatePatient').show();
-
             },
-            error:()=>{
+            error: () => {
                 $('.error-message #errorText').html("une erreur est survenu , réessayez!!");
                 $('.error-message').show('');
                 hideAlert();
@@ -241,15 +257,13 @@ $(document).ready(function () {
             method: 'POST',
             url: '/consommation_patient/addDemande',
             success: (result) => {
-                
                 if (result.success) {
                     console.log(result)
-                  
                     $('.loader').hide();
                     $('#validateCommande').show();
                     location.reload()
-                } 
-                 if (result.failed) {
+                }
+                if (result.failed) {
                     $('.errorMessage .alert-message').html("pas d'articles selectionner");
                     $('.errorMessage').show('');
                     hideAlert();
@@ -257,7 +271,7 @@ $(document).ready(function () {
                     $('#validateCommande').show();
                 }
             },
-            error:()=>{
+            error: () => {
                 $('.loader').hide();
                 $('#validateCommande').show();
             }
@@ -265,16 +279,13 @@ $(document).ready(function () {
     })
 
     //load demandes data
-
     const getDemandeBySearch = (searchTerm, date) => {
         $('.loader').show();
         $('.demandes').hide();
-    
         // Cancel previous request, if any
         if (currentRequest !== null) {
             currentRequest.abort();
         }
-    
         currentRequest = $.ajax({
             type: "POST",
             url: "/suivi/commande/byfilter",
@@ -291,53 +302,49 @@ $(document).ready(function () {
             }
         });
     };
-    
+
     $('#demandes').on('click', () => {
         let searchTerm = null;
         let date = null;
         getDemandeBySearch(searchTerm, date);
     });
-    
+
     $('#date').on('change', () => {
         let searchTerm = $('#demmande-search').val();
         let date = $('#date').val();
         getDemandeBySearch(searchTerm, date);
     });
-    
-   
-    $('body').on('click', '.consomCard',(event)=> {
-        let demandId =$(event.currentTarget).data('demand-id');
+
+    $('body').on('click', '.consomCard', (event) => {
+        let demandId = $(event.currentTarget).data('demand-id');
         let card = $(event.currentTarget);
         $('#demandes-view').hide();
         console.log(demandId)
         $('#details-view').show();
-
         $('#detailDI').text(card.find('.text-center-custom-modal:eq(0)').text());
         $('#detailIPP').text(card.find('.text-center-custom-modal:eq(1)').text());
         $('#detailPatient').text(card.find('.text-center-custom-modal:eq(2)').text());
         $('#detailDate').text('Date d’hospitalisation: ' + card.find('.text-center-custom-modal:eq(3)').text());
         $('#detailTotal').text(card.find('.total-amount-custom-modal').text());
-
-        $('#product-list').html('Loading...');
-
+        $('#product-list').html('chargement...');
         $.ajax({
             url: '/suivi/commande/detail/' + demandId,
             method: 'POST',
             data: {
-                service: $('#service').val() 
+                service: $('#service').val()
             },
-            success: function(response) {
+            success: function (response) {
                 $('#product-list').html(response);
             },
-            error: function() {
+            error: function () {
                 $('#product-list').html("<p>Une erreur s'est produite lors du chargement des détails.</p>");
             }
         });
     });
 
-    $('#back-to-demandes').on('click', function() {
+    $('#back-to-demandes').on('click', function () {
         $('#details-view').hide();
         $('#demandes-view').show();
     });
-    
+
 });

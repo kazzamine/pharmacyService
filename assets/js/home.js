@@ -41,10 +41,6 @@ import 'select2/dist/css/select2.css';
         dropdownParent: $('#servicesModal') 
     });
 
-    $('#serviceSelect').select2({
-        placeholder: "Service",
-        allowClear: true,
-        dropdownParent: $('#serviceModal') 
-    });
+
    
 });

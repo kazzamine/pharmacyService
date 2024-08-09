@@ -1,30 +1,30 @@
 {% block stylesheets %}
-  {{encore_entry_link_tags('detailCommandeStyle')}}
+	{{encore_entry_link_tags('detailCommandeStyle')}}
 {% endblock %}
 
 <div class="modal fade" id="dtCommande{{demande.demandCabID}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered row">
-    <div class="modal-content col-md-7">
-      <div class="modal-header position-relative text-center">
-        <h5 class="modal-title mx-auto order-number2 Poppins text-center" id="exampleModalLabel">Commande de {{demande.patient}}</h5>
-       <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+	<div class="modal-dialog modal-lg modal-dialog-centered row">
+		<div class="modal-content col-md-7">
+			<div class="modal-header position-relative text-center">
+				<h5 class="modal-title mx-auto order-number2 Poppins text-center" id="exampleModalLabel">Commande de
+					{{demande.patient}}</h5>
+				<button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
 
-      </div>
-    
-      <div class="modal-body">
-        <div class="client-data Inter">
-          <p class="bold ">{{demande.di}}</p>
-          <p class="bold">{{demande.ipp}}</p>
-          <p class="bold">{{demande.patient}}</p>
-          <p>date d’hospitalisation: {{demande.date | date('d/m/Y')}}</p>
-        </div>
-        <div class="product-list" id="product-list-{{demande.demandCabID}}">
-          
-        </div>
-        <div class="total Inter">
-          <span class="total-label order-number2">Total:</span> <span class="total-amount order-number2">{{demande.total_price}}</span>
-        </div>
-      </div>    
-    </div>
-  </div>
+			<div class="modal-body">
+				<div class="client-data Inter">
+					<p class="bold ">{{demande.di}}</p>
+					<p class="bold">{{demande.ipp}}</p>
+					<p class="bold">{{demande.patient}}</p>
+					<p>date d’hospitalisation:
+						{{demande.date | date('d/m/Y')}}</p>
+				</div>
+				<div class="product-list" id="product-list-{{demande.demandCabID}}"></div>
+				<div class="total Inter">
+					<span class="total-label order-number2">Total:</span>
+					<span class="total-amount order-number2">{{demande.total_price}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

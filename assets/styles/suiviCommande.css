@@ -32,64 +32,59 @@
     box-sizing: border-box; /* Include padding and border in the width calculation */
 }
 
-/* Ensure that the input fields and buttons stay within the viewport */
 .search-bar .form-control,
 .form-group .form-control,
 .search-bar .btn,
 .form-group .form-select {
-    width: 100%; /* Ensure full width */
-    box-sizing: border-box; /* Include padding and border in width */
+    width: 100%; 
+    box-sizing: border-box; 
 }
 
-/* Adjust fixed positioning of vertical line */
 .vertical-line {
-    position: absolute; /* Change to absolute positioning */
+    position: absolute; 
     left: 16.6%;
-    height: 100%; /* Ensure it spans the full height */
+    height: 100%; 
     border-left: 1px solid #dee2e6;
 }
 
-/* Avoid horizontal scrolling on smaller screens */
 body {
-    overflow-x: hidden; /* Prevent horizontal overflow */
+    overflow-x: hidden;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .vertical-line {
-        display: none; /* Hide vertical line on smaller screens */
+        display: none; 
     }
 
     .search-bar,
     .form-group {
-        flex: 1 1 100%; /* Take full width on smaller screens */
+        flex: 1 1 100%; 
     }
 
     .search-bar .form-control {
-        width: 100%; /* Full width on small screens */
+        width: 100%; 
     }
 
     .search-bar .btn {
-        width: 50px; /* Fixed width for the button */
+        width: 50px; 
     }
 
     .search-container {
-        padding: 0 10px; /* Add some padding to avoid touching the edges */
+        padding: 0 10px; 
     }
 }
 
 @media (max-width: 576px) {
     .search-bar,
     .form-group {
-        width: 100%; /* Ensure elements take full width */
+        width: 100%;
     }
 
     .search-bar {
-        margin-bottom: 10px; /* Add space between stacked elements */
+        margin-bottom: 10px; 
     }
 }
 
-/* Base styling */
 header {
     display: flex;
     justify-content: space-between;
@@ -341,24 +336,4 @@ header .user-info .user-icon {
 .search-img2 {
     width: .7rem;
     height: 0.7rem;
-}
-
-#loader {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000; /* Ensure it's on top of other elements */
-    width: 50px;
-    height: 50px;
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid #3498db;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-/* Animation for the spinning effect */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
 }

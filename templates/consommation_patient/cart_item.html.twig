@@ -1,26 +1,25 @@
 <fieldset class='border ml-auto' id="article-{{ cartItem.article.article.id }}" class="produit" data-id="{{ cartItem.article.article.id }}">
-    <h5 class="product-name mb-1">{{ cartItem.name }}</h5>
-    <div class="card border-0 product-card d-flex flex-row align-items-center p-2">
-        <img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Product Image">
-        
-        <div class="product-info" style='margin-left:0.5rem'>
-            <p class="product-price mb-1">prix:
-                <span id="prodprice">{{ cartItem.article.prix }}</span>
-            </p>
-        </div>
-        
-        <div class="quantity-control">
-            <button class="btn btn-sm text-center updateQte" data='decrease' id="{{ cartItem.article.article.id }}">
-                <i class="fas fa-minus-circle" style="color:red;"></i>
-            </button>
-            <input type="number" value="{{ cartItem.quantity }}" class="form-control form-control-sm mx-2 qteDisplay" style="width: 50px;">
-            <button class="btn btn-sm updateQte" data='increase' id="{{ cartItem.article.article.id }}">
-                <i class="fas fa-plus-circle text-primary"></i>
-            </button>
-        </div>
-        
-        <a class="btn btn-danger remove-icon btn-sm" href="{{ path('app_consommation_cart_remove', {'id': cartItem.article.article.id}) }}">
-            <i class="far fa-trash-alt"></i>
-        </a>
-    </div>
+	<h5 class="product-name mb-1">{{ cartItem.name }}</h5>
+	<div class="card border-0 product-card d-flex flex-row align-items-center p-2">
+		<img src="{{ asset('img/dolip.png') }}" class="product-img" alt="Product Image">
+
+		<div class="product-info" style='margin-left:0.5rem'>
+			<p class="product-price mb-1">prix:
+				<span id="prodprice">{{ cartItem.article.prix }}</span>
+			</p>
+		</div>
+		<div class="quantity-control">
+			<button class="btn btn-sm text-center updateQte" data='decrease' id="{{ cartItem.article.article.id }}">
+				<i class="fas fa-minus-circle" style="color:red;"></i>
+			</button>
+			<input type="number" value="{{ cartItem.quantity }}" class="form-control form-control-sm mx-2 qteDisplay" style="width: 50px;">
+			<button class="btn btn-sm updateQte" data='increase' id="{{ cartItem.article.article.id }}">
+				<i class="fas fa-plus-circle text-primary"></i>
+			</button>
+		</div>
+
+		<a class="btn btn-danger remove-icon btn-sm" href="{{ path('app_consommation_cart_remove', {'id': cartItem.article.article.id}) }}">
+			<i class="far fa-trash-alt"></i>
+		</a>
+	</div>
 </fieldset>
