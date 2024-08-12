@@ -1,76 +1,83 @@
-
 $(document).ready(function() {
-   let currentRequest = null;
-   if (currentRequest !== null) {
-    currentRequest.abort();
-}
+    let currentRequest = null;
+    let currentPage = 1; 
+    const limit = 28;
+
+    if (currentRequest !== null) {
+        currentRequest.abort();
+    }
+
     $('#service').select2({
         placeholder: "Service",
         allowClear: true
     });
-   //search product by info
-   const getDemandeBySearch=(searchTerm,service,date)=>{
+
+    const getDemandeBySearch = (searchTerm, service, date, page = 1) => {
         $('#loader').show();
-       // Cancel previous request, if any
-      if (currentRequest !== null) {
-          currentRequest.abort();
-      }
+        const offset = (page - 1) * limit;
 
-       currentRequest=$.ajax({
-          type: "POST",
-          url:"/suivi/commande/byfilter",
-          data:{
-              search:searchTerm,
-              service:service,
-              date:date,
-              consomPatient:0
-          },
-          success:(result)=>{
-              $(".demandes").empty().append(result);
-              $('#loader').hide();
-           
-          }
-      })
-      }
+        // Cancel previous request, if any
+        if (currentRequest !== null) {
+            currentRequest.abort();
+        }
 
-      $(document).on('click', '.consomCard, .custom-link', function() {
+        currentRequest = $.ajax({
+            type: "POST",
+            url: "/suivi/commande/byfilter",
+            data: {
+                search: searchTerm,
+                service: service,
+                date: date,
+                consomPatient: 0,
+                limit: limit,
+                offset: offset
+            },
+            success: (result) => {
+                $(".demandes").empty().append(result);
+                $('#loader').hide();
+                currentPage = page; 
+            }
+        });
+    };
+
+    // Handle click on Previous and Next buttons
+    $(document).on('click', '#prevPage', function() {
+        if (currentPage > 1) {
+            getDemandeBySearch($('#demmande-search').val(), $('#service').val(), $('#date').val(), currentPage - 1);
+        }
+    });
+
+    $(document).on('click', '#nextPage', function() {
+        getDemandeBySearch($('#demmande-search').val(), $('#service').val(), $('#date').val(), currentPage + 1);
+    });
+
+    // Event listeners for search and filter changes
+    $('#demmande-search').on('keyup', () => {
+        getDemandeBySearch($('#demmande-search').val(), $('#service').val(), $('#date').val(), 1);
+    });
+
+    $('#date').on('change', () => {
+        getDemandeBySearch($('#demmande-search').val(), $('#service').val(), $('#date').val(), 1); 
+    });
+
+    $('#service').on('change', () => {
+        getDemandeBySearch($('#demmande-search').val(), $('#service').val(), $('#date').val(), 1); 
+    });
+
+    //demandes detail
+    $(document).on('click', '.consomCard, .custom-link', function() {
         let demandCabID = $(this).data('demand-id');
         let modalBody = $('#product-list-' + demandCabID);
-        console.log(demandCabID);
-    
-        // Check if the products have already been loaded to avoid redundant requests
+
         $.ajax({
             type: "POST",
             url: "/suivi/commande/detail/" + demandCabID,
             success: function(result) {
-                modalBody.html(result); // Append the product list HTML to the modal body
+                modalBody.html(result);
             },
             error: function() {
                 alert('Failed to load details.');
             }
         });
     });
-    
-    
-      
-   $('#demmande-search').on('keyup',()=>{
-       let searchTerm= $('#demmande-search').val();
-       let service= $('#service').val();
-       let date= $('#date').val();
-       getDemandeBySearch(searchTerm,service,date);
-   })
-
-   $('#date').on('change',()=>{
-    let searchTerm= $('#demmande-search').val();
-    let service= $('#service').val();
-    let date= $('#date').val();
-    getDemandeBySearch(searchTerm,service,date);
-})
-$('#service').on('change',()=>{
-    let searchTerm= $('#demmande-search').val();
-    let service= $('#service').val();
-    let date= $('#date').val();
-    getDemandeBySearch(searchTerm,service,date);
-})
-  
 });

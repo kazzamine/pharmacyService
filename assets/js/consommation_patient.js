@@ -195,7 +195,7 @@ $(document).ready(function () {
                     $('.error-message').show('');
                     hideAlert();
                 } else if (result.error == '500') {
-                    $('.error-message #errorText').html("une erreur est survenu , réessayez!!");
+                    $('.error-message #errorText').html("une erreur est survenu, réessayez!!");
                     $('.error-message').show('');
                     hideAlert();
                 }

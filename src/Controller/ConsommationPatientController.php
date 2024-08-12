@@ -87,7 +87,6 @@ class ConsommationPatientController extends AbstractController
     {
         $articleID = $request->request->get('articleID');
         $quantity = (int) $request->request->get('quantity');
-        
         $article = $this->entityManager->getRepository(UmouvementAntenne::class)
                                     ->findOneBy(['article' => $articleID, 'antenne' => 9]);
         $articleData = $this->entityManager->getRepository(StockActual::class)
@@ -105,21 +104,17 @@ class ConsommationPatientController extends AbstractController
             $totalQuantity = 0;
             $totalPrice = 0.0;
             $cartHtml = '';
-
             $updatedQuantity = 0;
 
             foreach ($cart as $cartItem) {
                 $totalQuantity += $cartItem['quantity'];
                 $totalPrice += $cartItem['quantity'] * $cartItem['article']->getPrix();
-
                 if ($cartItem['article']->getArticle()->getId() == $articleID) {
                     $updatedQuantity = $cartItem['quantity'];
                 }
-
                 $cartHtml .= $twig->render('consommation_patient/cart_item.html.twig', ['cartItem' => $cartItem]);
             }
             $session->set('totalPrice', $totalPrice);
-
             return new JsonResponse([
                 'success' => 'success',
                 'cartHtml' => $cartHtml,
@@ -129,9 +124,9 @@ class ConsommationPatientController extends AbstractController
             ]);
         }
         else {
-                    return new JsonResponse(['error' => 'supQuantite']);
-                }
-            }
+            return new JsonResponse(['error' => 'supQuantite']);
+        }
+        }
         return new JsonResponse(['error' => 'unknown']);
     }
 
@@ -139,7 +134,6 @@ class ConsommationPatientController extends AbstractController
     public function removeFromCart($id, SessionInterface $session,CartServices $cartService)
     {
         $cartService->removeFromCart($id, $session);
-
         return $this->redirectToRoute('app_consommation_patient');
     }
 
@@ -151,7 +145,7 @@ class ConsommationPatientController extends AbstractController
         $data['res']=$cartService->updateCart($id,$session,$operation);
         $cart = $session->get('cart', []);
         $data['qte']=$cart[$id]['quantity'];
-       return new JsonResponse($data);
+        return new JsonResponse($data);
     }
 
     #[Route('/consommation_patient/findPatient/{ipp}',name:'app_consommation_find_patient')]
@@ -178,8 +172,6 @@ class ConsommationPatientController extends AbstractController
                     ['error' => '404']
                 ); 
             }
-           
-           
         }else{
             return new JsonResponse([
                 'error' => '500',

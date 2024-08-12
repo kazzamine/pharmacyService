@@ -12,7 +12,7 @@
 				{% set quantity = cartItem ? cartItem.quantity : 0 %}
 				<span class="qte-produit quantity-badge{% if quantity == 0 %} d-none{% endif %}">{{ quantity }}</span>
 				<div class="div-img">
-					<img class="img-produit rounded" src="{{ asset('img/dolip.png') }}" alt="Image de ">
+					<img class="img-produit rounded" src="{{ asset('img/dolip.png') }}" alt="Image de " style='filter:blur(1px)'>
 					<div class="col-sm-12 name-produit Limit_text">{{article.titre}}</div>
 					<div class="col-sm-12 col-md-12 price-produit card-body text-start" style='background: rgba(0, 0, 0, 0.02);'>
 						Disponible :

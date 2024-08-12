@@ -17,7 +17,6 @@
 	</div>
 	<div class="alert alert-danger alert-dismissible fade show errorMessage" role="alert">
 		<p class='alert-message'></p>
-
 	</div>
 	<div
 		class="container-fluid ">
@@ -57,7 +56,6 @@
 						</div>
 					</div>
 				</div>
-				<!--lise de liste des produits à vendre avec code barre-->
 				<div class="col-md-4 ol-lg-4 col-sm-12 scrolling" id="cart">
 					<div class="card">
 						<div class="card-body text-center card-shadow">
@@ -71,7 +69,6 @@
 								<div class="row text-start">
 									<fieldset class='border' id="userCom" style='font-size:12px;'>
 										{% if app.session.get('patient') is not empty and app.session.get('patient').ipp is defined %}
-
 											<span class="fw-bolder">{{app.session.get('patient').ipp}}</span>
 											<button class='btn btn-outline-success btn-sm offset-md-9 offset-sm-9' data-bs-toggle="modal" data-bs-target="#changerPatient">
 												<i class="far fa-edit"></i>
@@ -80,13 +77,11 @@
 											<span class="fw-bolder">{{app.session.get('patient').di}}</span>
 											<br>
 											<span class="fw-bolder">{{app.session.get('patient').patient}}</span>
-
 											<br>
 											<span>Date d’hospitalisation:
 											</span>
 											<br>
 											<span>Service d’hospitalisation</span>
-
 											<div class="modal fade in" id="changerPatient" tabindex="-1" aria-labelledby="exampleModalLabel" style="border-radius: 30px;" aria-hidden="true">
 												<div class="modal-dialog modal-dialog-centered">
 													<div class="modal-content">
@@ -120,14 +115,11 @@
 															<br>
 															<button class="btn btn-success offset-9" style="background-color:#265828;" id="validatePatient">Rechercher</button>
 															<div class="loader patientLoader offset-9"></div>
-
 														</div>
 													</div>
 												</div>
 											</div>
-
 										{% endif %}
-
 									</fieldset>
 								</div>
 								<div class="row d-flex flex-row mb-1">
@@ -154,7 +146,7 @@
 									</h4>
 								</div>
 								<div class="col">
-									<button type="submit" class=" btn btn-success offset-5 vendre_vente" id='validateCommande' style='font-size: 15px;background-color:#265828;font-size: 12px;'>
+									<button type="submit" class=" btn btn-success offset-5 vendre_vente" id='validateCommande'>
 										Valider
 									</button>
 									<div class="loader offset-9"></div>

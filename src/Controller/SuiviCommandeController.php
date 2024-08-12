@@ -25,7 +25,8 @@ class SuiviCommandeController extends AbstractController
     {
         $services=$this->entityManager->getRepository(PDossier::class)->findAll();
         $famille = $this->entityManager->getRepository(Ufamille::class)->findAll();
-        $demandes=$this->entityManager->getRepository(DemandStockCab::class)->getDemandes();
+        $demandes=$this->entityManager->getRepository(DemandStockCab::class)->getDemandes();  
+
         return $this->render('suivi_commande/index.html.twig', [
             'famille' =>  $famille,
             'demandes'=>$demandes,
@@ -42,15 +43,16 @@ class SuiviCommandeController extends AbstractController
         $search=$request->request->get('search');
         $service=$request->request->get('service');
         $date=$request->request->get('date');
-        
+        $limit = $request->request->get('limit', 28);
+        $offset = $request->request->get('offset', 0);
+       
         $user = $this->getUser();
         $userId = $user->getId();
-        $demandes=$this->entityManager->getRepository(DemandStockCab::class)->getDemandes($search,$service,$date,$dossier->getId(),$userId);
+        $demandes=$this->entityManager->getRepository(DemandStockCab::class)->getDemandes($search,$service,$date,$dossier->getId(),$userId,$limit, $offset);
         $returnedHtml= $this->render('suivi_commande/demandes.html.twig', [
             'demandes'=>$demandes,
             'consomPat'=>$consomPatient
         ]);
-       
         return new JsonResponse($returnedHtml->getContent());
     }
 

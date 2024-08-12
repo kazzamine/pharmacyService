@@ -1,9 +1,7 @@
 @media only screen and(max-width: 600px) {
-
     body {
        background-color: #fff;
    } 
-
 }
 .login-back-left {
    background: #ffffff00 !important;
@@ -82,8 +80,8 @@ flex: 0 0 10.333333%;
  max-width: 9rem; 
 min-width: 8rem;
 background-color: #ffffff;
-border: solid #343a40 1px;
-min-height: 100vh;
+/* border: solid #343a40 1px;
+min-height: 100vh; */
 max-height: 100vh;
 margin: 0px;
 left : 0;
@@ -324,19 +322,16 @@ element.style {
     width: 10px;
   }
   
-  /* Track */
   ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px #265828; 
     border-radius: 0px;
   }
    
-  /* Handle */
   ::-webkit-scrollbar-thumb {
     background: #81C784; 
     border-radius: 0px;
   }
   
-  /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #265828; 
   }
@@ -401,8 +396,8 @@ element.style {
     height: 1rem;
 }
 .scrollable-cart{
-    max-height: 200px; /* Adjust height as needed */
-    overflow-y: auto; /* Enable vertical scroll */
+    max-height: 200px; 
+    overflow-y: auto; 
     padding-right: 15px;
 }
 
@@ -411,7 +406,8 @@ element.style {
 
 }
 .hr{
-    margin: 0.5rem 0;
+    margin: 0.7rem 0;
+    color: #000000;
 }
 
 .error-message {
@@ -445,12 +441,20 @@ element.style {
 
 .sold-out-overlay {
     position: absolute;
-    top: 10px; /* Adjust distance from the top */
-    right: 10px; /* Adjust distance from the right */
+    top: 10px; 
+    right: 10px; 
     z-index: 10;
 }
 
 .sold-out-image {
-    width: 80px; /* Adjust the size of the "Sold Out" image */
-    height: 50px; /* Maintain aspect ratio */
+    width: 80px;
+    height: 50px;
+}
+.btn-fcz,.vendre_vente{
+    background-color:#265828;
+    font-size: 12px;
+}
+
+.btn-fcz:hover{
+    background-color:#2a742c;
 }
