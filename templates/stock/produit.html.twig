@@ -1,8 +1,12 @@
 {% if articles|length > 0 %}
 	{% for article in articles %}
+	{% set prodPic = 'Image-Not-Available.png' %}
+		{% if article.image is not same as('NULL') and article.image is not empty %}
+			{% set prodPic = article.image %}
+		{% endif %}
 		<div class="col-lg-2 col-md-2 p-1 col-sm-2 produit" title="{{article.titre}}" data-toggle="tooltip" data-placement="top" data-bs-toggle="modal" data-bs-target="#detProd" data-id="{{article.id}}">
 			<div class="div-img ">
-				<img class="img-produit " src="{{ asset('img/dolip.png') }}" alt="Image de ">
+				<img class="img-produit " src="{{ asset('img/' ~ prodPic) }}" alt="Image de ">
 				<div class=" col-sm-12 name-produit Limit_text">
 					{{article.titre}}
 				</div>
@@ -24,8 +28,8 @@
 				</div>
 				<div class="modal-body p-4">
 					<div class="row">
-						<div class="col-md-4 text-center">
-							<img src="{{ asset('img/dolip.png') }}" class="img-fluid rounded" alt="Product Image" id="artImage">
+						<div class="col-md-4 text-center" id='artPic'>
+							<img src="{{ asset('img/Image-Not-Available.png') }}" class="img-fluid rounded" alt="Product Image" id="artImage">
 						</div>
 						<div class="col-md-8">
 							<input class="form-control" type="number" id="article_id" readonly hidden/>

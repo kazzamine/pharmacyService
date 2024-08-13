@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Twig\Environment;
-
+ #[Route('/app')]
 class ConsommationPatientController extends AbstractController
 {
     private $entityManager;
@@ -49,9 +49,12 @@ class ConsommationPatientController extends AbstractController
             $totalPrice += $item['quantity'] * $item['article']->getPrix();
         }
         $session->set('totalPrice',$totalPrice);
+        $userID=$this->getUser();
+        $userDossier=$this->entityManager->getRepository(PDossier::class)->getDossierByUser($userID->getId());
         return $this->render('consommation_patient/index.html.twig', [
             'famille' => $famille,
             'articles'=>$articles,
+            'user_dossier'=>$userDossier,
             'cart'=>$cart
         ]);
     }

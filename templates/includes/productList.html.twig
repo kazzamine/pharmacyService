@@ -1,7 +1,11 @@
 {% if products is not empty %}
 	{% for product in products %}
+	{% set prodPic = 'Image-Not-Available.png' %}
+		{% if product.article_image is not same as('NULL') and article.article_image is not empty %}
+			{% set prodPic = product.article_image %}
+		{% endif %}
 		<div class="product-item Pro">
-			<img src="{{ asset('img/dolip.png') }}" class="product-img" alt="{{ product.article_name }}">
+			<img src="{{ asset('img/' ~ prodPic) }}" class="product-img" alt="{{ product.article_name }}">
 			<div class="product-details">
 				<p>{{ product.article_name }}</p>
 				<p class="Poppins">Quantité :

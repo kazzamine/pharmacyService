@@ -47,55 +47,36 @@ class DemandStockCabRepository extends ServiceEntityRepository
    
     public function getDemandes($patient = null, $service = null, $date = null, $dossier = null, $user = null, $limit = 28, $offset = 0)
     {
-        $conn = $this->getEntityManager()->getConnection();
+        $qb = $this->entityManager->createQueryBuilder()
+            ->select('dsc.id AS demandCabID', 'dsc.date', 'dsc.di', 'dsc.patient', 'dsc.ipp')
+            ->from('App\Entity\DemandStockCab', 'dsc')
+            ->orderBy('dsc.id', 'DESC')
+            ->setMaxResults($limit)
+            ->setFirstResult($offset);
 
-        $sql = "
-        SELECT 
-                dsc.id AS demandCabID,
-                dsc.date AS date,
-                dsc.di AS di,
-                dsc.patient AS patient,
-                dsc.ipp AS ipp
-            FROM 
-                demand_stock_cab dsc
-            WHERE 
-                1
-        ";
-
-        $params = [];
-
-        if ($patient !== '' && $patient !== null) {
-            $sql .= ' AND (dsc.patient LIKE :patient OR dsc.ipp LIKE :patient)';
-            $params['patient'] = '%' . $patient . '%';
-        }else if ($dossier !== '' && $dossier !== null) {
-            $sql .= ' AND dsc.demandeur_id = :dossier';
-            $params['dossier'] = $dossier;
+        if (!empty($patient)) {
+            $qb->andWhere('dsc.patient LIKE :patient OR dsc.ipp LIKE :patient OR dsc.di LIKE :patient')
+            ->setParameter('patient', '%' . $patient . '%');
         }
 
-        if ($date !== '' && $date !== null) {
-            $sql .= ' AND dsc.date LIKE :date';
-            $params['date'] = '%' . $date . '%';
+        if (!empty($date)) {
+            $qb->andWhere('dsc.date LIKE :date')
+            ->setParameter('date', '%' . $date . '%');
         }
 
-        if ($service !== '' && $service !== null) {
-            $sql .= ' AND dsc.demandeur_id = :service';
-            $params['service'] = $service;
+        if (!empty($service)) {
+            $qb->andWhere('dsc.demandeur = :service')
+            ->setParameter('service', $service);
         }
 
-        $sql .= ' LIMIT '.$limit.' OFFSET '.$offset;
+        $results = $qb->getQuery()->getArrayResult();
 
-        $stmt = $conn->prepare($sql);
-        $resultSet = $stmt->executeQuery($params);
-        $results = $resultSet->fetchAllAssociative();
-
-        // Calculate the total price separately
         foreach ($results as &$row) {
             $row['total_price'] = $this->calculateTotalPriceForDemand($row['demandCabID']);
         }
 
         return $results;
     }
-
 
     private function calculateTotalPriceForDemand($demandCabID)
     {
@@ -138,6 +119,7 @@ class DemandStockCabRepository extends ServiceEntityRepository
         $sql = "
                 SELECT 
                     a.id AS article_id, 
+                    a.image as article_image,
                     a.titre AS article_name, 
                     dsd.qte AS quantity, 
                     ROUND(MIN(COALESCE(um.prix, 0)),2) AS price, 
@@ -163,80 +145,5 @@ class DemandStockCabRepository extends ServiceEntityRepository
 
         return $result->fetchAllAssociative();
     }
-
-    // public function getDemandes($patient=null,$service=null,$date=null,$dossier=null){
-    //     $umouvementRepository = $this->entityManager->getRepository(UmouvementAntenne::class);
-    //     $demandStockCabRepository = $this->entityManager->getRepository(DemandStockCab::class);
-
-    //     $qb = $demandStockCabRepository->createQueryBuilder('dsc')
-    //         ->join('dsc.uantenne', 'ua') // Join with uantenne
-    //         ->join('ua.depot', 'ud') // Join with udepot
-    //         ->join('ud.dossier', 'd')
-    //         ->where('dsc.userCreated = :user')
-    //         //->andWhere('dsc.uantenne = :antenne')
-           
-    //         //->setParameter('antenne', 9)
-    //         ->setParameter('user', 122)
-           
-    //         ->setMaxResults(10);
-
-    //         if($patient){
-    //             $qb->andWhere(
-    //                 $qb->expr()->orX(
-    //                     $qb->expr()->like('dsc.patient', ':patient'),
-    //                     $qb->expr()->like('dsc.ipp', ':patient')
-    //                 )
-    //             )
-    //             ->setParameter('patient', '%' . $patient . '%');
-    //         }
-    //         if($date){
-    //             $qb->andWhere('dsc.date like :date')
-    //                 ->setParameter('date','%'. $date .'%');
-    //         }
-    //         if($service){
-    //             $qb ->andWhere('d.id = :dossier')
-    //             ->setParameter('dossier',$service);
-    //         }
-    //         $demandStockCabs = $qb->getQuery()->getResult();
-
-    //         $response = [];
-
-    //         // Loop through each demand stock cab
-    //         foreach ($demandStockCabs as $demandStockCab) {
-    //             $demandData = [
-    //                 'demandCabID'=>$demandStockCab->getID(),
-    //                 'date' => $demandStockCab->getDate()->format('Y-m-d'),
-    //                 'di'=>$demandStockCab->getDi(),
-    //                 'patient' => $demandStockCab->getPatient(),
-    //                 'ipp' => $demandStockCab->getIpp(),
-    //                 'articles' => [],
-    //                 'total_price' => 0
-    //             ];
-
-    //             // Loop through each demand detail
-    //             foreach ($demandStockCab->getDemandeStockDets() as $demandeDet) {
-    //                 $article = $demandeDet->getUarticle();
-    //                 $articleId = $article->getId();
-    //                 $quantity = $demandeDet->getQte();
-    //                 $articleName=$article->getTitre();
-    //                 // Fetch the price for the current article
-    //                 $umouvement = $umouvementRepository->findOneBy(['article' => $articleId]);
-    //                 $price = $umouvement ? $umouvement->getPrix() : 0;
-
-    //                 $totalPriceForArticle = $quantity * $price;
-    //                 $demandData['total_price'] += $totalPriceForArticle;
-
-    //                 $demandData['articles'][] = [
-    //                     'article_name'=>$articleName,
-    //                     'article_id' => $articleId,
-    //                     'quantity' => $quantity,
-    //                     'price' => $price,
-    //                     'total_price' => $totalPriceForArticle
-    //                 ];
-    //             }
-    //             $response[] = $demandData;
-    //         }
-    //         return $response;
-    // }
 
 }

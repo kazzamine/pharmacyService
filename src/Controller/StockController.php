@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request ;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-
+#[Route('/app')]
 class StockController extends AbstractController
 {
     private $entityManager;
@@ -65,6 +65,7 @@ class StockController extends AbstractController
        $articleData['titre']=$article->getTitre();
        $articleData['description']=$article->getDescription();
        $articleData['code_barre']=$article->getcodeBarre();
+       $articleData['image']=$article->getImage();
        $articleData['famille']=$article->getUfamille()->getDesignation();
         return new JsonResponse($articleData);
     }

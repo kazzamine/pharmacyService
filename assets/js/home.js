@@ -15,10 +15,8 @@ import 'select2/dist/css/select2.css';
         if(serviceValue){
             $.ajax({
                 type: "POST",
-                url:  "/home/choseService/"+serviceValue,
-                
+                url:  "/app/home/choseService/"+serviceValue,
                 success: function (result) {   
-                  
                     location.reload();
                 },
                 cache: false,
@@ -29,7 +27,6 @@ import 'select2/dist/css/select2.css';
         }else{
             console.log('no data selected')
         }
-        
     })
     const modalElement = document.getElementById('servicesModal');
     const modal = Modal.getInstance(modalElement) || new Modal(modalElement);
@@ -39,8 +36,5 @@ import 'select2/dist/css/select2.css';
         placeholder: "Service",
         allowClear: true,
         dropdownParent: $('#servicesModal') 
-    });
-
-
-   
+    });   
 });

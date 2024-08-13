@@ -5,15 +5,30 @@
 @import "./vente.css";
 @import "./home.css";
 
-#navbar{
-    background-color: rgb(255, 255, 255) ;
+#navbar {
+    background-color: rgb(255, 255, 255);
     border: solid #BFBFBF 0.1rem;
     border-top: none;
     border-right: none;
     height: 3.15rem;
     font-size: 10px;
     padding-right: 1rem;
+    flex-direction: row !important;
 }
+
+#navbar .nav-item h6.h6-categorie {
+    margin: 0;
+    padding-left: 2rem;
+}
+
+#navbar .nav-item.flex-grow-1 {
+    flex-grow: 1;
+}
+
+#navbar .nav-item.dropdown {
+    padding-right: 0;
+}
+
 body{
     font-family: 'Poppins';
 }

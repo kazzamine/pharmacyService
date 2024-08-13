@@ -13,17 +13,17 @@ $(document).ready(function() {
     });
 
     const getDemandeBySearch = (searchTerm, service, date, page = 1) => {
-        $('#loader').show();
+       
         const offset = (page - 1) * limit;
 
         // Cancel previous request, if any
         if (currentRequest !== null) {
             currentRequest.abort();
         }
-
+        $('#loader').show();
         currentRequest = $.ajax({
             type: "POST",
-            url: "/suivi/commande/byfilter",
+            url: "/app/suivi/commande/byfilter",
             data: {
                 search: searchTerm,
                 service: service,
@@ -34,13 +34,12 @@ $(document).ready(function() {
             },
             success: (result) => {
                 $(".demandes").empty().append(result);
-                $('#loader').hide();
                 currentPage = page; 
+                $('#loader').hide();
             }
         });
     };
 
-    // Handle click on Previous and Next buttons
     $(document).on('click', '#prevPage', function() {
         if (currentPage > 1) {
             getDemandeBySearch($('#demmande-search').val(), $('#service').val(), $('#date').val(), currentPage - 1);
@@ -71,7 +70,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/suivi/commande/detail/" + demandCabID,
+            url: "/app/suivi/commande/detail/" + demandCabID,
             success: function(result) {
                 modalBody.html(result);
             },

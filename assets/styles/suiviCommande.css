@@ -50,7 +50,6 @@ body {
     overflow-x: hidden;
 }
 
-
 @media (max-width: 768px) {
     .custom-card {
         max-width: 250px; 

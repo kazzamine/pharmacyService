@@ -2,17 +2,20 @@
 
 {% if articles|length > 0 %}
 	{% for article in articles %}
-
+		{% set prodPic = 'Image-Not-Available.png' %}
+		{% if article.image is not same as('NULL') and article.image is not empty %}
+			{% set prodPic = article.image %}
+		{% endif %}
 		{% if article.quantite == 0 %}
-			<div class="col-lg-3 col-md-4 p-1 col-sm-5 produit product-sold position-relative" title="{{article.titre}}" data-toggle="tooltip" data-placement="top" style='background: rgba(0, 0, 0, 0.2);' data-id="{{article.id}}">
+			<div class="col-lg-3 col-md-4 p-1 col-sm-5 produit product-sold position-relative" title="{{article.titre}}" data-toggle="tooltip" data-placement="top" data-id="{{article.id}}">
 				<div class="sold-out-overlay">
 					<img src="{{ asset('img/sold_out.png') }}" alt="Sold Out" class="sold-out-image">
 				</div>
 				{% set cartItem = cart[article.id] ?? null %}
 				{% set quantity = cartItem ? cartItem.quantity : 0 %}
 				<span class="qte-produit quantity-badge{% if quantity == 0 %} d-none{% endif %}">{{ quantity }}</span>
-				<div class="div-img">
-					<img class="img-produit rounded" src="{{ asset('img/dolip.png') }}" alt="Image de " style='filter:blur(1px)'>
+				<div class="div-img" style='background: rgba(0, 0, 0, 0.2);'>
+					<img class="img-produit rounded" src="{{ asset('img/' ~ prodPic) }}" alt="Image de " style='filter:blur(1px)'>
 					<div class="col-sm-12 name-produit Limit_text">{{article.titre}}</div>
 					<div class="col-sm-12 col-md-12 price-produit card-body text-start" style='background: rgba(0, 0, 0, 0.02);'>
 						Disponible :
@@ -27,7 +30,7 @@
 				{% set quantity = cartItem ? cartItem.quantity : 0 %}
 				<span class="qte-produit quantity-badge{% if quantity == 0 %} d-none{% endif %}">{{ quantity }}</span>
 				<div class="div-img">
-					<img class="img-produit rounded" src="{{ asset('img/dolip.png') }}" alt="Image de ">
+					<img class="img-produit rounded" src="{{ asset('img/' ~ prodPic) }}" alt="Image de ">
 					<div class="col-sm-12 name-produit Limit_text">{{article.titre}}</div>
 					<div class="col-sm-12 col-md-12 price-produit card-body text-start">
 						Disponible :

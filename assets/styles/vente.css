@@ -75,17 +75,17 @@ border: .5px solid #ddd;
 }
 .tableCaisse tr:nth-child(even){background-color: #e3e3e34f;}
 .listCategorie{
-position: fixed ;
+position: absolute ;
 flex: 0 0 10.333333%;
  max-width: 9rem; 
 min-width: 8rem;
 background-color: #ffffff;
-/* border: solid #343a40 1px;
-min-height: 100vh; */
+border: solid #BFBFBF 2px;
+border-top: none;
+min-height: 100vh;
 max-height: 100vh;
 margin: 0px;
 left : 0;
-top : 0px;
 z-index: 0;
 padding: 0px;
 }
@@ -263,7 +263,6 @@ input::-webkit-inner-spin-button {
 .list-produit .input-qte{
     max-width: 3rem;
 }
-/* css modal client */
 .title-modal-client{
     padding: 0.5rem 1rem;
 }

@@ -24,7 +24,7 @@ class UarticleRepository extends ServiceEntityRepository
     {
         $searchTerm='%'.$search.'%';
         $sql = '
-          SELECT uarticle.id , uarticle.titre,stock_actual.quantite FROM `uarticle` 
+          SELECT uarticle.id , uarticle.titre,uarticle.image,stock_actual.quantite FROM `uarticle` 
           JOIN udepot on udepot.id = uarticle.depot_id JOIN p_dossier on p_dossier.id=udepot.dossier_id 
           JOIN stock_actual ON stock_actual.u_article_id=uarticle.id 
           WHERE p_dossier.id=:dossier 

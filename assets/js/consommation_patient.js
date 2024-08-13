@@ -41,7 +41,7 @@ $(document).ready(function () {
 
             $.ajax({
                 type: "POST",
-                url: "/consommation_patient/addCart",
+                url: "/app/consommation_patient/addCart",
                 data: {
                     articleID: articleId,
                     quantity: quantity
@@ -53,8 +53,6 @@ $(document).ready(function () {
                         $badge.removeClass('d-none');
                         $('.scrollable-cart').html(result.cartHtml);
                         $('#priceTotal').text(result.totalPrice + ' dhs');
-
-                        // Optionally hide the loader and close the modal
                         $('.loader').hide();
                         const modal = Modal.getInstance($('#qteModal')) || new Modal($('#qteModal'));
                         modal.hide();
@@ -99,7 +97,7 @@ $(document).ready(function () {
 
         currentRequest = $.ajax({
             type: "POST",
-            url: "/consommation_patient/byfam",
+            url: "/app/consommation_patient/byfam",
             data: {
                 famId: id
             },
@@ -122,7 +120,7 @@ $(document).ready(function () {
         }
         currentRequest = $.ajax({
             type: "POST",
-            url: "/consommation_patient/bySearch",
+            url: "/app/consommation_patient/bySearch",
             data: {
                 search: searchTerm
             },
@@ -141,7 +139,7 @@ $(document).ready(function () {
     const updateQte = (id, operation) => {
         $.ajax({
             method: 'POST',
-            url: '/consommation_patient/updateQte',
+            url: '/app/consommation_patient/updateQte',
             data: {
                 articleID: id,
                 operation: operation
@@ -180,7 +178,7 @@ $(document).ready(function () {
         $('#validatePatient').hide();
         $.ajax({
             method: 'POST',
-            url: '/consommation_patient/findPatient/' + ipp,
+            url: '/app/consommation_patient/findPatient/' + ipp,
             data: {
                 ipp: ipp,
             },
@@ -227,7 +225,7 @@ $(document).ready(function () {
         $('#validatePatient').hide();
         $.ajax({
             method: 'POST',
-            url: '/consommation_patient/validatePatient',
+            url: '/app/consommation_patient/validatePatient',
             data: {
                 patient: JSON.stringify(patientData),
             },
@@ -255,7 +253,7 @@ $(document).ready(function () {
         $('#validateCommande').hide();
         $.ajax({
             method: 'POST',
-            url: '/consommation_patient/addDemande',
+            url: '/app/consommation_patient/addDemande',
             success: (result) => {
                 if (result.success) {
                     console.log(result)
@@ -288,7 +286,7 @@ $(document).ready(function () {
         }
         currentRequest = $.ajax({
             type: "POST",
-            url: "/suivi/commande/byfilter",
+            url: "/app/suivi/commande/byfilter",
             data: {
                 search: searchTerm,
                 service: null,
@@ -328,7 +326,7 @@ $(document).ready(function () {
         $('#detailTotal').text(card.find('.total-amount-custom-modal').text());
         $('#product-list').html('chargement...');
         $.ajax({
-            url: '/suivi/commande/detail/' + demandId,
+            url: '/app/suivi/commande/detail/' + demandId,
             method: 'POST',
             data: {
                 service: $('#service').val()
