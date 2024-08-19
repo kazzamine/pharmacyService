@@ -43,7 +43,7 @@ class SuiviCommandeController extends AbstractController
         $search=$request->request->get('search');
         $service=$request->request->get('service');
         $date=$request->request->get('date');
-        $limit = $request->request->get('limit', 28);
+        $limit = $request->request->get('limit', 24);
         $offset = $request->request->get('offset', 0);
        
         $user = $this->getUser();

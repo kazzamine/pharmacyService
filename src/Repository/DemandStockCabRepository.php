@@ -45,7 +45,7 @@ class DemandStockCabRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
    
-    public function getDemandes($patient = null, $service = null, $date = null, $dossier = null, $user = null, $limit = 28, $offset = 0)
+    public function getDemandes($patient = null, $service = null, $date = null, $dossier = null, $user = null, $limit = 24, $offset = 0)
     {
         $qb = $this->entityManager->createQueryBuilder()
             ->select('dsc.id AS demandCabID', 'dsc.date', 'dsc.di', 'dsc.patient', 'dsc.ipp')

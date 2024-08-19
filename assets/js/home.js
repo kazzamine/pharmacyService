@@ -2,7 +2,7 @@ import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
 import select2 from 'select2';
 import 'select2/dist/css/select2.css';
 
- $(document).ready(function() {
+$(document).ready(function() {
 
     $('#changeDossier').on('click',()=>{
         const modalElement = document.getElementById('serviceModal');

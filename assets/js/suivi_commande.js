@@ -1,7 +1,7 @@
 $(document).ready(function() {
     let currentRequest = null;
     let currentPage = 1; 
-    const limit = 28;
+    const limit = 24;
 
     if (currentRequest !== null) {
         currentRequest.abort();

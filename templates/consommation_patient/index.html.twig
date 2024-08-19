@@ -8,7 +8,7 @@
 {% endblock %}
 {% block body %}
 
-	{% if app.session.get('patient') is empty and app.session.get('patient').ipp is not defined %}
+	{% if app.session.get('patient') is empty or app.session.get('patient').ipp is not defined %}
 		{{ include('consommation_patient/infoPatient.html.twig') }}
 	{% endif %}
 	<div id="selectDossier">

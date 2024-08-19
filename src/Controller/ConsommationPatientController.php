@@ -186,10 +186,17 @@ class ConsommationPatientController extends AbstractController
     public function validatePatient(Request $request,SessionInterface $session):JsonResponse
     {
         $content = $request->request->get('patient');
-        $data = $content;
-        $session->set('patient',json_decode($data));
+        if($content !== null){
+            $data = $content;
+            $session->set('patient',json_decode($data));
+            return new JsonResponse([
+              'success'=>'validated'
+              ]
+            );
+        }
+        
         return new JsonResponse([
-          'success'=>'validated'
+          'error'=>'empty'
           ]
         );
     }

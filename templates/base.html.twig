@@ -11,14 +11,11 @@
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
 		{% block javascripts %}
-			{{ encore_entry_script_tags('app') }}
-			<script>
+		<script>
 			let idleTime = 0;
 
-			// Increment the idle time counter every second
-			const idleInterval = setInterval(timerIncrement, 1000); // 1 second
+			const idleInterval = setInterval(timerIncrement, 60000); 
 
-			// Reset the idle timer on mouse movement, key press, scroll, or touch
 			document.addEventListener('mousemove', resetTimer, false);
 			document.addEventListener('keypress', resetTimer, false);
 			document.addEventListener('scroll', resetTimer, false);
@@ -26,8 +23,8 @@
 
 			function timerIncrement() {
 				idleTime++;
-				if (idleTime >= 60) { // 60 seconds (1 minute)
-					window.location.href = "{{ path('app_logout') }}";
+				if (idleTime >= 60) { 
+					location.reload();
 				}
 			}
 
@@ -35,7 +32,7 @@
 				idleTime = 0;
 			}
 		</script>
-
+			{{ encore_entry_script_tags('app') }}		
 		{% endblock %}
 	</head>
 	<body>	
