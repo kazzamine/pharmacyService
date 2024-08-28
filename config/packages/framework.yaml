@@ -3,11 +3,10 @@ framework:
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
 
-    # Note that the session will be started ONLY if you read or write from it.
     session: 
         enabled: true
-        cookie_lifetime: 3600  
-        gc_maxlifetime: 3600 
+        cookie_lifetime: 0  
+        gc_maxlifetime: 7200
     
     #esi: true
     #fragments: true

@@ -74,7 +74,7 @@ $(document).ready(function () {
                 success: function (result) {
                     if (result.success === 'success') {
                         let $badge = $('.produit[data-id="' + result.articleID + '"] .qte-produit');
-                        $badge.text(result.updatedQuantity);
+                        $badge.text(result.updatedQuantity);    
                         $badge.removeClass('d-none');
                         $('.scrollable-cart').html(result.cartHtml);
                         $('#priceTotal').text(result.totalPrice + ' dhs');
@@ -190,20 +190,25 @@ $(document).ready(function () {
             showError("Vous n'avez pas précisé l'IPP ou le nom du patient");
             return;
         }
+    
         toggleLoader(true, ['#searchPatient', '#validatePatient']);
-
+    
         $.ajax({
             method: 'POST',
-            url: '/app/consommation_patient/findPatient/' + ipp,
+            url: `/app/consommation_patient/findPatient/${ipp}`,
             success: (result) => {
-                if (!result.error) {
-                    $('#ipp').text(result[0].ipp);
-                    $('#nomPatient').text(result[0].patient);
-                    $('#di').val(result[0].di);
-                    patientData = result[0];
+                const statusCode = result.statusCode;
+    
+                if (statusCode === 200) {
+                    const patient = result.data[0];
+                    $('#ipp').text(patient.ipp);
+                    $('#nomPatient').text(patient.patient);
+                    $('#di').val(patient.di);
+                    patientData = patient;
                 } else {
-                    handleFindPatientError(result.error);
+                    handleFindPatientError(statusCode);
                 }
+    
                 toggleLoader(false, ['#searchPatient', '#validatePatient']);
             },
             error: () => {
@@ -212,35 +217,32 @@ $(document).ready(function () {
             }
         });
     });
-
-    function handleFindPatientError(error) {
-        let message;
-        switch (error) {
-            case '404':
-                message = "Ce patient n'existe pas !";
-                break;
-            case '500':
-                message = "Une erreur est survenue, réssayez !";
-                break;
-            default:
-                message = "Erreur inconnue.";
-        }
+    
+    function handleFindPatientError(statusCode) {
+        const errorMessages = {
+            404: "Ce patient n'existe pas !",
+            500: "Une erreur est survenue, réessayez !",
+            'default': "Erreur inconnue."
+        };
+    
+        const message = errorMessages[statusCode] || errorMessages['default'];
         showError(message);
     }
-
+    
     $('#validatePatient').on('click', () => {
         let ipp = $('#ippSearch').val();
         if (!ipp) {
             showError("Vous n'avez pas précisé l'IPP ou le nom du patient");
             return;
         }
-       
-
-        if (patientData == {}) {
-            showError("Vous n'avez pas ");
+    
+        if ($.isEmptyObject(patientData)) {  
+            showError("Vous n'avez pas encore sélectionné un patient");
             return;
-        } 
+        }
+    
         toggleLoader(true, ['#searchPatient', '#validatePatient']);
+        
         $.ajax({
             method: 'POST',
             url: '/app/consommation_patient/validatePatient',
@@ -248,13 +250,10 @@ $(document).ready(function () {
                 patient: JSON.stringify(patientData),
             },
             success: (result) => {
-                if (result.success === 'validated') {
-                    //location.reload();
-                    const modal = Modal.getInstance(modalElement) || new Modal(modalElement);
-
-                    modal.hide();
+                if (result.success === 'validated') {              
+                     location.reload();
                 } else if (result.error === 'empty') {
-                    console.log('empty');
+                    showError("Aucune donnée n'a été envoyée pour validation.");
                 }
                 toggleLoader(false, ['#searchPatient', '#validatePatient']);
             },
@@ -343,10 +342,8 @@ $(document).ready(function () {
             }
         });
     });
-
     $('#back-to-demandes').on('click', function () {
         $('#details-view').hide();
         $('#demandes-view').show();
     });
-
 });

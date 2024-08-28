@@ -1,92 +1,99 @@
 <!DOCTYPE html>
 <html lang="fr">
-	<head>
-		<meta charset="UTF-8">
-		<title>UPharma - Se connecter</title>
-		<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-		<link href='https://fonts.googleapis.com/css?family=Work Sans' rel='stylesheet'>
-		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-		{{encore_entry_link_tags('loginStyle')}}
-	</head>
-	<body>
-		<div class="container d-flex">
-			<fieldset class="left p-4 rounded text-start centered-fieldset">
-				<legend class="w-auto">
-					<img src="{{ asset('img/logo.png') }}" width="300px" alt="UPharma">
-				</legend>
-				<p>Révolutionne la gestion des services médicaux en optimisant la gestion des produits médicaux.<br>
-					Avec UPharma, les services peuvent commander facilement et rapidement tous les produits médicaux nécessaires, assurant ainsi un approvisionnement efficace et sans tracas.</p>
-			</fieldset>
-			<div class="right container-deco">
-				<h2>Se connecter</h2>
-				{% if error %}
-					<div id="formErrors" class="error-message">
-						<i class="fas fa-exclamation-circle error-icon"></i>
-						<span id="errorText">{{ error.messageKey|trans(error.messageData, 'security') }}</span>
-					</div>
-				{% endif %}
+<head>
+    <meta charset="UTF-8">
+    <title>UPharma - Se connecter</title>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Work Sans' rel='stylesheet'>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    {{encore_entry_link_tags('loginStyle')}}
+</head>
+<body>
+    <div class="container d-flex">
+        <fieldset class="left p-4 rounded text-start centered-fieldset">
+            <legend class="w-auto">
+                <img src="{{ asset('img/logo.png') }}" width="300px" alt="UPharma">
+            </legend>
+			
+            <p>Révolutionne la gestion des services médicaux en optimisant la gestion des produits médicaux.<br>
+                Avec UPharma, les services peuvent commander facilement et rapidement tous les produits médicaux nécessaires, assurant ainsi un approvisionnement efficace et sans tracas.</p>
+        </fieldset>
+        <div class="right container-deco">
+            <h2>Se connecter</h2>
+            {% if error %}
+                <div id="formErrors" class="error-message">
+                    <i class="fas fa-exclamation-circle error-icon"></i>
+                    <span id="errorText">{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+                </div>
+            {% endif %}
 
-				<form method="post" action="{{ path('app_login') }}">
-					<div class="form-group">
-						<label for="username">Nom d'utilisateur</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">
-									<i class="fas fa-user"></i>
-								</span>
-							</div>
-							<input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" placeholder="Nom d'utilisateur" required>
-						</div>
-					</div>
+            <form method="post" action="{{ path('app_login') }}">
+                <div class="form-group">
+                    <label for="username">Nom d'utilisateur</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" placeholder="Nom d'utilisateur" required>
+                    </div>
+                </div>
 
-					<div class="form-group">
-						<label for="password">Mot de Pass</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">
-									<i class="fas fa-key"></i>
-								</span>
-							</div>
-							<input type="password" id="password" name="_password" class="form-control" placeholder="Mot de Passe" required>
-							<div class="input-group-append">
-								<span class="input-group-text">
-									<i class="fas fa-eye" id="togglePassword" style="cursor: pointer;"></i>
-								</span>
-							</div>
-						</div>
-					</div>
+                <div class="form-group">
+                    <label for="password">Mot de Pass</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-key"></i>
+                            </span>
+                        </div>
+                        <input type="password" id="password" name="_password" class="form-control" placeholder="Mot de Passe" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="togglePassword" style="cursor: pointer;">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="form-check remember-me">
+                    <input type="checkbox" class="form-check-input" id="remember_me" name="_remember_me" value="on">
+                    <label class="form-check-label" for="remember_me">Se souvenir de moi</label>
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-					<div class="form-check remember-me">
-						<input type="checkbox" class="form-check-input" id="remember_me" name="_remember_me" value="on">
-						<label class="form-check-label" for="remember_me">Se souvenir de moi</label>
-					</div>
-					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <input type="hidden" name="_target_path" value="/app/home">
+                <button type="submit" class="btn btn-success btn-block">Se connecter</button>
+            </form>
+        </div>
+    </div>
 
-					<input type="hidden" name="_target_path" value="/app/home">
-					<button type="submit" class="btn btn-success btn-block">Se connecter</button>
-				</form>
-			</div>
-		</div>
-
-		{% block javascripts %}
-			{{ encore_entry_script_tags('app') }}
-			<script>
-				document.getElementById('togglePassword').addEventListener('click', function (e) {
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const togglePassword = document.getElementById('togglePassword');
                 const passwordInput = document.getElementById('password');
-                const icon = this.querySelector('i');
-
-                if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-                } else {
-                passwordInput.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
+                
+                if (togglePassword && passwordInput) {
+                    togglePassword.addEventListener('click', function (e) {
+                        const icon = this.querySelector('i');
+                        if (icon) {
+                            if (passwordInput.type === 'password') {
+                                passwordInput.type = 'text';
+                                icon.classList.remove('fa-eye');
+                                icon.classList.add('fa-eye-slash');
+                            } else {
+                                passwordInput.type = 'password';
+                                icon.classList.remove('fa-eye-slash');
+                                icon.classList.add('fa-eye');
+                            }
+                        }
+                    });
                 }
-                });
-			</script>
-		{% endblock %}
-	</body>
+            });
+        </script>
+    {% endblock %}
+</body>
 </html>

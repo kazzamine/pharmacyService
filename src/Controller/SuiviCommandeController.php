@@ -17,7 +17,7 @@ class SuiviCommandeController extends AbstractController
     private $entityManager;
     public function __construct(EntityManagerInterface $entityManager)
     {
-     $this->entityManager=$entityManager;   
+        $this->entityManager=$entityManager;   
     }
 
     #[Route('/suivi/commande', name: 'app_suivi_commande')]
@@ -45,7 +45,6 @@ class SuiviCommandeController extends AbstractController
         $date=$request->request->get('date');
         $limit = $request->request->get('limit', 24);
         $offset = $request->request->get('offset', 0);
-       
         $user = $this->getUser();
         $userId = $user->getId();
         $demandes=$this->entityManager->getRepository(DemandStockCab::class)->getDemandes($search,$service,$date,$dossier->getId(),$userId,$limit, $offset);
@@ -64,9 +63,6 @@ class SuiviCommandeController extends AbstractController
         $html = $this->renderView('includes/productList.html.twig', [
             'products' => $products
         ]);
-    
         return new JsonResponse($html);
-    }
-    
-
+    }  
 }

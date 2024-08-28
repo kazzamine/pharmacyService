@@ -53,7 +53,6 @@ class StockController extends AbstractController
         $returnedHtml= $this->render('stock/produit.html.twig', [
             'articles'=>$articles
         ]);
-       
         return new JsonResponse($returnedHtml->getContent());
     }
 
@@ -62,11 +61,11 @@ class StockController extends AbstractController
     {
         $articleID=$request->request->get('articleID');
         $article=$this->entityManager->getRepository(Uarticle::class)->find($articleID);
-       $articleData['titre']=$article->getTitre();
-       $articleData['description']=$article->getDescription();
-       $articleData['code_barre']=$article->getcodeBarre();
-       $articleData['image']=$article->getImage();
-       $articleData['famille']=$article->getUfamille()->getDesignation();
+        $articleData['titre']=$article->getTitre();
+        $articleData['description']=$article->getDescription();
+        $articleData['code_barre']=$article->getcodeBarre();
+        $articleData['image']=$article->getImage();
+        $articleData['famille']=$article->getUfamille()->getDesignation();
         return new JsonResponse($articleData);
     }
 }

@@ -68,7 +68,6 @@ class ConsommationPatientController extends AbstractController
         $returnedHtml= $this->render('consommation_patient/produit.html.twig', [
             'articles'=>$articles
         ]);
-       
         return new JsonResponse($returnedHtml->getContent());
     }
 
@@ -102,33 +101,33 @@ class ConsommationPatientController extends AbstractController
         } elseif ($quantity <= $articleData->getQuantite() && $quantity != 0) {
             $result = $cartService->addToCart($article, $quantity, $session);
 
-        if ($result == 'success') {
-            $cart = $session->get('cart', []);
-            $totalQuantity = 0;
-            $totalPrice = 0.0;
-            $cartHtml = '';
-            $updatedQuantity = 0;
+            if ($result == 'success') {
+                $cart = $session->get('cart', []);
+                $totalQuantity = 0;
+                $totalPrice = 0.0;
+                $cartHtml = '';
+                $updatedQuantity = 0;
 
-            foreach ($cart as $cartItem) {
-                $totalQuantity += $cartItem['quantity'];
-                $totalPrice += $cartItem['quantity'] * $cartItem['article']->getPrix();
-                if ($cartItem['article']->getArticle()->getId() == $articleID) {
-                    $updatedQuantity = $cartItem['quantity'];
+                foreach ($cart as $cartItem) {
+                    $totalQuantity += $cartItem['quantity'];
+                    $totalPrice += $cartItem['quantity'] * $cartItem['article']->getPrix();
+                    if ($cartItem['article']->getArticle()->getId() == $articleID) {
+                        $updatedQuantity = $cartItem['quantity'];
+                    }
+                    $cartHtml .= $twig->render('consommation_patient/cart_item.html.twig', ['cartItem' => $cartItem]);
                 }
-                $cartHtml .= $twig->render('consommation_patient/cart_item.html.twig', ['cartItem' => $cartItem]);
+                $session->set('totalPrice', $totalPrice);
+                return new JsonResponse([
+                    'success' => 'success',
+                    'cartHtml' => $cartHtml,
+                    'totalPrice' => $totalPrice,
+                    'updatedQuantity' => $updatedQuantity,  
+                    'articleID' => $articleID, 
+                ]);
             }
-            $session->set('totalPrice', $totalPrice);
-            return new JsonResponse([
-                'success' => 'success',
-                'cartHtml' => $cartHtml,
-                'totalPrice' => $totalPrice,
-                'updatedQuantity' => $updatedQuantity,  
-                'articleID' => $articleID, 
-            ]);
-        }
-        else {
-            return new JsonResponse(['error' => 'supQuantite']);
-        }
+            else {
+                return new JsonResponse(['error' => 'supQuantite']);
+            }
         }
         return new JsonResponse(['error' => 'unknown']);
     }
@@ -165,40 +164,33 @@ class ConsommationPatientController extends AbstractController
             'query' => $queryParams,
         ]);
         $statusCode = $response->getStatusCode();
-        if($statusCode != 500){
-            if($statusCode==200){
-                return new JsonResponse(
-                    json_decode($response->getContent())
-                ); 
-            }else if($statusCode==404){
-                return new JsonResponse(
-                    ['error' => '404']
-                ); 
-            }
-        }else{
+
+        if ($statusCode === 200) {
             return new JsonResponse([
-                'error' => '500',
+                'statusCode' => $statusCode,
+                'data' => json_decode($response->getContent()),
             ]);
         }
+
+        return new JsonResponse([
+            'statusCode' => $statusCode,
+            'error' => $statusCode === 404 ? 'Not Found' : ($statusCode === 500 ? 'Internal Server Error' : 'Unexpected status code'),
+        ]);
     }
 
-    #[Route('/consommation_patient/validatePatient',name:'app_consommation_validate_patient')]
-    public function validatePatient(Request $request,SessionInterface $session):JsonResponse
+    #[Route('/consommation_patient/validatePatient', name:'app_consommation_validate_patient')]
+    public function validatePatient(Request $request, SessionInterface $session): JsonResponse
     {
         $content = $request->request->get('patient');
-        if($content !== null){
-            $data = $content;
-            $session->set('patient',json_decode($data));
-            return new JsonResponse([
-              'success'=>'validated'
-              ]
-            );
-        }
         
-        return new JsonResponse([
-          'error'=>'empty'
-          ]
-        );
+        if ($content) {
+            $data = json_decode($content, true);
+            if (!empty($data)) {
+                $session->set('patient', $data);
+                return new JsonResponse(['success' => 'validated']);
+            }
+        }
+        return new JsonResponse(['error' => 'empty']);
     }
 
     #[Route('/consommation_patient/addDemande',name:'app_consommation_add_demande')]
@@ -217,53 +209,54 @@ class ConsommationPatientController extends AbstractController
         $this->entityManager->beginTransaction();
         if($articles){
             try{
-            $demandeCab=new DemandStockCab();
-            $demandeCab->setIpp($patient->ipp);
-            $demandeCab->setDi($patient->di);
-            $demandeCab->setCode($patient->codeOrg);
-            $demandeCab->setPatient($patient->patient);
-            $demandeCab->setDossierPatient($patient->dossier);
-            $demandeCab->setTipoFacturac($patient->idtipofacturac);
-            $demandeCab->setDate($currentDateTime);
-            $demandeCab->setUrgent(0);
-            $demandeCab->setCommandeType($commandeType);
-            $demandeCab->setUserCreated( $user);
-            $demandeCab->setDemandeur($dossier);
-            $demandeCab->setStatus($status);
-            $demandeCab->setUantenne($antenne);
-            $demandeCab->setAntenneDemandeur($antenne);
-            $this->entityManager->persist($demandeCab);
-            $this->entityManager->flush();
-            foreach ($articles as $article) {
-            $demandDet=new DemandeStockDet();
-            $demandDet->setDemandeCab($demandeCab);
-            $articleData=$this->entityManager->getRepository(Uarticle::class)->find($article['article']->getArticle());
-            $demandDet->setUarticle($articleData);
-            $demandDet->setQte($article['quantity']);
-            $this->entityManager->persist($demandDet);
-            $this->entityManager->flush();
+                $demandeCab=new DemandStockCab();
+                $demandeCab->setIpp($patient->ipp);
+                $demandeCab->setDi($patient->di);
+                $demandeCab->setCode($patient->codeOrg);
+                $demandeCab->setPatient($patient->patient);
+                $demandeCab->setDossierPatient($patient->dossier);
+                $demandeCab->setTipoFacturac($patient->idtipofacturac);
+                $demandeCab->setDate($currentDateTime);
+                $demandeCab->setUrgent(0);
+                $demandeCab->setCommandeType($commandeType);
+                $demandeCab->setUserCreated( $user);
+                $demandeCab->setDemandeur($dossier);
+                $demandeCab->setStatus($status);
+                $demandeCab->setUantenne($antenne);
+                $demandeCab->setAntenneDemandeur($antenne);
+                $this->entityManager->persist($demandeCab);
+                $this->entityManager->flush();
+                foreach ($articles as $article) {
+                $demandDet=new DemandeStockDet();
+                $demandDet->setDemandeCab($demandeCab);
+                $articleData=$this->entityManager->getRepository(Uarticle::class)->find($article['article']->getArticle());
+                $demandDet->setUarticle($articleData);
+                $demandDet->setQte($article['quantity']);
+                $this->entityManager->persist($demandDet);
+                $this->entityManager->flush();
 
-            $stockActual=$this->entityManager->getRepository(StockActual::class)->findOneBy(['article'=>$article['article']->getArticle()->getId(),'antenne'=>$antenne]);
-            $artStockactual=$stockActual->getQuantite();
-            $stockActual->setQuantite($artStockactual-$article['quantity']);
-            $this->entityManager->persist($stockActual);
-            $this->entityManager->flush();
+                $stockActual=$this->entityManager->getRepository(StockActual::class)
+                                        ->findOneBy(['article'=>$article['article']->getArticle()->getId(),'antenne'=>$antenne]);
+                $artStockactual=$stockActual->getQuantite();
+                $stockActual->setQuantite($artStockactual-$article['quantity']);
+                $this->entityManager->persist($stockActual);
+                $this->entityManager->flush();
+                $umouvAnt=$this->entityManager->getRepository(UmouvementAntenne::class)
+                                                                    ->findOneBy(['article'=>$articleData,'antenne'=>$antenne]);
+                $umouvStock=$stockActual->getQuantite();
+                $umouvAnt->setQuantite($umouvStock-$article['quantity']);
+                $umouvAnt->setAjoSup($umouvStock-$article['quantity']);
+                $this->entityManager->persist($umouvAnt);
+                $this->entityManager->flush();
+                } 
 
-            $umouvAnt=$this->entityManager->getRepository(UmouvementAntenne::class)->findOneBy(['article'=>$articleData,'antenne'=>$antenne]);
-            $umouvStock=$stockActual->getQuantite();
-            $umouvAnt->setQuantite($umouvStock-$article['quantity']);
-            $umouvAnt->setAjoSup($umouvStock-$article['quantity']);
-            $this->entityManager->persist($umouvAnt);
-            $this->entityManager->flush();
-            } 
-
-            $this->entityManager->commit();
-            $session->remove('cart');
-            $session->remove('patient');
-                }catch (Exception $e) {
-                    $this->entityManager->rollBack();
-                    throw $e;
-                }
+                $this->entityManager->commit();
+                $session->remove('cart');
+                $session->remove('patient');
+            }catch (Exception $e) {
+                $this->entityManager->rollBack();
+                throw $e;
+            }
         }else{
             return new JsonResponse([
                 'failed'=>'no data'
@@ -272,6 +265,5 @@ class ConsommationPatientController extends AbstractController
         return new JsonResponse([
             'success'=>'added successfully'
         ]);
-        
     }
 }

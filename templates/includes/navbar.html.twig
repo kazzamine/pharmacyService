@@ -8,10 +8,7 @@
         </h6>
     </li>
 
-    <!-- Spacer to push the user section to the right -->
     <li class="nav-item flex-grow-1"></li>
-
-    <!-- User Section -->
     <li class="nav-item dropdown no-arrow ms-auto">
         <a class="nav-link" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <span class="text-dark d-none d-lg-inline me-2 text-dark small" style="font-size:1rem">{{ app.session.get('selectedDossierName') }}</span>
@@ -20,7 +17,7 @@
         <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown" style="background-color: #265828; color: white;">
             <li>
                 <a class="dropdown-item text-white" id="changeDossier" type="button">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw text-white"></i>&nbsp;Changer Service
+                    <i class="fas fa-sync-alt fa-sm fa-fw text-white"></i>&nbsp;Changer Service
                 </a>
                 <a class="dropdown-item text-white" href="{{ path('app_logout') }}">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw text-white"></i>&nbsp;Se déconnecter

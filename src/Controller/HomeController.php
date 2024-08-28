@@ -38,7 +38,6 @@ class HomeController extends AbstractController
     #[Route('/home/choseService/{serviceid}',name:'app_choisi_service')]
     public function choisiService($serviceid,Request $request): JsonResponse
     {
-
         $dossier=$this->entityManager->getRepository(PDossier::class)->find($serviceid);
         $request->getSession()->set('selectedDossier',$dossier);
         $request->getSession()->set('selectedDossierName',$dossier->getNomDossier());
