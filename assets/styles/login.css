@@ -49,6 +49,7 @@ body {
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #252525;
+    border-left: none;
     border-radius: 4px;
     font-size: 16px;
 }
@@ -114,7 +115,7 @@ body {
     border: 1px solid #252525;
     border-left: none;
     height: 2.37rem;
-    margin-left: -1px; /* Remove border between input and icon */
+    margin-left: -1px; 
 }
 .btn-success {
     background-color: #265828;

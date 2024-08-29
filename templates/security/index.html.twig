@@ -20,13 +20,12 @@
         </fieldset>
         <div class="right container-deco">
             <h2>Se connecter</h2>
-            {% if error %}
-                <div id="formErrors" class="error-message">
-                    <i class="fas fa-exclamation-circle error-icon"></i>
-                    <span id="errorText">{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+            
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ message }}
                 </div>
-            {% endif %}
-
+            {% endfor %}
             <form method="post" action="{{ path('app_login') }}">
                 <div class="form-group">
                     <label for="username">Nom d'utilisateur</label>
