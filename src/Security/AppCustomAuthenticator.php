@@ -61,7 +61,6 @@ class AppCustomAuthenticator extends AbstractAuthenticator
         return new RedirectResponse($this->router->generate('app_home'));
     }
     
-
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?RedirectResponse
     {
         $request->getSession()->getFlashBag()->add('error', $exception->getMessage());

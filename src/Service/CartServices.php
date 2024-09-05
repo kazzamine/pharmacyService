@@ -13,14 +13,12 @@ class CartServices
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager=$entityManager;
-    
     }
 
     public function addToCart(UmouvementAntenne $article, $quantity, SessionInterface $session)
     {
         $articleData = $this->entityManager->getRepository(StockActual::class)->findOneBy(['article' => $article->getArticle()->getId(), 'antenne' => 9]);
         $cart = $session->get('cart', []);
-
         if (isset($cart[$article->getArticle()->getId()])) {
             $newQte = $cart[$article->getArticle()->getId()]['quantity'] + $quantity;
             if ($newQte <= $articleData->getQuantite()) {
@@ -35,7 +33,6 @@ class CartServices
                 'name' => $article->getArticle()->getTitre()
             ];
         }
-
         $session->set('cart', $cart);
         return 'success';
     }
@@ -43,11 +40,9 @@ class CartServices
     public function removeFromCart($id,SessionInterface $session)
     {
         $cart = $session->get('cart', []);
-
         if (isset($cart[$id])) {
             unset($cart[$id]);
         }
-        
         $session->set('cart', $cart);
     }
 
@@ -69,11 +64,7 @@ class CartServices
             }
             $result= 'increased';
         }
-       
-       
         $session->set('cart', $cart);
         return $result;
     }
-
-
 }
