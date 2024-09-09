@@ -9,8 +9,14 @@
    font-size: 14px;
    font-weight: bolder;
 }
+
+.card-img-top{
+    height: 200px;
+}
+@media (max-width: 1350px) {
 .card-img-top{
     height: 130px;
+}
 }
 .homeCard:hover {
     position: relative;
