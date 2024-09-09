@@ -157,7 +157,7 @@ class ConsommationPatientController extends AbstractController
         $body = $request->getContent();
         $headers = $request->headers->all();
         $queryParams = $request->query->all();
-        $apiUrl = 'http://52.213.254.104/api/upharma/dossier/imputation/' . $ipp;
+        $apiUrl = 'http://172.20.0.240/api/hosix/dossiers/imputations/' . $ipp;
         $response = $this->httpClient->request($method, $apiUrl, [
             'headers' => $headers,
             'body' => $body,
@@ -210,12 +210,12 @@ class ConsommationPatientController extends AbstractController
         if($articles){
             try{
                 $demandeCab=new DemandStockCab();
-                $demandeCab->setIpp($patient->ipp);
-                $demandeCab->setDi($patient->di);
-                $demandeCab->setCode($patient->codeOrg);
-                $demandeCab->setPatient($patient->patient);
-                $demandeCab->setDossierPatient($patient->dossier);
-                $demandeCab->setTipoFacturac($patient->idtipofacturac);
+                $demandeCab->setIpp($patient['ipp']);
+                $demandeCab->setDi($patient['di']);
+                $demandeCab->setCode($patient['codeOrg']);
+                $demandeCab->setPatient($patient['patient']);
+                $demandeCab->setDossierPatient($patient['dossier']);
+                $demandeCab->setTipoFacturac($patient['idtipofacturac']);
                 $demandeCab->setDate($currentDateTime);
                 $demandeCab->setUrgent(0);
                 $demandeCab->setCommandeType($commandeType);
